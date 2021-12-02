@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
-    public function signup(Request $request) {
+    public function register(Request $request) {
         $validator = Validator::make($request->all(), [
             'username' => 'required|string',
             'last_name' => 'required|string',

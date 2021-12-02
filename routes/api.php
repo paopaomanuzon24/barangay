@@ -20,7 +20,7 @@ use App\Http\Controllers\AuthController;
 // });
 
 Route::post('login', [AuthController::class, 'login'])->name('login');
-Route::post('signup', [AuthController::class, 'signup'])->name('signup');
+Route::post('register', [AuthController::class, 'register'])->name('register');
 
 Route::group([
     'middleware' => 'auth:api'
