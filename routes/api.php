@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,12 +23,18 @@ use App\Http\Controllers\AuthController;
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 
-Route::group([
-    'middleware' => 'auth:api'
+
+  Route::group([
+    'middleware' => 'auth:sanctum'
 ], function() {
-    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('user', [AuthController::class, 'user'])->name('user');
+    Route::get('/logout', [AuthController::class, 'logout']);
+    Route::get('user', [AuthController::class, 'user']);
 });
+
+Route::middleware('auth:sanctum')->get('/user', function(Request $request){
+    #return "3=====D";
+});
+
 
 // Route::group([
 //     'prefix' => 'auth'

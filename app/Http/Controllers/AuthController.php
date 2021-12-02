@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error', 
+                'status' => 'error',
                 'message' => $validator->errors()->all()
             ], 400);
         }
@@ -61,7 +61,7 @@ class AuthController extends Controller
 
         if ($validator->fails()) {
             return response()->json([
-                'status' => 'error', 
+                'status' => 'error',
                 'message' => $validator->errors()->all()
             ], 400);
         }
@@ -84,22 +84,40 @@ class AuthController extends Controller
             }
         }
 
-        $user = $request->user();
+        $user = $request->user();#dd($user);
+       # dd($user);
         $tokenResult = $user->createToken('Personal Access Token');
-        $token = $tokenResult->token;
+       # dd($user->tokens);
 
-        if ($request->remember_me) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
+        /* $token = $tokenResult->token;
+        dd($token);
+      #  dd($tokenResult);
+        $accessToken = "";
+        $expires = "";
+        foreach($tokenResult->tokens as $row){
+
+          #  $token = $row->token;
+          #  dd($token);
+          #  if ($request->remember_me) {
+          #      $expires = Carbon::now()->addWeeks(1);
+          #  }
+          #  $row->save();
+        #  dd($row);
+           # $accessToken = $row->token;
         }
-            
-        $token->save();
-        
+       # $token = $tokenResult->token; */
+
+
+
+
+
         return response()->json([
-            'access_token' => $tokenResult->accessToken,
+            'access_token' => $tokenResult->plainTextToken,
+            'user' => $user,
             'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
+           # 'expires_at' => Carbon::parse(
+           #     $expires
+           # )->toDateTimeString()
         ]);
     }
 
@@ -111,6 +129,7 @@ class AuthController extends Controller
     }
 
     public function user(Request $request){
+
         return response()->json($request->user());
     }
 }
