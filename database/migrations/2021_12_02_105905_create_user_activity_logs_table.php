@@ -17,7 +17,6 @@ class CreateUserActivityLogsTable extends Migration
             $table->id();
             $table->integer("user_id");
             $table->ipAddress("ip_address");
-            $table->dateTime("login_time");
             $table->string("event");
             $table->timestamps();
         });
