@@ -84,52 +84,28 @@ class AuthController extends Controller
             }
         }
 
-        $user = $request->user();#dd($user);
-       # dd($user);
+        $user = $request->user();
+
         $tokenResult = $user->createToken('Personal Access Token');
-       # dd($user->tokens);
-
-        /* $token = $tokenResult->token;
-        dd($token);
-      #  dd($tokenResult);
-        $accessToken = "";
-        $expires = "";
-        foreach($tokenResult->tokens as $row){
-
-          #  $token = $row->token;
-          #  dd($token);
-          #  if ($request->remember_me) {
-          #      $expires = Carbon::now()->addWeeks(1);
-          #  }
-          #  $row->save();
-        #  dd($row);
-           # $accessToken = $row->token;
-        }
-       # $token = $tokenResult->token; */
-
-
-
-
 
         return response()->json([
             'access_token' => $tokenResult->plainTextToken,
             'user' => $user,
             'token_type' => 'Bearer',
-           # 'expires_at' => Carbon::parse(
-           #     $expires
-           # )->toDateTimeString()
+            'expires_at' => Carbon::parse(
+                Carbon::now()->addDays(1)
+            )->toDateTimeString()
         ]);
     }
 
     public function logout(Request $request) {
-        $request->user()->token()->revoke();
+        $request->user()->tokens()->delete();
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
     }
 
     public function user(Request $request){
-
         return response()->json($request->user());
     }
 }

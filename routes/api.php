@@ -16,36 +16,10 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//     return $request->user();
-// });
-
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 
-
-  Route::group([
-    'middleware' => 'auth:sanctum'
-], function() {
-    Route::get('/logout', [AuthController::class, 'logout']);
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
 });
-
-Route::middleware('auth:sanctum')->get('/user', function(Request $request){
-    #return "3=====D";
-});
-
-
-// Route::group([
-//     'prefix' => 'auth'
-// ], function () {
-//     Route::post('login', 'AuthController@login');
-//     Route::post('signup', 'AuthController@signup');
-
-//     Route::group([
-//       'middleware' => 'auth:api'
-//     ], function() {
-//         Route::get('logout', 'AuthController@logout');
-//         Route::get('user', 'AuthController@user');
-//     });
-// });
