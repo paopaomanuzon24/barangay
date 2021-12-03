@@ -6,11 +6,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 
-class session extends Model
+class SessionToken extends Model
 {
 
 
-    protected $table = 'sessions';
+    protected $table = 'session_token';
     public $timestamps = true;
     public $incrementing = true;
     protected $connection = 'mysql';
@@ -20,12 +20,10 @@ class session extends Model
      * @var array
      */
     protected $fillable = [
-        'id','user_id', 'ip_address','user_agent','payload','last_activity'
+        'id','user_id', 'session_id','token'
     ];
 
 
-    public function getSessionIdAttribute(){
-        return $this->id;
-    }
+
 
 }
