@@ -46,5 +46,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
+    public function sessionToken(){
+        return $this->hasOne('App\Models\SessionToken', 'id', 'user_id');
+    }
 }

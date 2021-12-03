@@ -14,13 +14,12 @@ class CheckUserSession
     public function handle($request, Closure $next)
     {
 
-        $data = SessionToken::where("user_id",Auth::user()->id)->first();
+        $data = SessionToken::where("user_id", Auth::user()->id)->first();
 
-        $sessionid = Session::getId();
+        $sessionId = Session::getId();
         $token = $request->bearerToken();
 
-
-        if (!($data->session_id==$sessionid && $token == $data->token)) {
+        if (!($data->session_id == $sessionId && $token == $data->token)) {
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);

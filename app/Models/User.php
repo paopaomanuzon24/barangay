@@ -18,9 +18,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name',
+        'username',
+        'last_name',
+        'middle_name',
+        'first_name',
         'email',
-        'password',
+        'contact_no',
+        'gender',
+        'address',
+        'barangay_id',
+        'password'
     ];
 
     /**
@@ -41,4 +48,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function sessionToken() {
+        return $this->hasOne(SessionToken::class);
+    }
 }

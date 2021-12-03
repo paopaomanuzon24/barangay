@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-#use Auth;
 use Illuminate\Support\Facades\Auth;
 use Hash;
 use Validator;
@@ -89,24 +88,23 @@ class AuthController extends Controller
             }
         }
 
-
-
         $user = $request->user();
 
         $tokenResult = $user->createToken('Personal Access Token');
-        $userActivityLog = new UserActivityLogClass;
         $eventType = UserActivityLogClass::EVENT_LOGIN;
-        $userActivityLog->insert(Auth::user()->id,$eventType);
+
+        $userActivityLog = new UserActivityLogClass;
+        $userActivityLog->insert(Auth::user()->id, $eventType);
+
         $request->session()->regenerate();
 
-
         $params = array(
-            'user_id'=>Auth::user()->id,
+            'user_id' => Auth::user()->id,
             'session_id' => Session::getId(),
             'token' => $tokenResult->plainTextToken
         );
-        SessionToken::insert($params);
 
+        SessionToken::insert($params);
 
         return response()->json([
             'access_token' => $tokenResult->plainTextToken,
@@ -119,15 +117,9 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request) {
-
-
-
-
         $request->user()->tokens()->delete();
-        #session()->flush();
-      #  Session::flush();
         $request->session()->invalidate();
-       # dd(Session::getId());
+        $request->user()->sessionToken->delete();
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
