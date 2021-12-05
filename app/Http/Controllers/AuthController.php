@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
+
+
 use Hash;
+use Session;
 use Validator;
-use App\User;
 use Carbon\Carbon;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
+use App\User;
+
 use App\Classes\UserActivityLogClass;
-use Session;
 
 use App\Models\SessionToken;
 
@@ -46,7 +51,8 @@ class AuthController extends Controller
             'gender' => strtoupper($request->gender),
             'address' => $request->address,
             'barangay_id' => $request->barangay_id,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'user_type_id' => 6
         ]);
 
         $user->save();

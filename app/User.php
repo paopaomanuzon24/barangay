@@ -25,7 +25,8 @@ class User extends Authenticatable
         'gender',
         'address',
         'barangay_id',
-        'password'
+        'password',
+        'user_type_id'
     ];
 
     /**
