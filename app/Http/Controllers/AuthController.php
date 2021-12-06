@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-
-
 use Hash;
+use Helpers;
 use Session;
 use Validator;
 use Carbon\Carbon;
@@ -18,7 +17,6 @@ use App\User;
 use App\Classes\UserActivityLogClass;
 
 use App\Models\SessionToken;
-
 
 class AuthController extends Controller
 {
@@ -135,5 +133,11 @@ class AuthController extends Controller
         return response()->json($request->user());
     }
 
+    public function getBarangayList(Request $request) {
+        return response()->json(Helpers::getBarangayList());
+    }
 
+    public function getUserTypeList(Request $request) {
+        return response()->json(Helpers::getUserTypeList());
+    }
 }

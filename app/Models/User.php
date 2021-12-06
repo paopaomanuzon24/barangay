@@ -53,4 +53,8 @@ class User extends Authenticatable
     public function sessionToken() {
         return $this->hasOne(SessionToken::class);
     }
+
+    public function personalData() {
+        return $this->hasOne(PersonalData::class);
+    }
 }

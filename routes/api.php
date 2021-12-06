@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\InhabitantController;
 
 
 /*
@@ -22,7 +23,18 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
  Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
+
+    Route::post('savepersonaldata', [InhabitantController::class, 'savePersonalData']);
 });
+
+Route::get('getbarangaylist', [AuthController::class, 'getBarangayList']);
+Route::get('getusertypelist', [AuthController::class, 'getUserTypeList']);
+
+Route::get('getradiocitizen', [InhabitantController::class, 'getRadioCitizen']);
+Route::get('getradiogender', [InhabitantController::class, 'getRadioGender']);
+Route::get('getmaritalstatus', [InhabitantController::class, 'getMaritalStatusList']);
+Route::get('getreligious', [InhabitantController::class, 'getReligiousList']);
+Route::get('getnationality', [InhabitantController::class, 'getNationalityList']);
 
 
 
