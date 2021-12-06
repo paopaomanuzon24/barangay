@@ -18,10 +18,6 @@ class CreateBarangaysTable extends Migration
             $table->string("description");
             $table->timestamps();
         });
-
-        DB::table('barangays')->insert([
-            'description' => 'Potrero'
-        ]);
     }
 
     /**
