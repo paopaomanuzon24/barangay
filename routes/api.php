@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\InhabitantController;
+use App\Http\Controllers\PersonalDataController;
 
 
 /*
@@ -24,17 +24,17 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
 
-    Route::post('savepersonaldata', [InhabitantController::class, 'savePersonalData']);
+    Route::post('savepersonaldata', [PersonalDataController::class, 'savePersonalData']);
 });
 
 Route::get('getbarangaylist', [AuthController::class, 'getBarangayList']);
 Route::get('getusertypelist', [AuthController::class, 'getUserTypeList']);
 
-Route::get('getradiocitizen', [InhabitantController::class, 'getRadioCitizen']);
-Route::get('getradiogender', [InhabitantController::class, 'getRadioGender']);
-Route::get('getmaritalstatus', [InhabitantController::class, 'getMaritalStatusList']);
-Route::get('getreligious', [InhabitantController::class, 'getReligiousList']);
-Route::get('getnationality', [InhabitantController::class, 'getNationalityList']);
+Route::get('getradiocitizen', [PersonalDataController::class, 'getRadioCitizen']);
+Route::get('getradiogender', [PersonalDataController::class, 'getRadioGender']);
+Route::get('getmaritalstatus', [PersonalDataController::class, 'getMaritalStatusList']);
+Route::get('getreligious', [PersonalDataController::class, 'getReligiousList']);
+Route::get('getnationality', [PersonalDataController::class, 'getNationalityList']);
 
 
 

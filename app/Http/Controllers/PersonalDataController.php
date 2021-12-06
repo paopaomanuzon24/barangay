@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Models\PersonalData;
 
-class InhabitantController extends Controller
+class PersonalDataController extends Controller
 {
     public function savePersonalData(Request $request) {
         $validator = Validator::make($request->all(), [
