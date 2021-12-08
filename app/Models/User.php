@@ -51,10 +51,14 @@ class User extends Authenticatable
     ];
 
     public function sessionToken() {
-        return $this->hasOne(SessionToken::class);
+        return $this->hasOne(SessionToken::class, 'user_id', 'id');
     }
 
     public function personalData() {
-        return $this->hasOne(PersonalData::class);
+        return $this->hasOne(PersonalData::class, 'user_id', 'id');
+    }
+
+    public function otherData() {
+        return $this->hasOne(OtherData::class, 'user_id', 'id');
     }
 }
