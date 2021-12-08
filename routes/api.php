@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/other', [OtherDataController::class, 'getOtherData']);
     Route::post('inhabitants/other/store', [OtherDataController::class, 'store']);
 
+    Route::get('inhabitants/address', [AddressDataController::class, 'getAddressData']);
     Route::post('inhabitants/address/store', [AddressDataController::class, 'store']);
 });
 

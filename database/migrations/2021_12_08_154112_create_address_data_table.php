@@ -23,7 +23,7 @@ class CreateAddressDataTable extends Migration
             $table->char('zip_code', 5);
             $table->string('full_address');
             $table->char('address_type', 1);
-            $table->char('temporary', 1);
+            $table->char('temporary', 1)->nullable();
             $table->date('starting_from');
             $table->string('primary_id_path');
             $table->string('primary_id_name');
