@@ -4,9 +4,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PersonalDataController;
+
 use App\Http\Controllers\OtherDataController;
 use App\Http\Controllers\AddressDataController;
 use App\Http\Controllers\EmploymentDataController;
+
+use App\Http\Controllers\PermitController;
+use App\Http\Controllers\PermitTemplateController;
+use App\Http\Controllers\PermitFeesController;
 
 
 /*
@@ -38,6 +43,18 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
 
     Route::get('inhabitants/employment', [EmploymentDataController::class, 'getEmploymentData']);
     Route::post('inhabitants/employment/store', [EmploymentDataController::class, 'store']);
+
+    ##Permit
+    Route::post('permit/type', [PermitController::class, 'savePermitType']);
+    Route::get('permit/type', [PermitController::class, 'getPermitList']);
+    Route::post('generatePermit', [PermitController::class, 'generatePermit']);
+
+    Route::post('permit/template', [PermitTemplateController::class, 'savePermitTemplate']);
+    Route::get('permit/template', [PermitTemplateController::class, 'getTemplate']);
+
+    Route::post('permit/fees', [PermitFeesController::class, 'store']);
+    Route::post('permit/fees/{id}/update', [PermitFeesController::class,'update']);
+    Route::get('permit/fees/{id}/edit', [PermitFeesController::class, 'edit']);
 });
 
 Route::get('barangaylist', [AuthController::class, 'getBarangayList']);
@@ -57,4 +74,17 @@ Route::get('radioaddresstype', [AddressDataController::class, 'getRadioAddressTy
 Route::get('radiotemporarytype', [AddressDataController::class, 'getRadioTemporaryType']);
 
 
+
+//save barangay profile
+
+
+//store template
+//get template
+
+//get layout
+
+//store fees
+
+
+//save barangay profil
 
