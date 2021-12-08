@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PersonalDataController;
 use App\Http\Controllers\OtherDataController;
 use App\Http\Controllers\AddressDataController;
+use App\Http\Controllers\EmploymentDataController;
 
 
 /*
@@ -34,6 +35,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
 
     Route::get('inhabitants/address', [AddressDataController::class, 'getAddressData']);
     Route::post('inhabitants/address/store', [AddressDataController::class, 'store']);
+
+    Route::get('inhabitants/employment', [EmploymentDataController::class, 'getEmploymentData']);
+    Route::post('inhabitants/employment/store', [EmploymentDataController::class, 'store']);
 });
 
 Route::get('barangaylist', [AuthController::class, 'getBarangayList']);
@@ -48,6 +52,9 @@ Route::get('citizenshiplist', [PersonalDataController::class, 'getCitizenshipLis
 Route::get('ethnicitylist', [OtherDataController::class, 'getEthnicityList']);
 Route::get('languagelist', [OtherDataController::class, 'getLanguageList']);
 Route::get('disabilitylist', [OtherDataController::class, 'getDisabilityList']);
+
+Route::get('radioaddresstype', [AddressDataController::class, 'getRadioAddressType']);
+Route::get('radiotemporarytype', [AddressDataController::class, 'getRadioTemporaryType']);
 
 
 

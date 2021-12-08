@@ -28,7 +28,7 @@ class AddressDataClass
         $addressData->full_address = $request->full_address;
         $addressData->address_type = $request->address_type;
         $addressData->temporary = $request->temporary;
-        $addressData->starting_from = $request->starting_from;
+        $addressData->starting_from = date("Y-m-d", strtotime($request->starting_from));
 
         $addressData->primary_id_path = "";
         $addressData->primary_id_name = "";

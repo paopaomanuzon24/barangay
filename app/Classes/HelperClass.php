@@ -106,6 +106,17 @@ class HelperClass
         return $array;
     }
 
+    public function getRadioEmployeeType() {
+        $array = [
+            1 => "Goverment",
+            2 => "Private",
+            3 => "Self-employed",
+            4 => "Unemployed"
+        ];
+
+        return $array;
+    }
+
     public function getRadioGender() {
         $array = [
             'M' => "Male",
@@ -115,7 +126,7 @@ class HelperClass
         return $array;
     }
 
-    public function getTemporaryType() {
+    public function getRadioTemporaryType() {
         $array = [
             1 => "Renter",
             2 => "Employment",
