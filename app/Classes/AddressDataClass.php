@@ -11,9 +11,6 @@ class AddressDataClass
     public function saveAddressData($request) {
         $userData = $request->user();
 
-        $primaryFile = $request->file("primary_file");
-        $secondaryFile = $request->file("secondary_file");
-
         $addressData = $userData->addressData;
         if (empty($addressData)) {
             $addressData = new AddressData;
@@ -30,10 +27,29 @@ class AddressDataClass
         $addressData->temporary = $request->temporary;
         $addressData->starting_from = date("Y-m-d", strtotime($request->starting_from));
 
-        $addressData->primary_id_path = "";
-        $addressData->primary_id_name = "";
-        $addressData->secondary_id_path = "";
-        $addressData->secondary_id_name = "";
+        if ($request->hasFile('primary_file') && $request->hasFile("secondary_file")) {
+            $primaryPath = 'images/address/primary';
+            $secondaryPath = 'images/address/secondary';
+
+            $primaryFile = $request->file("primary_file");
+            $secondaryFile = $request->file("secondary_file");
+
+            $primaryFileName = $primaryFile->getClientOriginalName();
+            $secondaryFileName = $secondaryFile->getClientOriginalName();
+
+            $request->file('primary_file')->storeAs("public/".$primaryPath, $primaryFileName);
+            $request->file('secondary_file')->storeAs("public/".$secondaryPath, $secondaryFileName);
+
+            $addressData->primary_id_path = $primaryPath.'/'.$primaryFileName;
+            $addressData->primary_id_name = $primaryFileName;
+            $addressData->secondary_id_path = $secondaryPath.'/'.$secondaryFileName;
+            $addressData->secondary_id_name = $secondaryFileName;
+        } else {
+            $addressData->primary_id_path = "";
+            $addressData->primary_id_name = "";
+            $addressData->secondary_id_path = "";
+            $addressData->secondary_id_name = "";
+        }
         
         $addressData->save();
     }

@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
 
+    ##Inhabitants
     Route::get('inhabitants/personal', [PersonalDataController::class, 'getPersonalData']);
     Route::post('inhabitants/personal/store', [PersonalDataController::class, 'store']);
 
@@ -57,6 +58,8 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('permit/fees/{id}/edit', [PermitFeesController::class, 'edit']);
 });
 
+
+##Others
 Route::get('barangaylist', [AuthController::class, 'getBarangayList']);
 Route::get('usertypelist', [AuthController::class, 'getUserTypeList']);
 
@@ -72,19 +75,4 @@ Route::get('disabilitylist', [OtherDataController::class, 'getDisabilityList']);
 
 Route::get('radioaddresstype', [AddressDataController::class, 'getRadioAddressType']);
 Route::get('radiotemporarytype', [AddressDataController::class, 'getRadioTemporaryType']);
-
-
-
-//save barangay profile
-
-
-//store template
-//get template
-
-//get layout
-
-//store fees
-
-
-//save barangay profil
 
