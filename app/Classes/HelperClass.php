@@ -6,7 +6,7 @@ use Carbon\Carbon;
 
 use App\Models\Barangay;
 use App\Models\MaritalStatus;
-use App\Models\Nationality;
+use App\Models\Citizenship;
 use App\Models\Religious;
 use App\Models\UserType;
 
@@ -68,16 +68,16 @@ class HelperClass
         return $religiousArray;
     }
 
-    public function getNationalityList() {
-        $nationalityList = Nationality::get();
+    public function getCitizenshipList() {
+        $citizenshipList = Citizenship::get();
 
-        $nationalityArray = [];
+        $citizenshipArray = [];
         
-        foreach ($nationalityList as $row) {
-            $nationalityArray[$row->id] = $row->description;
+        foreach ($citizenshipList as $row) {
+            $citizenshipArray[$row->id] = $row->description;
         };
 
-        return $nationalityArray;
+        return $citizenshipArray;
     }
 
     public function getUserTypeList() {

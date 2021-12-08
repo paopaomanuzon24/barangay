@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Nationality extends Model
+class Citizenship extends Model
 {
-    protected $table = 'nationality';
+    protected $table = 'citizenship';
     public $timestamps = true;
     public $incrementing = true;
     protected $connection = 'mysql';

@@ -34,7 +34,7 @@ Route::get('getradiocitizen', [PersonalDataController::class, 'getRadioCitizen']
 Route::get('getradiogender', [PersonalDataController::class, 'getRadioGender']);
 Route::get('getmaritalstatus', [PersonalDataController::class, 'getMaritalStatusList']);
 Route::get('getreligious', [PersonalDataController::class, 'getReligiousList']);
-Route::get('getnationality', [PersonalDataController::class, 'getNationalityList']);
+Route::get('getcitizenship', [PersonalDataController::class, 'getCitizenshipList']);
 
 
 
