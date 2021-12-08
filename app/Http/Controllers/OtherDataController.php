@@ -15,7 +15,7 @@ use App\Classes\OtherDataClass;
 
 class OtherDataController extends Controller
 {
-    public function saveOtherData(Request $request) {
+    public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'language' => 'required',
             'disabled' => 'required'

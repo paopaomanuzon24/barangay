@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PersonalDataController;
 use App\Http\Controllers\OtherDataController;
+use App\Http\Controllers\AddressDataController;
 
 
 /*
@@ -25,11 +26,13 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
 
-    Route::get('personaldata', [PersonalDataController::class, 'getPersonalData']);
-    Route::post('savepersonaldata', [PersonalDataController::class, 'savePersonalData']);
+    Route::get('inhabitants/personal', [PersonalDataController::class, 'getPersonalData']);
+    Route::post('inhabitants/personal/store', [PersonalDataController::class, 'store']);
 
-    Route::get('otherdata', [OtherDataController::class, 'getOtherData']);
-    Route::post('saveotherdata', [OtherDataController::class, 'saveOtherData']);
+    Route::get('inhabitants/other', [OtherDataController::class, 'getOtherData']);
+    Route::post('inhabitants/other/store', [OtherDataController::class, 'store']);
+
+    Route::post('inhabitants/address/store', [AddressDataController::class, 'store']);
 });
 
 Route::get('barangaylist', [AuthController::class, 'getBarangayList']);

@@ -15,7 +15,7 @@ use App\Classes\PersonalDataClass;
 
 class PersonalDataController extends Controller
 {
-    public function savePersonalData(Request $request) {
+    public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'last_name' => 'required|string',
             'first_name' => 'required|string',

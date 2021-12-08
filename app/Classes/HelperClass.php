@@ -87,6 +87,15 @@ class HelperClass
         return $languageArray;
     }
 
+    public function getRadioAddressType() {
+        $array = [
+            1 => "Permanent",
+            2 => "Temporary",
+        ];
+
+        return $array;
+    }
+
     public function getRadioCitizen(){
         $array = [
             1 => "Filipino Citizen",
@@ -101,6 +110,15 @@ class HelperClass
         $array = [
             'M' => "Male",
             'F' => "Female",
+        ];
+
+        return $array;
+    }
+
+    public function getTemporaryType() {
+        $array = [
+            1 => "Renter",
+            2 => "Employment",
         ];
 
         return $array;
