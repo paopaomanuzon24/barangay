@@ -37,9 +37,10 @@ class OtherDataController extends Controller
     }
 
     public function getOtherData(Request $request) {
+        $userData = $request->user();
         $otherData = $request->user()->otherData;
         $otherDataLanguage = !empty($request->user()->otherData->language) ? $request->user()->otherData->language : "";
-        return response()->json($otherData);
+        return response()->json($userData);
     }
 
     public function getEthnicityList(Request $request) {

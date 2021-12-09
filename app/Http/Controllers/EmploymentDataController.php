@@ -36,6 +36,8 @@ class EmploymentDataController extends Controller
     }
 
     public function getEmploymentData(Request $request) {
-        return response()->json($request->user()->employmentData); 
+        $userData = $request->user();
+        $employmentData = $request->user()->employmentData;
+        return response()->json($userData); 
     }
 }

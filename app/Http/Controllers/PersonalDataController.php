@@ -45,7 +45,9 @@ class PersonalDataController extends Controller
     }
 
     public function getPersonalData(Request $request) {
-        return response()->json($request->user()->personalData);
+        $userData = $request->user();
+        $educationalList = $request->user()->personalData;
+        return response()->json($userData);
     }
 
     public function getRadioGender(Request $request) {

@@ -6,7 +6,9 @@ use Carbon\Carbon;
 
 use App\Models\Barangay;
 use App\Models\Citizenship;
+use App\Models\Course;
 use App\Models\Disability;
+use App\Models\EducationLevel;
 use App\Models\Ethnicity;
 use App\Models\MaritalStatus;
 use App\Models\Language;
@@ -39,6 +41,21 @@ class HelperClass
         return $citizenshipArray;
     }
 
+    public function getCourseList() {
+        $courseList = Course::get();
+
+        $courseArray = [];
+        
+        foreach ($courseList as $row) {
+            $courseArray[$row->id] = [
+                'code' => $row->code,
+                'description' => $row->description
+            ];
+        };
+
+        return $courseArray;
+    }
+
     public function getDisabilityList() {
         $disabilityList = Disability::get();
 
@@ -49,6 +66,21 @@ class HelperClass
         };
 
         return $disabilityArray;
+    }
+
+    public function getEducationLevel() {
+        $educationLevelList = EducationLevel::get();
+
+        $educationLevelArray = [];
+        
+        foreach ($educationLevelList as $row) {
+            $educationLevelArray[$row->id] = [
+                'code' => $row->code,
+                'description' => $row->description
+            ];
+        };
+
+        return $educationLevelArray;
     }
 
     public function getEthnicityList() {

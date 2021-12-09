@@ -45,7 +45,9 @@ class AddressDataController extends Controller
     }
 
     public function getAddressData(Request $request) {
-        return response()->json($request->user()->addressData);
+        $userData = $request->user();
+        $addressData = $request->user()->addressData;
+        return response()->json($userData);
     }
 
     public function getRadioAddressType(Request $request) {

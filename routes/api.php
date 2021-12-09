@@ -8,6 +8,7 @@ use App\Http\Controllers\PersonalDataController;
 use App\Http\Controllers\OtherDataController;
 use App\Http\Controllers\AddressDataController;
 use App\Http\Controllers\EmploymentDataController;
+use App\Http\Controllers\EducationalDataController;
 
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PermitTemplateController;
@@ -45,6 +46,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/employment', [EmploymentDataController::class, 'getEmploymentData']);
     Route::post('inhabitants/employment/store', [EmploymentDataController::class, 'store']);
 
+    Route::get('inhabitants/educational', [EducationalDataController::class, 'getEducationalData']);
+    Route::post('inhabitants/educational/store', [EducationalDataController::class, 'store']);
+
     ##Permit
     Route::post('permit/type', [PermitController::class, 'savePermitType']);
     Route::get('permit/type', [PermitController::class, 'getPermitList']);
@@ -75,4 +79,7 @@ Route::get('disabilitylist', [OtherDataController::class, 'getDisabilityList']);
 
 Route::get('radioaddresstype', [AddressDataController::class, 'getRadioAddressType']);
 Route::get('radiotemporarytype', [AddressDataController::class, 'getRadioTemporaryType']);
+
+Route::get('educationlevellist', [EducationalDataController::class, 'getEducationLevel']);
+Route::get('courselist', [EducationalDataController::class, 'getCourseList']);
 

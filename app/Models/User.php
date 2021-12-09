@@ -69,4 +69,12 @@ class User extends Authenticatable
     public function employmentData() {
         return $this->hasOne(EmploymentData::class, 'user_id', 'id');
     }
+
+    public function educationalData() {
+        return $this->hasMany(EducationalData::class, 'user_id', 'id');
+    }
+
+    public function educationalOtherData() {
+        return $this->hasOne(EducationalOtherData::class, 'user_id', 'id');
+    }
 }
