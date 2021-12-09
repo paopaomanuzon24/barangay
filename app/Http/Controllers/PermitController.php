@@ -17,7 +17,7 @@ use App\Models\PermitFees;
 class PermitController extends Controller
 {
 
-    public function savePermitType(Request $request){
+    public function store(Request $request){
 
 
         $validator = Validator::make($request->all(),[
@@ -38,8 +38,69 @@ class PermitController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => "Permit Added."
-        ], 400);
+        ], 200);
 
+    }
+
+    public function edit(Request $request, $id){
+
+        $permitTypeData = PermitType::find($id);
+        if(!empty($permitTypeData)){
+
+            $data = $permitTypeData->toArray();
+            return response()->json([
+                    $data
+            ], 200);
+        }
+
+    }
+
+    public function update(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'permit_name' => 'required|string',
+            'id' => 'required|integer|min:0'
+
+        ]);
+
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->all()
+            ], 400);
+        }
+
+
+        $permitFee = PermitType::find($id);
+        $permitFee->permit_name = $request->permit_name;
+        $permitFee->save();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => "Permit Type Updated."
+        ], 200);
+    }
+
+    public function getPermitType(Request $request,$id){
+
+        $request->merge(['id' => $id]);
+        $validator = Validator::make($request->all(),[
+            'id' => 'integer|min:0'
+        ]);
+
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->all()
+            ], 400);
+        }
+
+        $permitData = PermitType::find($id);
+        $return = $permitData->toArray();
+
+        return response()->json($return,201);
     }
 
     public function getPermitList(Request $request){
@@ -51,8 +112,6 @@ class PermitController extends Controller
         }
 
         return response()->json($return);
-
-
     }
 
     public function generatePermit(Request $request){
@@ -94,7 +153,7 @@ class PermitController extends Controller
 
         return response()->json([
             'data' => $data
-        ], 400);
+        ], 200);
     }
 
     private function validateGeneratePermit($request){

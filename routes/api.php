@@ -13,6 +13,8 @@ use App\Http\Controllers\EducationalDataController;
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PermitTemplateController;
 use App\Http\Controllers\PermitFeesController;
+use App\Http\Controllers\BarangayOfficialController;
+
 
 
 /*
@@ -50,16 +52,29 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::post('inhabitants/educational/store', [EducationalDataController::class, 'store']);
 
     ##Permit
-    Route::post('permit/type', [PermitController::class, 'savePermitType']);
-    Route::get('permit/type', [PermitController::class, 'getPermitList']);
-    Route::post('generatePermit', [PermitController::class, 'generatePermit']);
 
-    Route::post('permit/template', [PermitTemplateController::class, 'savePermitTemplate']);
-    Route::get('permit/template', [PermitTemplateController::class, 'getTemplate']);
+    Route::post('permit/type', [PermitController::class, 'store']);
+    Route::get('permit/type/{id}/edit', [PermitController::class, 'edit']);
+    Route::post('permit/type/update', [PermitController::class,'update']);
+    Route::get('permit/type', [PermitController::class, 'getPermitList']);
+    Route::get('permit/type/{id}', [PermitController::class, 'getPermitType']);
+    Route::post('permit/generate', [PermitController::class, 'generatePermit']);
+
+    Route::post('permit/template', [PermitTemplateController::class, 'store']);
+    Route::get('permit/template', [PermitTemplateController::class, 'show']);
+    #Route::get('permit/template/{id}/edit', [PermitTemplateController::class, 'edit']);
+    #Route::post('permit/template/update', [PermitTemplateController::class, 'update']);
 
     Route::post('permit/fees', [PermitFeesController::class, 'store']);
-    Route::post('permit/fees/{id}/update', [PermitFeesController::class,'update']);
+    Route::post('permit/fees/update', [PermitFeesController::class,'update']);
     Route::get('permit/fees/{id}/edit', [PermitFeesController::class, 'edit']);
+
+    Route::post('barangay/officials', [BarangayOfficialController::class, 'store']);
+    Route::get('barangay/officials/{id}', [BarangayOfficialController::class, 'show']);
+    Route::get('barangay/officials{id}/edit', [BarangayOfficialController::class, 'edit']);
+    Route::post('barangay/officials/update', [BarangayOfficialController::class, 'update']);
+
+
 });
 
 

@@ -44,13 +44,14 @@ class PermitFeesController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => "Permit Fees Added."
-        ], 400);
+        ], 200);
 
     }
 
     public function update(Request $request, $id){
 
         $validator = Validator::make($request->all(),[
+            'id' => 'required|integer',
             'permit_type_id' => 'required|integer',
             'fee' => 'required|integer|min:0',
             'amendment' => 'required|string'
@@ -73,7 +74,7 @@ class PermitFeesController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => "Permit Fees Updated."
-        ], 400);
+        ], 200);
     }
 
     public function edit(Request $request, $id){
@@ -84,7 +85,7 @@ class PermitFeesController extends Controller
             $data = $permitFee->toArray();
             return response()->json([
                     $data
-            ], 400);
+            ], 200);
         }else{
             return response()->json([
                 'error' => 'invalid payload',
