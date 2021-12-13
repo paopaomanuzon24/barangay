@@ -18,6 +18,7 @@ use App\Classes\UserClass;
 use App\Classes\UserActivityLogClass;
 
 use App\Models\SessionToken;
+use App\Models\User as UserModel;
 
 class AuthController extends Controller
 {
@@ -127,6 +128,39 @@ class AuthController extends Controller
         $request->user()->sessionToken->delete();
         return response()->json([
             'message' => 'Successfully logged out'
+        ]);
+    }
+
+    public function changePassword(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string',
+            'password' => 'required|string|confirmed',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->all()
+            ], 400);
+        }
+
+        $user = $request->user();
+        if (!empty($request->user_id)) {
+            $user = UserModel::find($request->user_id);
+        }
+
+        if (!(Hash::check($request->old_password, $user->password))) {
+            return response()->json([
+                'status' => 'error',
+                'message' => "Current Password did not match"
+            ], 400);
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return response()->json([
+            'message' => 'Password has been changed.'
         ]);
     }
 

@@ -85,4 +85,8 @@ class User extends Authenticatable
     public function residenceApplicationStatus() {
         return $this->hasOne(ResidenceApplication::class, 'user_id', 'id');
     }
+
+    public function profilePicture() {
+        return $this->hasOne(ProfilePicture::class, 'user_id', 'id');
+    }
 }

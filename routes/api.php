@@ -38,11 +38,14 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
     Route::get('user/list', [AuthController::class, 'list']);
+    Route::post('password', [AuthController::class, 'changePassword']);
 
     ##Inhabitants
     Route::get('inhabitants/personal', [PersonalDataController::class, 'getPersonalData']);
     Route::get('inhabitants/personal/list', [PersonalDataController::class, 'list']);
+    Route::get('inhabitants/personal/picture', [PersonalDataController::class, 'getProfile']);
     Route::post('inhabitants/personal/store', [PersonalDataController::class, 'store']);
+    Route::post('inhabitants/personal/picture/store', [PersonalDataController::class, 'profile']);
 
     Route::get('inhabitants/other', [OtherDataController::class, 'getOtherData']);
     Route::post('inhabitants/other/store', [OtherDataController::class, 'store']);

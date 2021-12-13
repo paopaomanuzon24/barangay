@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\PersonalData;
+use App\Models\ProfilePicture;
 use App\Models\User;
 
 use App\Classes\ResidenceApplicationClass;
@@ -39,6 +40,34 @@ class PersonalDataClass
         $peronalDataList = $peronalDataList->get();
         
         return $peronalDataList;
+    }
+
+    public function saveProfile($request) {
+        $user = $request->user();
+        if (!empty($request->user_id)) {
+            $user = User::find($request->user_id);
+        }
+        
+        $profile = $user->profilePicture;
+        if (empty($profile)) {
+            $profile = new ProfilePicture;
+            $profile->user_id = $user->id;
+            $user->save();
+        }
+
+        if ($request->hasFile('profile')) {
+            $path = 'images/profile';
+
+            $image = $request->file('profile');
+            $imageName = $image->getClientOriginalName();
+
+            $request->file('profile')->storeAs("public/".$path,$imageName);
+            
+            $profile->profile_path = $path.'/'.$imageName;
+            $profile->profile_name = $imageName;
+        }
+
+        $profile->save();
     }
     
     public function savePersonalData($request) {

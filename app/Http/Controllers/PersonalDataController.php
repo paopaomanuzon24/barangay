@@ -50,6 +50,21 @@ class PersonalDataController extends Controller
         ], 201);
     }
 
+    public function profile(Request $request) {
+        $class = new PersonalDataClass;
+        $class->saveProfile($request);
+
+        return response()->json([
+            'message' => 'Profile has been saved.'
+        ], 201);
+    }
+
+    public function getProfile(Request $request) {
+        $userData = $request->user();
+        $personalData = $request->user()->profilePicture;
+        return response()->json($userData);
+    }
+
     public function getPersonalData(Request $request) {
         $userData = $request->user();
         $personalData = $request->user()->personalData;
