@@ -5,11 +5,15 @@ namespace App\Classes;
 use Carbon\Carbon;
 
 use App\Models\AddressData;
+use App\Models\User;
 
 class AddressDataClass
 {
     public function saveAddressData($request) {
         $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = User::find($request->user_id);
+        }
 
         $addressData = $userData->addressData;
         if (empty($addressData)) {

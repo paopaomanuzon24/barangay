@@ -5,11 +5,15 @@ namespace App\Classes;
 use Carbon\Carbon;
 
 use App\Models\EmploymentData;
+use App\Models\User;
 
 class EmploymentDataClass
 {
     public function saveEmploymentData($request) {
         $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = User::find($request->user_id);
+        }
 
         $employmentData = $userData->employmentData;
         if (empty($employmentData)) {

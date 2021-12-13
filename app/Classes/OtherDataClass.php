@@ -6,11 +6,15 @@ use Carbon\Carbon;
 
 use App\Models\OtherData;
 use App\Models\OtherDataLanguage;
+use App\Models\User;
 
 class OtherDataClass
 {
     public function saveOtherData($request) {
         $user = $request->user();
+        if (!empty($request->user_id)) {
+            $user = User::find($request->user_id);
+        }
 
         $otherData = $user->otherData;
         if (empty($otherData)) {

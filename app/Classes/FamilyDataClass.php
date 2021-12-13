@@ -5,11 +5,15 @@ namespace App\Classes;
 use Carbon\Carbon;
 
 use App\Models\FamilyData;
+use App\Models\User;
 
 class FamilyDataClass
 {
     public function saveFamilyData($request) {
         $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = User::find($request->user_id);
+        }
 
         FamilyData::where("user_id", $userData->id)->each(function($row){
             $row->delete();

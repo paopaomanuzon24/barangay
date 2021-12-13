@@ -10,7 +10,7 @@ class UserClass
 {
     public function getUserList($request) {
         $userList = User::select(
-            'id',
+            'id as user_id',
             'first_name',
             'middle_name',
             'last_name',

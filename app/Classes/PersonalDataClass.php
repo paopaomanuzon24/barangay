@@ -4,13 +4,16 @@ namespace App\Classes;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+
 use App\Models\PersonalData;
+use App\Models\User;
 
 class PersonalDataClass
 {
     public function getPersonalDataList($request) {
         $peronalDataList = PersonalData::select(
             'personal_data.id',
+            'personal_data.user_id',
             'personal_data.resident_id',
             'personal_data.first_name',
             'personal_data.middle_name',
@@ -38,6 +41,10 @@ class PersonalDataClass
     
     public function savePersonalData($request) {
         $user = $request->user();
+        if (!empty($request->user_id)) {
+            $user = User::find($request->user_id);
+        }
+        
         $resident = 5;
         $personalData = $user->personalData;
 

@@ -6,11 +6,15 @@ use Carbon\Carbon;
 
 use App\Models\EducationalData;
 use App\Models\EducationalOtherData;
+use App\Models\User;
 
 class EducationalDataClass
 {
     public function saveEducationalData($request) {
         $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = User::find($request->user_id);
+        }
 
         $educationalList = $userData->educationalData;
 
@@ -35,6 +39,9 @@ class EducationalDataClass
 
     protected function saveEducationalOtherData($request) {
         $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = User::find($request->user_id);
+        }
 
         $educationalOtherData = $userData->educationalOtherData;
         if (empty($educationalOtherData)) {
