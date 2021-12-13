@@ -52,7 +52,7 @@ class PersonalDataClass
             $personalData = new PersonalData;
             $personalData->user_id = $user->id;
             $personalData->resident_id = 0;
-            $user->user_type_id = $resident;
+            // $user->user_type_id = $resident;
             $user->save();
         }
 
