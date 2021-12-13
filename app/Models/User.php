@@ -81,4 +81,8 @@ class User extends Authenticatable
     public function familyData() {
         return $this->hasMany(FamilyData::class, 'user_id', 'id');
     }
+
+    public function residenceApplicationStatus() {
+        return $this->hasOne(ResidenceApplication::class, 'user_id', 'id');
+    }
 }

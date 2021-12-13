@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PersonalData;
 use App\Models\User;
 
+use App\Classes\ResidenceApplicationClass;
+
 class PersonalDataClass
 {
     public function getPersonalDataList($request) {
@@ -45,7 +47,7 @@ class PersonalDataClass
             $user = User::find($request->user_id);
         }
         
-        $resident = 5;
+        // $resident = 5;
         $personalData = $user->personalData;
 
         if (empty($personalData)) {
@@ -76,6 +78,9 @@ class PersonalDataClass
 
         if (empty($personalData->resident_id)) {
             $this->saveResidentID($personalData);
+
+            $residenceClass = new ResidenceApplicationClass;
+            $residenceClass->updateResidenceApplication($request);
         }
     }
 

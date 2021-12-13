@@ -11,6 +11,7 @@ use App\Http\Controllers\AddressDataController;
 use App\Http\Controllers\EmploymentDataController;
 use App\Http\Controllers\EducationalDataController;
 use App\Http\Controllers\FamilyDataController;
+use App\Http\Controllers\ResidenceApplicationController;
 
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PermitTemplateController;
@@ -58,8 +59,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/family', [FamilyDataController::class, 'getFamilyData']);
     Route::post('inhabitants/family/store', [FamilyDataController::class, 'store']);
 
-    ##Permit
+    Route::post('inhabitants/application/update', [ResidenceApplicationController::class, 'update']);
 
+    ##Permit
     Route::post('permit/type', [PermitController::class, 'store']);
     Route::get('permit/type/{id}/edit', [PermitController::class, 'edit']);
     Route::post('permit/type/update', [PermitController::class,'update']);
@@ -94,6 +96,7 @@ Route::get('genderlist', [PersonalDataController::class, 'getRadioGender']);
 Route::get('maritalstatuslist', [PersonalDataController::class, 'getMaritalStatusList']);
 Route::get('religiouslist', [PersonalDataController::class, 'getReligiousList']);
 Route::get('citizenshiplist', [PersonalDataController::class, 'getCitizenshipList']);
+Route::get('residencestatuslist', [PersonalDataController::class, 'getResidenceStatusList']);
 
 Route::get('ethnicitylist', [OtherDataController::class, 'getEthnicityList']);
 Route::get('languagelist', [OtherDataController::class, 'getLanguageList']);

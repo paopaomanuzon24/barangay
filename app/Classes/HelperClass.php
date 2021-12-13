@@ -15,6 +15,7 @@ use App\Models\MaritalStatus;
 use App\Models\Language;
 use App\Models\RelationshipType;
 use App\Models\Religious;
+use App\Models\ResidenceStatus;
 use App\Models\UsualOccupation;
 use App\Models\UserType;
 use App\Models\WorkAffiliation;
@@ -255,6 +256,18 @@ class HelperClass
         ];
 
         return $array;
+    }
+
+    public function getResidenceStatusList() {
+        $statusList = ResidenceStatus::get();
+
+        $statusArray = [];
+
+        foreach ($statusList as $row) {
+            $statusArray[$row->id] = $row->description;
+        }
+
+        return $statusArray;
     }
     
 }

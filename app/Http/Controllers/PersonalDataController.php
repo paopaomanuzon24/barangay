@@ -52,7 +52,8 @@ class PersonalDataController extends Controller
 
     public function getPersonalData(Request $request) {
         $userData = $request->user();
-        $educationalList = $request->user()->personalData;
+        $personalData = $request->user()->personalData;
+        $residenceApplicationStatusData = $request->user()->residenceApplicationStatus;
         return response()->json($userData);
     }
 
@@ -74,5 +75,9 @@ class PersonalDataController extends Controller
 
     public function getCitizenshipList(Request $request) {
         return response()->json(Helpers::getCitizenshipList());
+    }
+
+    public function getResidenceStatusList(Request $request) {
+        return response()->json(Helpers::getResidenceStatusList());
     }
 }
