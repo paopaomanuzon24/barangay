@@ -51,6 +51,10 @@ class PersonalDataController extends Controller
     }
 
     public function profile(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'profile' => 'mimes:jpg,bmp,png,jpeg|required'
+        ]);
+
         $class = new PersonalDataClass;
         $class->saveProfile($request);
 

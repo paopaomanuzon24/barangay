@@ -9,6 +9,7 @@ use App\Models\Citizenship;
 use App\Models\ClassWorker;
 use App\Models\Course;
 use App\Models\Disability;
+use App\Models\DocumentFile;
 use App\Models\EducationLevel;
 use App\Models\Ethnicity;
 use App\Models\MaritalStatus;
@@ -72,6 +73,18 @@ class HelperClass
         };
 
         return $courseArray;
+    }
+
+    public function getDocumentFileList() {
+        $documentList = DocumentFile::get();
+
+        $documentArray = [];
+        
+        foreach ($documentList as $row) {
+            $documentArray[$row->id] = $row->description;
+        };
+
+        return $documentArray;
     }
 
     public function getDisabilityList() {

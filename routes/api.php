@@ -12,6 +12,7 @@ use App\Http\Controllers\EmploymentDataController;
 use App\Http\Controllers\EducationalDataController;
 use App\Http\Controllers\FamilyDataController;
 use App\Http\Controllers\ResidenceApplicationController;
+use App\Http\Controllers\DocumentDataController;
 
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PermitTemplateController;
@@ -63,6 +64,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::post('inhabitants/family/store', [FamilyDataController::class, 'store']);
 
     Route::post('inhabitants/application/update', [ResidenceApplicationController::class, 'update']);
+
+    Route::get('inhabitants/document', [DocumentDataController::class, 'getDocumentData']);
+    Route::post('inhabitants/document/store', [DocumentDataController::class, 'store']);
 
     ##Permit
     Route::post('permit/type', [PermitController::class, 'store']);
@@ -117,4 +121,6 @@ Route::get('educationlevellist', [EducationalDataController::class, 'getEducatio
 Route::get('courselist', [EducationalDataController::class, 'getCourseList']);
 
 Route::get('relationshiplist', [FamilyDataController::class, 'getRelationshipTypeList']);
+
+Route::get('documentlist', [DocumentDataController::class, 'getDocumentFileList']);
 
