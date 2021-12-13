@@ -21,16 +21,19 @@ class CreateLanguagesTable extends Migration
 
         DB::table('languages')->insert([
             [
-                'description' => 'filipino'
+                'description' => 'English'
             ],
             [
-                'description' => 'english'
+                'description' => 'Tagalog'
             ],
             [
-                'description' => 'cebuano'
+                'description' => 'Bisaya'
             ],
             [
-                'description' => 'hiligaynon'
+                'description' => 'Waray'
+            ],
+            [
+                'description' => 'Ilocano'
             ]
         ]);
     }

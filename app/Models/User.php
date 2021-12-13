@@ -77,4 +77,8 @@ class User extends Authenticatable
     public function educationalOtherData() {
         return $this->hasOne(EducationalOtherData::class, 'user_id', 'id');
     }
+
+    public function familyData() {
+        return $this->hasMany(FamilyData::class, 'user_id', 'id');
+    }
 }

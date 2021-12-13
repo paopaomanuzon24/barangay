@@ -21,19 +21,25 @@ class CreateMaritalStatusTable extends Migration
 
         DB::table('marital_status')->insert([
             [
-                'description' => 'single'
+                'description' => 'Single'
             ],
             [
-                'description' => 'married'
+                'description' => 'Married'
             ],
             [
-                'description' => 'widowed'
+                'description' => 'Widowed'
             ],
             [
-                'description' => 'divorced'
+                'description' => 'Divorced/Separated'
             ],
             [
-                'description' => 'separated'
+                'description' => 'Common-Law'
+            ],
+            [
+                'description' => 'Live-in'
+            ],
+            [
+                'description' => 'Unknown'
             ]
         ]);
     }

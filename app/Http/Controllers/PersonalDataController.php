@@ -15,6 +15,12 @@ use App\Classes\PersonalDataClass;
 
 class PersonalDataController extends Controller
 {
+    public function list(Request $request) {
+        $class = new PersonalDataClass;
+        $list = $class->getPersonalDataList($request);
+        return response()->json($list);
+    }
+
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'last_name' => 'required|string',

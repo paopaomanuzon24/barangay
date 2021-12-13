@@ -18,6 +18,11 @@ class EmploymentData extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'usual_occupation_id',
+        'class_worker_id',
+        'work_affiliation_id',
+        'place_work_type',
+        'place_work_type_specify',
         'employment_type',
         'employment',
         'employment_address',

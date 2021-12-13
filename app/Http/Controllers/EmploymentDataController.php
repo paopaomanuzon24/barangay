@@ -40,4 +40,20 @@ class EmploymentDataController extends Controller
         $employmentData = $request->user()->employmentData;
         return response()->json($userData); 
     }
+
+    public function getClassWorkerList(Request $request) {
+        return response()->json(Helpers::getClassWorkerList()); 
+    }
+
+    public function getUsualOccupationList(Request $request) {
+        return response()->json(Helpers::getUsualOccupationList()); 
+    }
+
+    public function getWorkAffiliationList(Request $request) {
+        return response()->json(Helpers::getWorkAffiliationList()); 
+    }
+
+    public function getPlaceWorkType(Request $request) {
+        return response()->json(Helpers::getPlaceWorkType()); 
+    }
 }

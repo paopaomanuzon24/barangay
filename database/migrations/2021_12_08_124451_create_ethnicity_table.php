@@ -21,10 +21,22 @@ class CreateEthnicityTable extends Migration
 
         DB::table('ethnicity')->insert([
             [
-                'description' => 'igorot'
+                'description' => 'Black'
             ],
             [
-                'description' => 'aeta'
+                'description' => 'Brown'
+            ],
+            [
+                'description' => 'White'
+            ],
+            [
+                'description' => 'Badjao'
+            ],
+            [
+                'description' => 'Igorot'
+            ],
+            [
+                'description' => 'Aeta'
             ]
         ]);
     }

@@ -20,7 +20,15 @@ class CreateReligiousTable extends Migration
         });
 
         DB::table('religious')->insert([
-            'description' => 'sample'
+            [
+                'description' => 'Catholic'
+            ],
+            [
+                'description' => 'Iglesia'
+            ],
+            [
+                'description' => 'Muslim'
+            ]
         ]);
     }
 

@@ -3,12 +3,13 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PersonalDataController;
 
+use App\Http\Controllers\PersonalDataController;
 use App\Http\Controllers\OtherDataController;
 use App\Http\Controllers\AddressDataController;
 use App\Http\Controllers\EmploymentDataController;
 use App\Http\Controllers\EducationalDataController;
+use App\Http\Controllers\FamilyDataController;
 
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PermitTemplateController;
@@ -34,9 +35,11 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
+    Route::get('user/list', [AuthController::class, 'list']);
 
     ##Inhabitants
     Route::get('inhabitants/personal', [PersonalDataController::class, 'getPersonalData']);
+    Route::get('inhabitants/personal/list', [PersonalDataController::class, 'list']);
     Route::post('inhabitants/personal/store', [PersonalDataController::class, 'store']);
 
     Route::get('inhabitants/other', [OtherDataController::class, 'getOtherData']);
@@ -50,6 +53,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
 
     Route::get('inhabitants/educational', [EducationalDataController::class, 'getEducationalData']);
     Route::post('inhabitants/educational/store', [EducationalDataController::class, 'store']);
+
+    Route::get('inhabitants/family', [FamilyDataController::class, 'getFamilyData']);
+    Route::post('inhabitants/family/store', [FamilyDataController::class, 'store']);
 
     ##Permit
 
@@ -95,6 +101,13 @@ Route::get('disabilitylist', [OtherDataController::class, 'getDisabilityList']);
 Route::get('radioaddresstype', [AddressDataController::class, 'getRadioAddressType']);
 Route::get('radiotemporarytype', [AddressDataController::class, 'getRadioTemporaryType']);
 
+Route::get('usualoccupationlist', [EmploymentDataController::class, 'getUsualOccupationList']);
+Route::get('classworkerlist', [EmploymentDataController::class, 'getClassWorkerList']);
+Route::get('workaffiliationlist', [EmploymentDataController::class, 'getWorkAffiliationList']);
+Route::get('placeworktypelist', [EmploymentDataController::class, 'getPlaceWorkType']);
+
 Route::get('educationlevellist', [EducationalDataController::class, 'getEducationLevel']);
 Route::get('courselist', [EducationalDataController::class, 'getCourseList']);
+
+Route::get('relationshiplist', [FamilyDataController::class, 'getRelationshipTypeList']);
 

@@ -6,14 +6,18 @@ use Carbon\Carbon;
 
 use App\Models\Barangay;
 use App\Models\Citizenship;
+use App\Models\ClassWorker;
 use App\Models\Course;
 use App\Models\Disability;
 use App\Models\EducationLevel;
 use App\Models\Ethnicity;
 use App\Models\MaritalStatus;
 use App\Models\Language;
+use App\Models\RelationshipType;
 use App\Models\Religious;
+use App\Models\UsualOccupation;
 use App\Models\UserType;
+use App\Models\WorkAffiliation;
 
 class HelperClass
 {
@@ -41,6 +45,18 @@ class HelperClass
         return $citizenshipArray;
     }
 
+    public function getClassWorkerList() {
+        $classWorkerList = ClassWorker::get();
+
+        $classWorkerArray = [];
+        
+        foreach ($classWorkerList as $row) {
+            $classWorkerArray[$row->id] = $row->description;
+        };
+
+        return $classWorkerArray;
+    }
+
     public function getCourseList() {
         $courseList = Course::get();
 
@@ -48,6 +64,7 @@ class HelperClass
         
         foreach ($courseList as $row) {
             $courseArray[$row->id] = [
+                'level_id' => $row->level_id,
                 'code' => $row->code,
                 'description' => $row->description
             ];
@@ -167,6 +184,21 @@ class HelperClass
         return $array;
     }
 
+    public function getRelationshipTypeList() {
+        $relationshipTypeList = RelationshipType::get();
+
+        $relationshipTypeArray = [];
+        
+        foreach ($relationshipTypeList as $row) {
+            $relationshipTypeArray[$row->id] = [
+                'code' => $row->code,
+                'description' => $row->description
+            ];
+        };
+
+        return $relationshipTypeArray;
+    }
+
     public function getReligiousList() {
         $religiousList = Religious::get();
 
@@ -179,6 +211,18 @@ class HelperClass
         return $religiousArray;
     }
 
+    public function getUsualOccupationList() {
+        $usualOccupationList = UsualOccupation::get();
+
+        $usualOccupationArray = [];
+        
+        foreach ($usualOccupationList as $row) {
+            $usualOccupationArray[$row->id] = $row->description;
+        };
+
+        return $usualOccupationArray;
+    }
+
     public function getUserTypeList() {
         $userTypeList = UserType::get();
 
@@ -189,6 +233,28 @@ class HelperClass
         };
 
         return $userTypeArray;
+    }
+
+    public function getWorkAffiliationList() {
+        $workAffiliationList = WorkAffiliation::get();
+
+        $workAffiliationArray = [];
+        
+        foreach ($workAffiliationList as $row) {
+            $workAffiliationArray[$row->id] = $row->description;
+        };
+
+        return $workAffiliationArray;
+    }
+
+    public function getPlaceWorkType() {
+        $array = [
+            1 => "Same City",
+            2 => "Foreign",
+            3 => "Others"
+        ];
+
+        return $array;
     }
     
 }

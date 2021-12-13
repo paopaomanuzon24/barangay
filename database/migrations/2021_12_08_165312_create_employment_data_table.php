@@ -16,6 +16,11 @@ class CreateEmploymentDataTable extends Migration
         Schema::create('employment_data', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('usual_occupation_id')->nullable();
+            $table->unsignedBigInteger('class_worker_id')->nullable();
+            $table->unsignedBigInteger('work_affiliation_id')->nullable();
+            $table->char('place_work_type', 1);
+            $table->string('place_work_type_specify')->nullable();
             $table->char("employment_type", 1);
             $table->string("employment");
             $table->string("employment_address");

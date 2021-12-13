@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 
 use App\User;
 
+use App\Classes\UserClass;
 use App\Classes\UserActivityLogClass;
 
 use App\Models\SessionToken;
@@ -127,6 +128,12 @@ class AuthController extends Controller
         return response()->json([
             'message' => 'Successfully logged out'
         ]);
+    }
+
+    public function list(Request $request){
+        $class = new UserClass;
+        $userList = $class->getUserList($request);
+        return response()->json($userList);
     }
 
     public function user(Request $request){
