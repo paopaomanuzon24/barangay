@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
 
+use App\Http\Controllers\InhabitantsController;
 use App\Http\Controllers\PersonalDataController;
 use App\Http\Controllers\OtherDataController;
 use App\Http\Controllers\AddressDataController;
@@ -13,6 +14,7 @@ use App\Http\Controllers\EducationalDataController;
 use App\Http\Controllers\FamilyDataController;
 use App\Http\Controllers\ResidenceApplicationController;
 use App\Http\Controllers\DocumentDataController;
+use App\Http\Controllers\GroupsAndAffiliationController;
 
 use App\Http\Controllers\PermitController;
 use App\Http\Controllers\PermitTemplateController;
@@ -42,8 +44,10 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::post('password', [AuthController::class, 'changePassword']);
 
     ##Inhabitants
+    Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);
+    Route::get('inhabitants/{id}', [InhabitantsController::class, 'show']);
+
     Route::get('inhabitants/personal', [PersonalDataController::class, 'getPersonalData']);
-    Route::get('inhabitants/personal/list', [PersonalDataController::class, 'list']);
     Route::get('inhabitants/personal/picture', [PersonalDataController::class, 'getProfile']);
     Route::post('inhabitants/personal/store', [PersonalDataController::class, 'store']);
     Route::post('inhabitants/personal/picture/store', [PersonalDataController::class, 'profile']);
@@ -67,6 +71,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
 
     Route::get('inhabitants/document', [DocumentDataController::class, 'getDocumentData']);
     Route::post('inhabitants/document/store', [DocumentDataController::class, 'store']);
+
+    Route::get('inhabitants/groups', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
+    Route::post('inhabitants/groups/store', [GroupsAndAffiliationController::class, 'store']);
 
     ##Permit
     Route::post('permit/type', [PermitController::class, 'store']);
@@ -123,4 +130,6 @@ Route::get('courselist', [EducationalDataController::class, 'getCourseList']);
 Route::get('relationshiplist', [FamilyDataController::class, 'getRelationshipTypeList']);
 
 Route::get('documentlist', [DocumentDataController::class, 'getDocumentFileList']);
+
+Route::get('groupsandaffiliationlist', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationList']);
 

@@ -32,4 +32,8 @@ class PersonalData extends Model
         'contact_no',
         'email'
     ];
+
+    public function userData() {
+        return $this->hasOne('App\Models\User', 'id', 'user_id');
+    }
 }

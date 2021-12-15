@@ -12,6 +12,7 @@ use App\Models\Disability;
 use App\Models\DocumentFile;
 use App\Models\EducationLevel;
 use App\Models\Ethnicity;
+use App\Models\GroupsAndAffiliation;
 use App\Models\MaritalStatus;
 use App\Models\Language;
 use App\Models\RelationshipType;
@@ -124,6 +125,18 @@ class HelperClass
         };
 
         return $ethnicityArray;
+    }
+
+    public function getGroupsAndAffiliationList() {
+        $list = GroupsAndAffiliation::get();
+
+        $array = [];
+        
+        foreach ($list as $row) {
+            $array[$row->id] = $row->description;
+        };
+
+        return $array;
     }
 
     public function getMaritalStatusList() {

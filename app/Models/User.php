@@ -82,15 +82,19 @@ class User extends Authenticatable
         return $this->hasMany(FamilyData::class, 'user_id', 'id');
     }
 
+    public function documentData() {
+        return $this->hasMany(DocumentData::class, 'user_id', 'id');
+    }
+
+    public function groupsAndAffiliationData() {
+        return $this->hasMany(GroupsAndAffiliationData::class, 'user_id', 'id');
+    }
+
     public function residenceApplicationStatus() {
         return $this->hasOne(ResidenceApplication::class, 'user_id', 'id');
     }
 
     public function profilePicture() {
         return $this->hasOne(ProfilePicture::class, 'user_id', 'id');
-    }
-
-    public function documentData() {
-        return $this->hasMany(DocumentData::class, 'user_id', 'id');
     }
 }
