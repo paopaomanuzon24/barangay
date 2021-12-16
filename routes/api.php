@@ -16,10 +16,12 @@ use App\Http\Controllers\ResidenceApplicationController;
 use App\Http\Controllers\DocumentDataController;
 use App\Http\Controllers\GroupsAndAffiliationController;
 
-use App\Http\Controllers\PermitController;
+use App\Http\Controllers\PermitTypeController;
 use App\Http\Controllers\PermitTemplateController;
 use App\Http\Controllers\PermitFeesController;
 use App\Http\Controllers\BarangayOfficialController;
+use App\Http\Controllers\PermitCategoryController;
+use App\Http\Controllers\PermitGenerationController;
 
 
 
@@ -75,27 +77,43 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/groups', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
     Route::post('inhabitants/groups/store', [GroupsAndAffiliationController::class, 'store']);
 
+
     ##Permit
-    Route::post('permit/type', [PermitController::class, 'store']);
-    Route::get('permit/type/{id}/edit', [PermitController::class, 'edit']);
-    Route::post('permit/type/update', [PermitController::class,'update']);
-    Route::get('permit/type', [PermitController::class, 'getPermitList']);
-    Route::get('permit/type/{id}', [PermitController::class, 'getPermitType']);
-    Route::post('permit/generate', [PermitController::class, 'generatePermit']);
+    Route::post('permit/type', [PermitTypeController::class, 'store']);
+    Route::get('permit/type/{id}/edit', [PermitTypeController::class, 'edit']);
+    Route::post('permit/type/update', [PermitTypeController::class,'update']);
+    Route::post('permit/type/delete', [PermitTypeController::class,'delete']);
+    Route::get('permit/types', [PermitTypeController::class, 'list']);
+    Route::get('permit/type/{id}', [PermitTypeController::class, 'getPermitType']);
+
 
     Route::post('permit/template', [PermitTemplateController::class, 'store']);
     Route::get('permit/template', [PermitTemplateController::class, 'show']);
-    #Route::get('permit/template/{id}/edit', [PermitTemplateController::class, 'edit']);
-    #Route::post('permit/template/update', [PermitTemplateController::class, 'update']);
 
-    Route::post('permit/fees', [PermitFeesController::class, 'store']);
-    Route::post('permit/fees/update', [PermitFeesController::class,'update']);
+
+    Route::post('permit/fee', [PermitFeesController::class, 'store']);
+    Route::get('permit/fees/{id}', [PermitFeesController::class, 'show']);
     Route::get('permit/fees/{id}/edit', [PermitFeesController::class, 'edit']);
+    Route::post('permit/fees/update', [PermitFeesController::class,'update']);
+    Route::post('permit/fees/delete', [PermitFeesController::class,'delete']);
+    Route::get('permit/fees', [PermitFeesController::class,'list']);
+
 
     Route::post('barangay/officials', [BarangayOfficialController::class, 'store']);
     Route::get('barangay/officials/{id}', [BarangayOfficialController::class, 'show']);
-    Route::get('barangay/officials{id}/edit', [BarangayOfficialController::class, 'edit']);
+    Route::get('barangay/officials/{id}/edit', [BarangayOfficialController::class, 'edit']);
     Route::post('barangay/officials/update', [BarangayOfficialController::class, 'update']);
+    Route::post('barangay/officials/delete', [BarangayOfficialController::class, 'delete']);
+    Route::get('barangay/officials', [BarangayOfficialController::class, 'list']);
+
+    Route::post('permit/category', [PermitCategoryController::class, 'store']);
+    Route::get('permit/category/{id}', [PermitCategoryController::class, 'show']);
+    Route::get('permit/category/{id}/edit', [PermitCategoryController::class, 'edit']);
+    Route::post('permit/category/update', [PermitCategoryController::class, 'update']);
+    Route::post('permit/category/delete', [PermitCategoryController::class, 'delete']);
+    Route::get('permit/categories', [PermitCategoryController::class, 'list']);
+
+    Route::post('permit/generate', [PermitGenerationController::class, 'generatePermit']);
 
 
 });

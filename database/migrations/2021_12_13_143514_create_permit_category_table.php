@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePermitFeesTable extends Migration
+class CreatePermitCategoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,9 @@ class CreatePermitFeesTable extends Migration
      */
     public function up()
     {
-        Schema::create('permit_fees', function (Blueprint $table) {
+        Schema::create('permit_category', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("permit_type_id");
-            $table->unsignedBigInteger("barangay_id");
-            $table->double('fee',20,2);
-            $table->string("amendment");
+            $table->string("description");
             $table->timestamps();
         });
     }
@@ -30,6 +27,6 @@ class CreatePermitFeesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('permit_fees');
+        Schema::dropIfExists('permit_category');
     }
 }

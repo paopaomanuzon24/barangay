@@ -14,7 +14,7 @@ class PermitFees extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'permit_type_id','fee','amendment'
+        'permit_type_id','fee','amendment','barangay_id'
     ];
     protected $primaryKey = 'id';
 

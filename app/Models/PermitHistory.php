@@ -5,16 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PermitType extends Model
+class PermitHistory extends Model
 {
     use HasFactory;
 
-    protected $table = 'permit_type';
+    protected $table = 'permit_history';
     protected $dateformat = 'Y-m-d H:i:s';
     public $timestamps = true;
 
     protected $fillable = [
-        'permit_name','category_id','barangay_id'
+        'permit_type_id','category_id','barangay_id','template_id','control_number'
     ];
     protected $primaryKey = 'id';
 

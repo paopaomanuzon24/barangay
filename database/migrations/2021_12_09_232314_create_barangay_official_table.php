@@ -23,6 +23,8 @@ class CreateBarangayOfficialTable extends Migration
             $table->string('photo_path');
             $table->timestamps();
         });
+
+
     }
 
     /**

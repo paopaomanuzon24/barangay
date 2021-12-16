@@ -25,7 +25,7 @@ class BarangayOfficialController extends Controller
             'first_name' => 'required|string',
             'middle_name' => 'required|string',
             'last_name' => 'required|string',
-            'position_id' => 'required|integer|min:0',
+          #  'position_id' => 'required|integer|min:0',
            # 'photo' => 'mimes:jpg,bmp,png'
         ]);
 
@@ -61,9 +61,9 @@ class BarangayOfficialController extends Controller
         $barangay->first_name = $request->first_name;
         $barangay->middle_name = $request->middle_name;
         $barangay->last_name = $request->last_name;
-        $barangay->position_id = $request->position_id;
-     #   $barangay->photo_file_name = $imageName;
-      #  $barangay->photo_path = $path.'/'.$imageName;
+        $barangay->position_id = 0;
+        $barangay->photo_file_name = "";
+        $barangay->photo_path = "";
         $barangay->save();
 
         return response()->json([
@@ -94,7 +94,7 @@ class BarangayOfficialController extends Controller
             'first_name' => 'required|string',
             'middle_name' => 'required|string',
             'last_name' => 'required|string',
-            'position_id' => 'required|integer|min:0',
+          #  'position_id' => 'required|integer|min:0',
             'id' => 'required|integer|min:0'
 
         ]);
@@ -113,7 +113,7 @@ class BarangayOfficialController extends Controller
         $barangay->first_name = $request->first_name;
         $barangay->middle_name = $request->middle_name;
         $barangay->last_name = $request->last_name;
-        $barangay->position_id = $request->position_id;
+       # $barangay->position_id = $request->position_id;
         $barangay->save();
 
         return response()->json([
@@ -137,6 +137,40 @@ class BarangayOfficialController extends Controller
 
     }
 
+    public function delete(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'id' => 'required|integer|min:0'
+        ]);
+
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->all()
+            ], 400);
+        }
+
+        $barangayData = BarangayOfficial::find($request->id);
+        $barangayData->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => "Profile deleted."
+        ], 201);
+
+    }
+
+    public function list(Request $request){
+
+        $return = array();
+
+        $barangayData = BarangayOfficial::all();
+        foreach($barangayData as $row){
+            $return[] = $row->getOriginal();
+        }
+       # dd($return);
+       return response()->json($return);
+    }
 
 
 }

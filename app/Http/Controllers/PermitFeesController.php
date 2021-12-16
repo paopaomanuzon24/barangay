@@ -22,7 +22,8 @@ class PermitFeesController extends Controller
         $validator = Validator::make($request->all(),[
             'permit_type_id' => 'required|integer',
             'fee' => 'required|integer|min:0',
-            'amendment' => 'required|string'
+            'amendment' => 'required|string',
+            'barangay_id' => 'required|integer|min:0'
         ]);
 
         if($validator->fails()){
@@ -36,7 +37,8 @@ class PermitFeesController extends Controller
         $data = [
             'permit_type_id' => $request->permit_type_id,
             'fee' => $request->fee,
-            'amendment' => $request->amendment
+            'amendment' => $request->amendment,
+            'barangay_id' => $request->barangay_id,
         ];
         PermitFees::create($data);
 
@@ -48,12 +50,22 @@ class PermitFeesController extends Controller
 
     }
 
-    public function update(Request $request, $id){
+    public function show(Request $request, $id){
+
+        $barangayData = PermitFees::find($id);
+        if(!empty($barangayData)){
+            $data = $barangayData->toArray();
+            return response()->json($data, 201);
+        }
+    }
+
+    public function update(Request $request){
 
         $validator = Validator::make($request->all(),[
             'id' => 'required|integer',
             'permit_type_id' => 'required|integer',
             'fee' => 'required|integer|min:0',
+            'barangay_id' => 'required|integer|min:0',
             'amendment' => 'required|string'
         ]);
 
@@ -65,10 +77,11 @@ class PermitFeesController extends Controller
         }
 
 
-        $permitFee = PermitFees::find($id);
+        $permitFee = PermitFees::find($request->id);
         $permitFee->permit_type_id = $request->permit_type_id;
         $permitFee->fee = $request->fee;
         $permitFee->amendment = $request->amendment;
+        $permitFee->barangay_id = $request->barangay_id;
         $permitFee->save();
 
         return response()->json([
@@ -95,7 +108,40 @@ class PermitFeesController extends Controller
 
     }
 
+    public function delete(Request $request){
 
+        $validator = Validator::make($request->all(),[
+            'id' => 'required|integer|min:0'
+        ]);
+
+
+        if($validator->fails()){
+            return response()->json([
+                'status' => 'error',
+                'message' => $validator->errors()->all()
+            ], 400);
+        }
+
+        $barangayData = PermitFees::find($request->id);
+        $barangayData->delete();
+        return response()->json([
+            'status' => 'success',
+            'message' => "Profile deleted."
+        ], 201);
+
+    }
+
+    public function list(Request $request){
+
+        $return = array();
+
+        $barangayData = PermitFees::all();
+        foreach($barangayData as $row){
+            $return[] = $row->getOriginal();
+        }
+       # dd($return);
+       return response()->json($return);
+    }
 
 
 }

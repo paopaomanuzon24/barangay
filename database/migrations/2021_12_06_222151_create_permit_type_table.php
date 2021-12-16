@@ -15,6 +15,8 @@ class CreatePermitTypeTable extends Migration
     {
         Schema::create('permit_type', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("category_id");
+            $table->unsignedBigInteger("barangay_id");
             $table->string("permit_name");
             $table->timestamps();
         });
