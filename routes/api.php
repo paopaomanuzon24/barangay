@@ -120,34 +120,34 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
 
 
 ##Others
-Route::get('barangaylist', [AuthController::class, 'getBarangayList']);
-Route::get('usertypelist', [AuthController::class, 'getUserTypeList']);
+Route::get('barangay/list', [AuthController::class, 'getBarangayList']);
+Route::get('user-type/list', [AuthController::class, 'getUserTypeList']);
 
-Route::get('radiocitizenshiplist', [PersonalDataController::class, 'getRadioCitizen']);
-Route::get('genderlist', [PersonalDataController::class, 'getRadioGender']);
-Route::get('maritalstatuslist', [PersonalDataController::class, 'getMaritalStatusList']);
-Route::get('religiouslist', [PersonalDataController::class, 'getReligiousList']);
-Route::get('citizenshiplist', [PersonalDataController::class, 'getCitizenshipList']);
-Route::get('residencestatuslist', [PersonalDataController::class, 'getResidenceStatusList']);
+Route::get('radio/citizenship/list', [PersonalDataController::class, 'getRadioCitizen']);
+Route::get('gender/list', [PersonalDataController::class, 'getRadioGender']);
+Route::get('marital-status/list', [PersonalDataController::class, 'getMaritalStatusList']);
+Route::get('religious/list', [PersonalDataController::class, 'getReligiousList']);
+Route::get('citizenship/list', [PersonalDataController::class, 'getCitizenshipList']);
+Route::get('residence-status/list', [PersonalDataController::class, 'getResidenceStatusList']);
 
-Route::get('ethnicitylist', [OtherDataController::class, 'getEthnicityList']);
-Route::get('languagelist', [OtherDataController::class, 'getLanguageList']);
-Route::get('disabilitylist', [OtherDataController::class, 'getDisabilityList']);
+Route::get('ethnicity/list', [OtherDataController::class, 'getEthnicityList']);
+Route::get('language/list', [OtherDataController::class, 'getLanguageList']);
+Route::get('disability/list', [OtherDataController::class, 'getDisabilityList']);
 
-Route::get('radioaddresstype', [AddressDataController::class, 'getRadioAddressType']);
-Route::get('radiotemporarytype', [AddressDataController::class, 'getRadioTemporaryType']);
+Route::get('radio/address-type/list', [AddressDataController::class, 'getRadioAddressType']);
+Route::get('radio/temporary-type/list', [AddressDataController::class, 'getRadioTemporaryType']);
 
-Route::get('usualoccupationlist', [EmploymentDataController::class, 'getUsualOccupationList']);
-Route::get('classworkerlist', [EmploymentDataController::class, 'getClassWorkerList']);
-Route::get('workaffiliationlist', [EmploymentDataController::class, 'getWorkAffiliationList']);
-Route::get('placeworktypelist', [EmploymentDataController::class, 'getPlaceWorkType']);
+Route::get('usual-occupation/list', [EmploymentDataController::class, 'getUsualOccupationList']);
+Route::get('class-worker/list', [EmploymentDataController::class, 'getClassWorkerList']);
+Route::get('work-affiliation/list', [EmploymentDataController::class, 'getWorkAffiliationList']);
+Route::get('place-work-type/list', [EmploymentDataController::class, 'getPlaceWorkType']);
 
-Route::get('educationlevellist', [EducationalDataController::class, 'getEducationLevel']);
-Route::get('courselist', [EducationalDataController::class, 'getCourseList']);
+Route::get('education-level/list', [EducationalDataController::class, 'getEducationLevel']);
+Route::get('course/list', [EducationalDataController::class, 'getCourseList']);
 
-Route::get('relationshiplist', [FamilyDataController::class, 'getRelationshipTypeList']);
+Route::get('relationship/list', [FamilyDataController::class, 'getRelationshipTypeList']);
 
-Route::get('documentlist', [DocumentDataController::class, 'getDocumentFileList']);
+Route::get('document/list', [DocumentDataController::class, 'getDocumentFileList']);
 
-Route::get('groupsandaffiliationlist', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationList']);
+Route::get('groups-and-affiliation/list', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationList']);
 
