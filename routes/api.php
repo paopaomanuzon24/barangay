@@ -50,32 +50,32 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);
     Route::get('inhabitants/{id}', [InhabitantsController::class, 'show']);
 
-    Route::get('inhabitants/personal', [PersonalDataController::class, 'getPersonalData']);
+    Route::get('inhabitants/personal/get', [PersonalDataController::class, 'getPersonalData']);
     Route::get('inhabitants/personal/picture', [PersonalDataController::class, 'getProfile']);
     Route::post('inhabitants/personal/store', [PersonalDataController::class, 'store']);
     Route::post('inhabitants/personal/picture/store', [PersonalDataController::class, 'profile']);
 
-    Route::get('inhabitants/other', [OtherDataController::class, 'getOtherData']);
+    Route::get('inhabitants/other/get', [OtherDataController::class, 'getOtherData']);
     Route::post('inhabitants/other/store', [OtherDataController::class, 'store']);
 
-    Route::get('inhabitants/address', [AddressDataController::class, 'getAddressData']);
+    Route::get('inhabitants/address/get', [AddressDataController::class, 'getAddressData']);
     Route::post('inhabitants/address/store', [AddressDataController::class, 'store']);
 
-    Route::get('inhabitants/employment', [EmploymentDataController::class, 'getEmploymentData']);
+    Route::get('inhabitants/employment/get', [EmploymentDataController::class, 'getEmploymentData']);
     Route::post('inhabitants/employment/store', [EmploymentDataController::class, 'store']);
 
-    Route::get('inhabitants/educational', [EducationalDataController::class, 'getEducationalData']);
+    Route::get('inhabitants/educational/get', [EducationalDataController::class, 'getEducationalData']);
     Route::post('inhabitants/educational/store', [EducationalDataController::class, 'store']);
 
-    Route::get('inhabitants/family', [FamilyDataController::class, 'getFamilyData']);
+    Route::get('inhabitants/family/get', [FamilyDataController::class, 'getFamilyData']);
     Route::post('inhabitants/family/store', [FamilyDataController::class, 'store']);
 
     Route::post('inhabitants/application/update', [ResidenceApplicationController::class, 'update']);
 
-    Route::get('inhabitants/document', [DocumentDataController::class, 'getDocumentData']);
+    Route::get('inhabitants/document/get', [DocumentDataController::class, 'getDocumentData']);
     Route::post('inhabitants/document/store', [DocumentDataController::class, 'store']);
 
-    Route::get('inhabitants/groups', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
+    Route::get('inhabitants/groups/get', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
     Route::post('inhabitants/groups/store', [GroupsAndAffiliationController::class, 'store']);
 
     Route::get('inhabitants/medical/history', [MedicalHistoryController::class, 'getMedicalHistory']);
