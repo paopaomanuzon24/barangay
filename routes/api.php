@@ -15,6 +15,7 @@ use App\Http\Controllers\FamilyDataController;
 use App\Http\Controllers\ResidenceApplicationController;
 use App\Http\Controllers\DocumentDataController;
 use App\Http\Controllers\GroupsAndAffiliationController;
+use App\Http\Controllers\MedicalHistoryController;
 
 use App\Http\Controllers\PermitTypeController;
 use App\Http\Controllers\PermitTemplateController;
@@ -77,6 +78,8 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/groups', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
     Route::post('inhabitants/groups/store', [GroupsAndAffiliationController::class, 'store']);
 
+    Route::get('inhabitants/medical/history', [MedicalHistoryController::class, 'getMedicalHistory']);
+    Route::post('inhabitants/medical-history/store', [MedicalHistoryController::class, 'store']);
 
     ##Permit
     Route::post('permit/type', [PermitTypeController::class, 'store']);
@@ -150,4 +153,6 @@ Route::get('relationship/list', [FamilyDataController::class, 'getRelationshipTy
 Route::get('document/list', [DocumentDataController::class, 'getDocumentFileList']);
 
 Route::get('groups-and-affiliation/list', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationList']);
+
+Route::get('alcohol-status/list', [MedicalHistoryController::class, 'getAlcoholStatus']);
 

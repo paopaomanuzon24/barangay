@@ -24,6 +24,15 @@ use App\Models\WorkAffiliation;
 
 class HelperClass
 {
+    public function getAlcoholStatus() {
+        $array = [
+            1 => "Occasionally",
+            2 => "Moderately"
+        ];
+
+        return $array;
+    }
+
     public function getBarangayList() {
         $barangayList = Barangay::get();
 

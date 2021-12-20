@@ -97,4 +97,8 @@ class User extends Authenticatable
     public function profilePicture() {
         return $this->hasOne(ProfilePicture::class, 'user_id', 'id');
     }
+
+    public function medicalHistory() {
+        return $this->hasOne(MedicalHistory::class, 'user_id', 'id');
+    }
 }
