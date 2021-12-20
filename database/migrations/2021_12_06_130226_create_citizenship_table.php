@@ -20,7 +20,7 @@ class CreateCitizenshipTable extends Migration
         });
 
         DB::table('citizenship')->insert([
-            'description' => 'filipino'
+            'description' => 'Filipino'
         ]);
     }
 
