@@ -20,9 +20,15 @@ class FamilyDataClass
         });
 
         foreach ($request->relationship_type_id as $key => $value) {
-            $familyData = new FamilyData;
+            $personalDataID = !empty($request->personal_data_id[$key]) ? $request->personal_data_id[$key] : 0;
+            
+            $familyData = FamilyData::where("user_id", $userData->id)->where("personal_data_id", $personalDataID)->first();
+            if (empty($familyData)) {
+                $familyData = new FamilyData;
+            }
+
             $familyData->user_id = $userData->id;
-            $familyData->personal_data_id = !empty($request->personal_data_id[$key]) ? $request->personal_data_id[$key] : 0;
+            $familyData->personal_data_id = $personalDataID;
             $familyData->relationship_type_id = $request->relationship_type_id[$key];
             $familyData->first_name = $request->first_name[$key];
             $familyData->middle_name = !empty($request->middle_name[$key]) ? $request->middle_name[$key] : "";
