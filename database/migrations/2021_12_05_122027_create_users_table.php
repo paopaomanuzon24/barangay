@@ -1,5 +1,6 @@
 <?php
 
+use Hash;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -30,6 +31,45 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
+        DB::table('users')->insert([
+            'username' => 'admin',
+            'first_name' => 'Admin',
+            'last_name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'contact_no' => '0987654321',
+            'gender' => 'M',
+            'address' => '123 fake street',
+            'barangay_id' => '1',
+            'password' => Hash::make("Pass1234!"),
+            'user_type_id' => 2
+        ]);
+
+        DB::table('users')->insert([
+            'username' => 'superadmin',
+            'first_name' => 'Super Admin',
+            'last_name' => 'Super Admin',
+            'email' => 'superadmin@gmail.com',
+            'contact_no' => '0987654321',
+            'gender' => 'M',
+            'address' => '123 fake street',
+            'barangay_id' => '',
+            'password' => Hash::make("Pass1234!"),
+            'user_type_id' => 1
+        ]);
+
+        DB::table('users')->insert([
+            'username' => 'user',
+            'first_name' => 'User',
+            'last_name' => 'User',
+            'email' => 'user@gmail.com',
+            'contact_no' => '0987654321',
+            'gender' => 'M',
+            'address' => '123 fake street',
+            'barangay_id' => '1',
+            'password' => Hash::make("Pass1234!"),
+            'user_type_id' => 6
+        ]);
     }
 
     /**
