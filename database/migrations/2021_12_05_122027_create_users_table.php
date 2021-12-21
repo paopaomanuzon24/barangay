@@ -1,6 +1,5 @@
 <?php
 
-use Hash;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -40,7 +39,7 @@ class CreateUsersTable extends Migration
             'contact_no' => '0987654321',
             'gender' => 'M',
             'address' => '123 fake street',
-            'barangay_id' => '1',
+            'barangay_id' => 1,
             'password' => Hash::make("Pass1234!"),
             'user_type_id' => 2
         ]);
@@ -53,7 +52,7 @@ class CreateUsersTable extends Migration
             'contact_no' => '0987654321',
             'gender' => 'M',
             'address' => '123 fake street',
-            'barangay_id' => '',
+            'barangay_id' => 0,
             'password' => Hash::make("Pass1234!"),
             'user_type_id' => 1
         ]);
@@ -66,7 +65,7 @@ class CreateUsersTable extends Migration
             'contact_no' => '0987654321',
             'gender' => 'M',
             'address' => '123 fake street',
-            'barangay_id' => '1',
+            'barangay_id' => 1,
             'password' => Hash::make("Pass1234!"),
             'user_type_id' => 6
         ]);
