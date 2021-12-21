@@ -23,8 +23,9 @@ class CreateMedicalHistoryTable extends Migration
             $table->string("alocohol_no");
             $table->string("alcohol_status");
             $table->boolean("commorbidity");
-            $table->string("active_medical_condition");
-            $table->boolean("active_medication");
+            // $table->string("active_medical_condition");
+            // $table->boolean("active_medication");
+            $table->string("other_medical_history");
             $table->string("allergies");
             $table->string("vaccination");
             $table->timestamps();

@@ -20,7 +20,9 @@ class MedicalHistoryController extends Controller
             'height' => 'required',
             'weight' => 'required',
             'blood_type' => 'required',
-            'disease_id' => 'array'
+            'disease_id' => 'array',
+            'active_medical_condition' => 'array',
+            'active_medication' => 'array',
         ]);
 
         if ($validator->fails()) {
@@ -42,6 +44,7 @@ class MedicalHistoryController extends Controller
         $userData = $request->user();
         $medicalHistoryData = $request->user()->medicalHistory;
         $medicalHistoryDiseaseData = !empty($medicalHistoryData) ? $medicalHistoryData->medicalHistoryDisease : "";
+        $medicalActiveConditionData = !empty($medicalHistoryData) ? $medicalHistoryData->medicalActiveCondition : "";
         return response()->json($userData);
     }
 

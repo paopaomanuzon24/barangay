@@ -6,6 +6,7 @@ use Carbon\Carbon;
 
 use App\Models\MedicalHistory;
 use App\Models\MedicalHistoryDisease;
+use App\Models\MedicalActiveCondition;
 use App\Models\User;
 
 class MedicalHistoryClass
@@ -29,13 +30,13 @@ class MedicalHistoryClass
         $medicalHistoryData->alocohol_no = !empty($request->alocohol_no) ? $request->alocohol_no : "";
         $medicalHistoryData->alcohol_status = !empty($request->alcohol_status) ? $request->alcohol_status : "";
         $medicalHistoryData->commorbidity = !empty($request->commorbidity) ? $request->commorbidity : 0;
-        $medicalHistoryData->active_medical_condition = !empty($request->active_medical_condition) ? $request->active_medical_condition : "";
-        $medicalHistoryData->active_medication = !empty($request->active_medication) ? $request->active_medication : 0;
+        $medicalHistoryData->other_medical_history = !empty($request->other_medical_history) ? $request->other_medical_history : "";
         $medicalHistoryData->allergies = !empty($request->allergies) ? $request->allergies : "";
         $medicalHistoryData->vaccination = !empty($request->vaccination) ? $request->vaccination : "";
         $medicalHistoryData->save();
 
         $this->saveMedicalHistoryDisease($request, $medicalHistoryData);
+        $this->saveMedicalActiveCondition($request, $medicalHistoryData);
     }
 
     protected function saveMedicalHistoryDisease($request, $medicalHistoryData) {
@@ -49,6 +50,22 @@ class MedicalHistoryClass
                 $medHistoryDiseaseData->medical_history_id = $medicalHistoryData->id;
                 $medHistoryDiseaseData->disease_id = $value;
                 $medHistoryDiseaseData->save();
+            }
+        }
+    }
+
+    protected function saveMedicalActiveCondition($request, $medicalHistoryData) {
+        MedicalActiveCondition::where("medical_history_id", $medicalHistoryData->id)->each(function($row) {
+            $row->delete();
+        });
+
+        foreach ($request->disease_id as $key => $value) {
+            if (!empty($value)) {
+                $medActiveCondionData = new MedicalActiveCondition;
+                $medActiveCondionData->medical_history_id = $medicalHistoryData->id;
+                $medActiveCondionData->active_medical_condition = !empty($request->active_medical_condition[$key]) ? $request->active_medical_condition[$key] : "";
+                $medActiveCondionData->active_medication = !empty($request->active_medication[$key]) ? $request->active_medication[$key] : 0;
+                $medActiveCondionData->save();
             }
         }
     }

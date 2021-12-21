@@ -51,6 +51,7 @@ class InhabitantsController extends Controller
             $profilePicture = $userData->profilePicture;
             $personalData = $userData->personalData;
             $otherData = $userData->otherData;
+            $otherDataLanguage = !empty($otherData->language) ? $otherData->language : "";
             $addressData = $userData->addressData;
             $employmentData = $userData->employmentData;
             $educationalData = $userData->educationalData;
@@ -59,6 +60,9 @@ class InhabitantsController extends Controller
             $documentData = $userData->documentData;
             $groupsAndAffiliationData = $userData->groupsAndAffiliationData;
             $residenceApplicationStatus = $userData->residenceApplicationStatus;
+            $medicalHistoryData = $userData->medicalHistory;
+            $medicalHistoryDiseaseData = !empty($medicalHistoryData->medicalHistoryDisease) ? $medicalHistoryData->medicalHistoryDisease : "";
+            $medicalActiveConditionData = !empty($medicalHistoryData->medicalActiveCondition) ? $medicalHistoryData->medicalActiveCondition : "";
         }
         return response()->json($userData);
     }

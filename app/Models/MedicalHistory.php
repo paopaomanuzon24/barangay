@@ -25,13 +25,18 @@ class MedicalHistory extends Model
         'alocohol_no',
         'alcohol_status',
         'commorbidity',
-        'active_medical_condition',
-        'active_medication',
+        'other_medical_history',
+        // 'active_medical_condition',
+        // 'active_medication',
         'allergies',
         'vaccination'
     ];
 
     public function medicalHistoryDisease() {
-        return $this->hasOne(MedicalHistoryDisease::class, 'medical_history_id', 'id');
+        return $this->hasMany(MedicalHistoryDisease::class, 'medical_history_id', 'id');
+    }
+
+    public function medicalActiveCondition() {
+        return $this->hasMany(MedicalActiveCondition::class, 'medical_history_id', 'id');
     }
 }
