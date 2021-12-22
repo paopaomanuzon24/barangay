@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\FamilyDataClass;
 
+use App\Models\RelationshipType;
+use App\Models\User as UserModel;
+
 class FamilyDataController extends Controller
 {
     public function store(Request $request) {
@@ -39,13 +42,37 @@ class FamilyDataController extends Controller
         ], 201);        
     }
 
-    public function getFamilyData(Request $request) {
-        $userData = $request->user();
-        $familyData = $request->user()->familyData;
-        return response()->json($userData);
+    public function getFamilyData(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+        
+        $familyData = $userData->familyData;
+
+        return customResponse()
+            ->message("Family data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getRelationshipTypeList(Request $request) {
-        return response()->json(Helpers::getRelationshipTypeList());
+        $relationshipTypeList = RelationshipType::select(
+            'id',
+            'code',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of relationship")
+            ->data($relationshipTypeList)
+            ->success()
+            ->generate();
     }
 }

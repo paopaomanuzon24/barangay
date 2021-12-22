@@ -13,6 +13,12 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\PersonalDataClass;
 
+use App\Models\MaritalStatus;
+use App\Models\Religious;
+use App\Models\Citizenship;
+use App\Models\ResidenceStatus;
+use App\Models\User as UserModel;
+
 class PersonalDataController extends Controller
 {
     public function store(Request $request) {
@@ -57,40 +63,106 @@ class PersonalDataController extends Controller
         ], 201);
     }
 
-    public function getProfile(Request $request) {
-        $userData = $request->user();
-        $personalData = $request->user()->profilePicture;
-        return response()->json($userData);
+    public function getProfile(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+        
+        $personalData = $userData->profilePicture;
+
+        return customResponse()
+            ->message("Profile")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
-    public function getPersonalData(Request $request) {
-        $userData = $request->user();
-        $personalData = $request->user()->personalData;
-        $residenceApplicationStatusData = $request->user()->residenceApplicationStatus;
-        return response()->json($userData);
+    public function getPersonalData(Request $request, $id) {
+        $userData = UserModel::find($id);
+        $personalData = $userData->personalData;
+        $residenceApplicationStatusData = $userData->residenceApplicationStatus;
+
+        return customResponse()
+            ->message("Personal data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getRadioGender(Request $request) {
-        return response()->json(Helpers::getRadioGender());
+        return customResponse()
+            ->message("List of genders")
+            ->data(Helpers::getRadioGender())
+            ->success()
+            ->generate();
     }
 
     public function getRadioCitizen(Request $request) {
-        return response()->json(Helpers::getRadioCitizen());
+        return customResponse()
+            ->message("Radio citizen")
+            ->data(Helpers::getRadioCitizen())
+            ->success()
+            ->generate();
     }
     
     public function getMaritalStatusList(Request $request) {
-        return response()->json(Helpers::getMaritalStatusList());
+        $maritalStatusList = MaritalStatus::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of marital status")
+            ->data($maritalStatusList)
+            ->success()
+            ->generate();
     }
     
     public function getReligiousList(Request $request) {
-        return response()->json(Helpers::getReligiousList());
+        $religiousList = Religious::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of religious")
+            ->data($religiousList)
+            ->success()
+            ->generate();
     }
 
     public function getCitizenshipList(Request $request) {
-        return response()->json(Helpers::getCitizenshipList());
+        $citizenshipList = Citizenship::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of citizenship")
+            ->data($citizenshipList)
+            ->success()
+            ->generate();
     }
 
     public function getResidenceStatusList(Request $request) {
-        return response()->json(Helpers::getResidenceStatusList());
+        $statusList = ResidenceStatus::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of residence status")
+            ->data($statusList)
+            ->success()
+            ->generate();
     }
 }

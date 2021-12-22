@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\AddressDataClass;
 
+use App\Models\User as UserModel;
+
 class AddressDataController extends Controller
 {
     public function store(Request $request) {
@@ -44,17 +46,38 @@ class AddressDataController extends Controller
         ], 201);        
     }
 
-    public function getAddressData(Request $request) {
-        $userData = $request->user();
-        $addressData = $request->user()->addressData;
-        return response()->json($userData);
+    public function getAddressData(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+        
+        $addressData = $userData->addressData;
+
+        return customResponse()
+            ->message("Address data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getRadioAddressType(Request $request) {
-        return response()->json(Helpers::getRadioAddressType());
+        return customResponse()
+            ->message("Radio address type")
+            ->data(Helpers::getRadioAddressType())
+            ->success()
+            ->generate();
     }
 
     public function getRadioTemporaryType(Request $request) {
-        return response()->json(Helpers::getRadioTemporaryType());
+        return customResponse()
+            ->message("Radio temporary type")
+            ->data(Helpers::getRadioTemporaryType())
+            ->success()
+            ->generate();
     }
 }

@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\GroupsAndAffiliationClass;
 
+use App\Models\GroupsAndAffiliation;
+
+use App\Models\User as UserModel;
+
 class GroupsAndAffiliationController extends Controller
 {
     public function store(Request $request) {
@@ -28,13 +32,36 @@ class GroupsAndAffiliationController extends Controller
         ], 201);
     } 
 
-    public function getGroupsAndAffiliationData(Request $request) {
-        $userData = $request->user();
-        $groupData = $request->user()->groupsAndAffiliationData;
-        return response()->json($userData);
+    public function getGroupsAndAffiliationData(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+        
+        $employmentData = $userData->groupsAndAffiliationData;
+
+        return customResponse()
+            ->message("Groups and affiliation data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getGroupsAndAffiliationList(Request $request) {
-        return response()->json(Helpers::getGroupsAndAffiliationList());
+        $list = GroupsAndAffiliation::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of groups and affiliation")
+            ->data($list)
+            ->success()
+            ->generate();
     }
 }

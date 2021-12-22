@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\EducationalDataClass;
 
+use App\Models\EducationLevel;
+use App\Models\Course;
+use App\Models\User as UserModel;
+
 class EducationalDataController extends Controller
 {
     public function store(Request $request) {
@@ -24,18 +28,53 @@ class EducationalDataController extends Controller
         ], 201);  
     }
 
-    public function getEducationalData(Request $request) {
-        $userData = $request->user();
-        $educationalList = $request->user()->educationalData;
-        $educationalOtherData = $request->user()->educationalOtherData;
-        return response()->json($userData);
+    public function getEducationalData(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+        
+        $educationalList = $userData->educationalData;
+        $educationalOtherData = $userData->educationalOtherData;
+
+        return customResponse()
+            ->message("List of education level")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getEducationLevel(Request $request) {
-        return response()->json(Helpers::getEducationLevel());
+        $educationLevelList = EducationLevel::select(
+            'id',
+            'code',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of education level")
+            ->data($educationLevelList)
+            ->success()
+            ->generate();
     }
 
     public function getCourseList(Request $request) {
-        return response()->json(Helpers::getCourseList());
+        $courseList = Course::select(
+            'id',
+            'code',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of course")
+            ->data($courseList)
+            ->success()
+            ->generate();
     }
 }

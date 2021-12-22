@@ -29,7 +29,7 @@ class UserClass
         }
 
         if ($request->user_type) {
-            $userList = $userList->where("users.user_type_id", $request->user_type_id);
+            $userList = $userList->where("users.user_type_id", $request->user_type);
         }
 
         $userList = $userList->get();

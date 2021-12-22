@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\MedicalHistoryClass;
 
+use App\Models\User as UserModel;
+
 class MedicalHistoryController extends Controller
 {
     public function store(Request $request) {
@@ -40,15 +42,32 @@ class MedicalHistoryController extends Controller
         ], 201);
     }
 
-    public function getMedicalHistory(Request $request) {
-        $userData = $request->user();
-        $medicalHistoryData = $request->user()->medicalHistory;
+    public function getMedicalHistory(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+
+        $medicalHistoryData = $userData->medicalHistory;
         $medicalHistoryDiseaseData = !empty($medicalHistoryData) ? $medicalHistoryData->medicalHistoryDisease : "";
         $medicalActiveConditionData = !empty($medicalHistoryData) ? $medicalHistoryData->medicalActiveCondition : "";
-        return response()->json($userData);
+
+        return customResponse()
+            ->message("Medical history data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getAlcoholStatus(Request $request) {
-        return response()->json(Helpers::getAlcoholStatus());
+        return customResponse()
+            ->message("List of alcohol status")
+            ->data(Helpers::getAlcoholStatus())
+            ->success()
+            ->generate();
     }
 }

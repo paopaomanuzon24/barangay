@@ -16,6 +16,7 @@ use App\Models\PersonalData;
 class InhabitantsController extends Controller
 {
     public function getInhabitantsList(Request $request) {
+        $resident = 5;
         $peronalDataList = PersonalData::select(
             'personal_data.id',
             'personal_data.user_id',
@@ -26,7 +27,8 @@ class InhabitantsController extends Controller
             'users.barangay_id',
             'personal_data.birth_date'
         )
-        ->join("users", "users.id", "personal_data.user_id");
+        ->join("users", "users.id", "personal_data.user_id")
+        ->where("users.user_type_id", $resident);
 
         if ($request->search) {
             $peronalDataList = $peronalDataList->where(function($q) use($request){
@@ -41,7 +43,11 @@ class InhabitantsController extends Controller
 
         $peronalDataList = $peronalDataList->get();
         
-        return $peronalDataList;
+        return customResponse()
+            ->message("List of residence")
+            ->data($peronalDataList)
+            ->success()
+            ->generate();
     }
     
     public function show(Request $request, $id) {
@@ -64,6 +70,11 @@ class InhabitantsController extends Controller
             $medicalHistoryDiseaseData = !empty($medicalHistoryData->medicalHistoryDisease) ? $medicalHistoryData->medicalHistoryDisease : "";
             $medicalActiveConditionData = !empty($medicalHistoryData->medicalActiveCondition) ? $medicalHistoryData->medicalActiveCondition : "";
         }
-        return response()->json($userData);
+
+        return customResponse()
+            ->message("Residence user data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 }

@@ -19,6 +19,8 @@ use App\Classes\UserActivityLogClass;
 
 use App\Models\SessionToken;
 use App\Models\User as UserModel;
+use App\Models\Barangay;
+use App\Models\UserType;
 
 class AuthController extends Controller
 {
@@ -167,7 +169,22 @@ class AuthController extends Controller
     public function list(Request $request){
         $class = new UserClass;
         $userList = $class->getUserList($request);
-        return response()->json($userList);
+
+        return customResponse()
+            ->message("User account list")
+            ->data($userList)
+            ->success()
+            ->generate();
+    }
+
+    public function show(Request $request, $id){
+        $userData = UserModel::find($id);
+
+        return customResponse()
+            ->message("User account data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function user(Request $request){
@@ -175,10 +192,29 @@ class AuthController extends Controller
     }
 
     public function getBarangayList(Request $request) {
-        return response()->json(Helpers::getBarangayList());
+        $barangayList = Barangay::select(
+            "id",
+            "description"
+        )->get();
+
+        return customResponse()
+            ->message("List of barangay")
+            ->data($barangayList)
+            ->success()
+            ->generate();
     }
 
     public function getUserTypeList(Request $request) {
-        return response()->json(Helpers::getUserTypeList());
+        $userTypeList = UserType::select(
+            "id",
+            "name",
+            "level"
+        )->get();
+        
+        return customResponse()
+            ->message("List of user type")
+            ->data($userTypeList)
+            ->success()
+            ->generate();
     }
 }

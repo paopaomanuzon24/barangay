@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\DocumentDataClass;
 
+use App\Models\DocumentFile;
+use App\Models\User as UserModel;
+
 class DocumentDataController extends Controller
 {
     public function store(Request $request) {
@@ -28,13 +31,37 @@ class DocumentDataController extends Controller
         ], 201);
     }
 
-    public function getDocumentData(Request $request) {
-        $userData = $request->user();
-        $documentData = $request->user()->documentData;
-        return response()->json($userData);
+    public function getDocumentData(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+        
+        $documentData = $userData->documentData;
+
+        return customResponse()
+            ->message("Document data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getDocumentFileList(Request $request) {
-        return response()->json(Helpers::getDocumentFileList());
+        $documentList = DocumentFile::select(
+            'id',
+            'type',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of documents")
+            ->data($documentList)
+            ->success()
+            ->generate();
     }
 }

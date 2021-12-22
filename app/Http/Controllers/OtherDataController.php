@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\OtherDataClass;
 
+use App\Models\Ethnicity;
+use App\Models\Language;
+use App\Models\Disability;
+use App\Models\User as UserModel;
+
 class OtherDataController extends Controller
 {
     public function store(Request $request) {
@@ -36,23 +41,62 @@ class OtherDataController extends Controller
         ], 201);
     }
 
-    public function getOtherData(Request $request) {
-        $userData = $request->user();
-        $otherData = $request->user()->otherData;
-        $otherDataLanguage = !empty($request->user()->otherData->language) ? $request->user()->otherData->language : "";
-        return response()->json($userData);
+    public function getOtherData(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+        
+        $otherData = $userData->otherData;
+        $otherDataLanguage = !empty($userData->otherData->language) ? $userData->otherData->language : "";
+
+        return customResponse()
+            ->message("Other data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getEthnicityList(Request $request) {
-        return response()->json(Helpers::getEthnicityList());
+        $ethnicityList = Ethnicity::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of ethnicity")
+            ->data($ethnicityList)
+            ->success()
+            ->generate();
     }
 
     public function getLanguageList(Request $request) {
-        return response()->json(Helpers::getLanguageList());
+        $languageList = Language::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of language")
+            ->data($languageList)
+            ->success()
+            ->generate();
     }
 
     public function getDisabilityList(Request $request) {
-        return response()->json(Helpers::getDisabilityList());
+        $disabilityList = Disability::get();
+
+        return customResponse()
+            ->message("List of disability")
+            ->data($disabilityList)
+            ->success()
+            ->generate();
     }
 
 }

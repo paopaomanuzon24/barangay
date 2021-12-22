@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\EmploymentDataClass;
 
+use App\Models\ClassWorker;
+use App\Models\UsualOccupation;
+use App\Models\WorkAffiliation;
+use App\Models\User as UserModel;
+
 class EmploymentDataController extends Controller
 {
     public function store(Request $request) {
@@ -35,25 +40,72 @@ class EmploymentDataController extends Controller
         ], 201);        
     }
 
-    public function getEmploymentData(Request $request) {
-        $userData = $request->user();
-        $employmentData = $request->user()->employmentData;
-        return response()->json($userData); 
+    public function getEmploymentData(Request $request, $id) {
+        $userData = UserModel::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->message("No data")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+        
+        $employmentData = $userData->employmentData;
+
+        return customResponse()
+            ->message("Employment data")
+            ->data($userData)
+            ->success()
+            ->generate();
     }
 
     public function getClassWorkerList(Request $request) {
-        return response()->json(Helpers::getClassWorkerList()); 
+        $classWorkerList = ClassWorker::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of class worker")
+            ->data($classWorkerList)
+            ->success()
+            ->generate();
     }
 
     public function getUsualOccupationList(Request $request) {
-        return response()->json(Helpers::getUsualOccupationList()); 
+        $usualOccupationList = UsualOccupation::select(
+            'id',
+            'description'
+        )
+        ->get();
+        
+        return customResponse()
+            ->message("List of usual occupation")
+            ->data($usualOccupationList)
+            ->success()
+            ->generate();
     }
 
     public function getWorkAffiliationList(Request $request) {
-        return response()->json(Helpers::getWorkAffiliationList()); 
+        $workAffiliationList = WorkAffiliation::select(
+            'id',
+            'description'
+        )
+        ->get();
+        
+        return customResponse()
+            ->message("List of work affiliation")
+            ->data($workAffiliationList)
+            ->success()
+            ->generate();
     }
 
     public function getPlaceWorkType(Request $request) {
-        return response()->json(Helpers::getPlaceWorkType()); 
+        return customResponse()
+            ->message("Place work type")
+            ->data(Helpers::getPlaceWorkType())
+            ->success()
+            ->generate();
     }
 }

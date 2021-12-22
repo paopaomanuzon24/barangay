@@ -25,10 +25,16 @@ use App\Models\WorkAffiliation;
 class HelperClass
 {
     public function getAlcoholStatus() {
-        $array = [
-            1 => "Occasionally",
-            2 => "Moderately"
-        ];
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Occasionally'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Moderately'
+            ],
+        );
 
         return $array;
     }
@@ -173,20 +179,35 @@ class HelperClass
     }
 
     public function getRadioAddressType() {
-        $array = [
-            1 => "Permanent",
-            2 => "Temporary",
-        ];
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Permanent'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Temporary'
+            ],
+        );
 
         return $array;
     }
 
     public function getRadioCitizen(){
-        $array = [
-            1 => "Filipino Citizen",
-            2 => "with Dual Citizenship",
-            3 => "No"
-        ];
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Filipino Citizen'
+            ],
+            [
+                'id' => 2,
+                'description' => 'with Dual Citizenship'
+            ],
+            [
+                'id' => 3,
+                'description' => 'No'
+            ],
+        );
 
         return $array;
     }
@@ -203,19 +224,33 @@ class HelperClass
     }
 
     public function getRadioGender() {
-        $array = [
-            'M' => "Male",
-            'F' => "Female",
-        ];
+        $array = array(
+            [
+                'id' => 1,
+                'code' => 'M',
+                'description' => 'Male'
+            ],
+            [
+                'id' => 2,
+                'code' => 'F',
+                'description' => 'Female'
+            ],
+        );
 
         return $array;
     }
 
     public function getRadioTemporaryType() {
-        $array = [
-            1 => "Renter",
-            2 => "Employment",
-        ];
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Renter'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Employment'
+            ],
+        );
 
         return $array;
     }
@@ -284,11 +319,20 @@ class HelperClass
     }
 
     public function getPlaceWorkType() {
-        $array = [
-            1 => "Same City",
-            2 => "Foreign",
-            3 => "Others"
-        ];
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Same City'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Foreign'
+            ],
+            [
+                'id' => 3,
+                'description' => 'Others'
+            ],
+        );
 
         return $array;
     }

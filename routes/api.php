@@ -43,6 +43,7 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
+    Route::get('user/{id}', [AuthController::class, 'show']);
     Route::get('user/list', [AuthController::class, 'list']);
     Route::post('password', [AuthController::class, 'changePassword']);
 
@@ -50,35 +51,35 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);
     Route::get('inhabitants/{id}', [InhabitantsController::class, 'show']);
 
-    Route::get('inhabitants/personal/get', [PersonalDataController::class, 'getPersonalData']);
-    Route::get('inhabitants/personal/picture', [PersonalDataController::class, 'getProfile']);
+    Route::get('inhabitants/personal/{id}', [PersonalDataController::class, 'getPersonalData']);
+    Route::get('inhabitants/personal/picture/{id}', [PersonalDataController::class, 'getProfile']);
     Route::post('inhabitants/personal/store', [PersonalDataController::class, 'store']);
     Route::post('inhabitants/personal/picture/store', [PersonalDataController::class, 'profile']);
 
-    Route::get('inhabitants/other/get', [OtherDataController::class, 'getOtherData']);
+    Route::get('inhabitants/other/{id}', [OtherDataController::class, 'getOtherData']);
     Route::post('inhabitants/other/store', [OtherDataController::class, 'store']);
 
-    Route::get('inhabitants/address/get', [AddressDataController::class, 'getAddressData']);
+    Route::get('inhabitants/address/{id}', [AddressDataController::class, 'getAddressData']);
     Route::post('inhabitants/address/store', [AddressDataController::class, 'store']);
 
-    Route::get('inhabitants/employment/get', [EmploymentDataController::class, 'getEmploymentData']);
+    Route::get('inhabitants/employment/{id}', [EmploymentDataController::class, 'getEmploymentData']);
     Route::post('inhabitants/employment/store', [EmploymentDataController::class, 'store']);
 
-    Route::get('inhabitants/educational/get', [EducationalDataController::class, 'getEducationalData']);
+    Route::get('inhabitants/educational/{id}', [EducationalDataController::class, 'getEducationalData']);
     Route::post('inhabitants/educational/store', [EducationalDataController::class, 'store']);
 
-    Route::get('inhabitants/family/get', [FamilyDataController::class, 'getFamilyData']);
+    Route::get('inhabitants/family/{id}', [FamilyDataController::class, 'getFamilyData']);
     Route::post('inhabitants/family/store', [FamilyDataController::class, 'store']);
 
     Route::post('inhabitants/application/update', [ResidenceApplicationController::class, 'update']);
 
-    Route::get('inhabitants/document/get', [DocumentDataController::class, 'getDocumentData']);
+    Route::get('inhabitants/document/{id}', [DocumentDataController::class, 'getDocumentData']);
     Route::post('inhabitants/document/store', [DocumentDataController::class, 'store']);
 
-    Route::get('inhabitants/groups/get', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
+    Route::get('inhabitants/groups/{id}', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
     Route::post('inhabitants/groups/store', [GroupsAndAffiliationController::class, 'store']);
 
-    Route::get('inhabitants/medical/history', [MedicalHistoryController::class, 'getMedicalHistory']);
+    Route::get('inhabitants/medical-history/{id}', [MedicalHistoryController::class, 'getMedicalHistory']);
     Route::post('inhabitants/medical-history/store', [MedicalHistoryController::class, 'store']);
 
     ##Permit
