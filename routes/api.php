@@ -166,4 +166,6 @@ Route::get('land-ownership/list', [HouseHoldController::class, 'getLandOwnership
 Route::get('conveniences-devices/list', [HouseHoldController::class, 'getPresenceList']);
 Route::get('radio/residence-type/list', [HouseHoldController::class, 'getRadioResidenceType']);
 Route::get('checkbox/internet-access/list', [HouseHoldController::class, 'getInternetAccess']);
+Route::get('building-house-type/list', [HouseHoldController::class, 'getBuildingHouseType']);
+Route::get('roof-materials/list', [HouseHoldController::class, 'getRoofList']);
 

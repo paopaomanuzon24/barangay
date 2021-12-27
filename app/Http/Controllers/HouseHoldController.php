@@ -16,6 +16,8 @@ use App\Classes\HouseHoldClass;
 use App\Models\WaterSource;
 use App\Models\LandOwnership;
 use App\Models\Convenience;
+use App\Models\BuildingHouseType;
+use App\Models\Roof;
 use App\Models\User as UserModel;
 
 class HouseHoldController extends Controller
@@ -123,6 +125,34 @@ class HouseHoldController extends Controller
         return customResponse()
             ->message("List of internet access")
             ->data(Helpers::getInternetAccess())
+            ->success()
+            ->generate();
+    }
+
+    public function getBuildingHouseType(Request $request) {
+        $list = BuildingHouseType::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of building/house type")
+            ->data($list)
+            ->success()
+            ->generate();
+    }
+
+    public function getRoofList(Request $request) {
+        $list = Roof::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of construction materials of the roof")
+            ->data($list)
             ->success()
             ->generate();
     }

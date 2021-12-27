@@ -38,10 +38,11 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $user = new User([
@@ -60,9 +61,11 @@ class AuthController extends Controller
 
         $user->save();
 
-        return response()->json([
-            'message' => 'Successfully created user!'
-        ], 201);
+        return customResponse()
+            ->data(null)
+            ->message('Successfully created user!')
+            ->success()
+            ->generate();
     }
 
     public function login(Request $request) {
@@ -73,10 +76,11 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $credentials = [
@@ -85,9 +89,11 @@ class AuthController extends Controller
         ];
 
         if(!Auth::attempt($credentials)) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+            return customResponse()
+                ->data(null)
+                ->message('Invalid credentials.')
+                ->unauthorized()
+                ->generate();
         }
 
         $user = $request->user();
@@ -108,23 +114,30 @@ class AuthController extends Controller
 
         SessionToken::insert($params);
 
-        return response()->json([
-            'access_token' => $tokenResult->plainTextToken,
-            'user' => $user,
-            'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                Carbon::now()->addDays(1)
-            )->toDateTimeString()
-        ]);
+        return customResponse()
+            ->data([
+                'access_token' => $tokenResult->plainTextToken,
+                'user' => $user,
+                'token_type' => 'Bearer',
+                'expires_at' => Carbon::parse(
+                    Carbon::now()->addDays(1)
+                )->toDateTimeString()
+            ])
+            ->message('You have successfully logged in.')
+            ->success()
+            ->generate();
     }
 
     public function logout(Request $request) {
         $request->user()->tokens()->delete();
         $request->session()->invalidate();
         $request->user()->sessionToken->delete();
-        return response()->json([
-            'message' => 'Successfully logged out'
-        ]);
+
+        return customResponse()
+            ->data(null)
+            ->message('Successfully logged out.')
+            ->success()
+            ->generate();
     }
 
     public function changePassword(Request $request) {
@@ -134,10 +147,11 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $user = $request->user();
@@ -146,18 +160,21 @@ class AuthController extends Controller
         }
 
         if (!(Hash::check($request->old_password, $user->password))) {
-            return response()->json([
-                'status' => 'error',
-                'message' => "Current Password did not match"
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message('Current Password did not match.')
+                ->failed()
+                ->generate();
         }
 
         $user->password = Hash::make($request->password);
         $user->save();
 
-        return response()->json([
-            'message' => 'Password has been changed.'
-        ]);
+        return customResponse()
+            ->data(null)
+            ->message('Password has been changed.')
+            ->success()
+            ->generate();
     }
 
     public function list(Request $request){
@@ -182,7 +199,11 @@ class AuthController extends Controller
     }
 
     public function user(Request $request){
-        return response()->json($request->user());
+        return customResponse()
+            ->message("User data")
+            ->data($request->user())
+            ->success()
+            ->generate();
     }
 
     public function getBarangayList(Request $request) {
