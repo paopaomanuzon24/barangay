@@ -53,8 +53,9 @@ class MedicalHistoryController extends Controller
         }
 
         $medicalHistoryData = $userData->medicalHistory;
-        $medicalHistoryDiseaseData = !empty($medicalHistoryData) ? $medicalHistoryData->medicalHistoryDisease : "";
-        $medicalActiveConditionData = !empty($medicalHistoryData) ? $medicalHistoryData->medicalActiveCondition : "";
+        $medicalHistoryDiseaseData = !empty($medicalHistoryData->medicalHistoryDisease) ? $medicalHistoryData->medicalHistoryDisease : "";
+        $medicalActiveConditionData = !empty($medicalHistoryData->medicalActiveCondition) ? $medicalHistoryData->medicalActiveCondition : "";
+        $medicalHistoryVaccine = !empty($medicalHistoryData->medicalHistoryVaccine) ? $medicalHistoryData->medicalHistoryVaccine : "";
 
         return customResponse()
             ->message("Medical history data")

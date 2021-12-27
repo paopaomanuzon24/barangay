@@ -101,4 +101,8 @@ class User extends Authenticatable
     public function medicalHistory() {
         return $this->hasOne(MedicalHistory::class, 'user_id', 'id');
     }
+
+    public function houseHold() {
+        return $this->hasOne(HouseHold::class, 'user_id', 'id');
+    }
 }

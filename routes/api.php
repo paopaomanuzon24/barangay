@@ -16,6 +16,7 @@ use App\Http\Controllers\ResidenceApplicationController;
 use App\Http\Controllers\DocumentDataController;
 use App\Http\Controllers\GroupsAndAffiliationController;
 use App\Http\Controllers\MedicalHistoryController;
+use App\Http\Controllers\HouseHoldController;
 
 use App\Http\Controllers\PermitTypeController;
 use App\Http\Controllers\PermitTemplateController;
@@ -82,6 +83,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/medical-history/{id}', [MedicalHistoryController::class, 'getMedicalHistory']);
     Route::post('inhabitants/medical-history/store', [MedicalHistoryController::class, 'store']);
 
+    Route::get('inhabitants/house-hold/{id}', [HouseHoldController::class, 'getHouseHold']);
+    Route::post('inhabitants/house-hold/store', [HouseHoldController::class, 'store']);
+
     ##Permit
     Route::post('permit/type', [PermitTypeController::class, 'store']);
     Route::get('permit/type/{id}/edit', [PermitTypeController::class, 'edit']);
@@ -144,7 +148,7 @@ Route::get('radio/temporary-type/list', [AddressDataController::class, 'getRadio
 Route::get('usual-occupation/list', [EmploymentDataController::class, 'getUsualOccupationList']);
 Route::get('class-worker/list', [EmploymentDataController::class, 'getClassWorkerList']);
 Route::get('work-affiliation/list', [EmploymentDataController::class, 'getWorkAffiliationList']);
-Route::get('place-work-type/list', [EmploymentDataController::class, 'getPlaceWorkType']);
+Route::get('radio/place-work-type/list', [EmploymentDataController::class, 'getPlaceWorkType']);
 
 Route::get('education-level/list', [EducationalDataController::class, 'getEducationLevel']);
 Route::get('course/list', [EducationalDataController::class, 'getCourseList']);
@@ -156,4 +160,10 @@ Route::get('document/list', [DocumentDataController::class, 'getDocumentFileList
 Route::get('groups-and-affiliation/list', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationList']);
 
 Route::get('alcohol-status/list', [MedicalHistoryController::class, 'getAlcoholStatus']);
+
+Route::get('water-source/list', [HouseHoldController::class, 'getWaterSourceList']);
+Route::get('land-ownership/list', [HouseHoldController::class, 'getLandOwnershipList']);
+Route::get('conveniences-devices/list', [HouseHoldController::class, 'getPresenceList']);
+Route::get('radio/residence-type/list', [HouseHoldController::class, 'getRadioResidenceType']);
+Route::get('checkbox/internet-access/list', [HouseHoldController::class, 'getInternetAccess']);
 

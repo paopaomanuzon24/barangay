@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\MedicalHistory;
 use App\Models\MedicalHistoryDisease;
 use App\Models\MedicalActiveCondition;
+use App\Models\MedicalHistoryVaccine;
 use App\Models\User;
 
 class MedicalHistoryClass
@@ -32,11 +33,12 @@ class MedicalHistoryClass
         $medicalHistoryData->commorbidity = !empty($request->commorbidity) ? $request->commorbidity : 0;
         $medicalHistoryData->other_medical_history = !empty($request->other_medical_history) ? $request->other_medical_history : "";
         $medicalHistoryData->allergies = !empty($request->allergies) ? $request->allergies : "";
-        $medicalHistoryData->vaccination = !empty($request->vaccination) ? $request->vaccination : "";
+        // $medicalHistoryData->vaccination = !empty($request->vaccination) ? $request->vaccination : "";
         $medicalHistoryData->save();
 
         $this->saveMedicalHistoryDisease($request, $medicalHistoryData);
         $this->saveMedicalActiveCondition($request, $medicalHistoryData);
+        $this->saveMedicalHistoryVaccine($request, $medicalHistoryData);
     }
 
     protected function saveMedicalHistoryDisease($request, $medicalHistoryData) {
@@ -66,6 +68,21 @@ class MedicalHistoryClass
                 $medActiveCondionData->active_medical_condition = !empty($request->active_medical_condition[$key]) ? $request->active_medical_condition[$key] : "";
                 $medActiveCondionData->active_medication = !empty($request->active_medication[$key]) ? $request->active_medication[$key] : 0;
                 $medActiveCondionData->save();
+            }
+        }
+    }
+
+    protected function saveMedicalHistoryVaccine($request, $medicalHistoryData) {
+        MedicalHistoryVaccine::where("medical_history_id", $medicalHistoryData->id)->each(function($row) {
+            $row->delete();
+        });
+
+        foreach ($request->vaccination as $key => $value) {
+            if (!empty($value)) {
+                $medicalHistoryVaccine = new MedicalHistoryVaccine;
+                $medicalHistoryVaccine->medical_history_id = $medicalHistoryData->id;
+                $medicalHistoryVaccine->vaccine_id = $value;
+                $medicalHistoryVaccine->save();
             }
         }
     }

@@ -154,6 +154,25 @@ class HelperClass
         return $array;
     }
 
+    public function getInternetAccess() {
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Yes, Fiber'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Yes, Cellular Data'
+            ],
+            [
+                'id' => 3,
+                'description' => 'No'
+            ],
+        );
+
+        return $array;
+    }
+
     public function getMaritalStatusList() {
         $maritalStatusList = MaritalStatus::get();
 
@@ -234,6 +253,25 @@ class HelperClass
                 'id' => 2,
                 'code' => 'F',
                 'description' => 'Female'
+            ],
+        );
+
+        return $array;
+    }
+
+    public function getRadioResidenceType() {
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Same city / municipality'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Foreign country'
+            ],
+            [
+                'id' => 3,
+                'description' => 'Unknown'
             ],
         );
 

@@ -26,12 +26,12 @@ class AuthController extends Controller
 {
     public function register(Request $request) {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string',
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'email' => 'required|string|unique:users',
             'contact_no' => 'required|digits:10',
             'gender' => 'required',
+            'birth_date' => 'string',
             'address' => 'required|string',
             'barangay_id' => 'required',
             'password' => 'required|string'
@@ -51,6 +51,7 @@ class AuthController extends Controller
             'email' => $request->email,
             'contact_no' => $request->contact_no,
             'gender' => strtoupper($request->gender),
+            'birth_date' => date("Y-m-d", strtotime($request->birth_date)),
             'address' => $request->address,
             'barangay_id' => $request->barangay_id,
             'password' => Hash::make($request->password),
@@ -66,7 +67,7 @@ class AuthController extends Controller
 
     public function login(Request $request) {
         $validator = Validator::make($request->all(), [
-            'username' => 'required|string',
+            'email' => 'required|string',
             'password' => 'required|string',
             'remember_me' => 'boolean'
         ]);
@@ -79,21 +80,14 @@ class AuthController extends Controller
         }
 
         $credentials = [
-            "username" => $request->username,
+            "email" => $request->email,
             "password" => $request->password
         ];
 
         if(!Auth::attempt($credentials)) {
-            $credentials = [
-                "email" => $request->username,
-                "password" => $request->password
-            ];
-
-            if(!Auth::attempt($credentials)) {
-                return response()->json([
-                    'message' => 'Unauthorized'
-                ], 401);
-            }
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 401);
         }
 
         $user = $request->user();

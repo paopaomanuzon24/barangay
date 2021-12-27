@@ -28,8 +28,8 @@ class MedicalHistory extends Model
         'other_medical_history',
         // 'active_medical_condition',
         // 'active_medication',
-        'allergies',
-        'vaccination'
+        'allergies'
+        // 'vaccination'
     ];
 
     public function medicalHistoryDisease() {
@@ -38,5 +38,9 @@ class MedicalHistory extends Model
 
     public function medicalActiveCondition() {
         return $this->hasMany(MedicalActiveCondition::class, 'medical_history_id', 'id');
+    }
+
+    public function medicalHistoryVaccine() {
+        return $this->hasMany(MedicalHistoryVaccine::class, 'medical_history_id', 'id');
     }
 }
