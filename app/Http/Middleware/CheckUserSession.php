@@ -20,9 +20,11 @@ class CheckUserSession
         $token = $request->bearerToken();
 
         if (!($data->session_id == $sessionId && $token == $data->token)) {
-            return response()->json([
-                'message' => 'Unauthorized'
-            ], 401);
+            return customResponse()
+                ->data(null)
+                ->message('Unauthorized.')
+                ->unauthorized()
+                ->generate();
         }
 
         return $next($request);

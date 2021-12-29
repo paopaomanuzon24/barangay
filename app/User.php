@@ -16,7 +16,6 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        // 'username',
         'last_name',
         'middle_name',
         'first_name',
@@ -50,5 +49,57 @@ class User extends Authenticatable
 
     public function sessionToken(){
         return $this->hasOne('App\Models\SessionToken', 'id', 'user_id');
+    }
+
+    public function personalData() {
+        return $this->hasOne(PersonalData::class, 'user_id', 'id');
+    }
+
+    public function otherData() {
+        return $this->hasOne(OtherData::class, 'user_id', 'id');
+    }
+
+    public function addressData() {
+        return $this->hasOne(AddressData::class, 'user_id', 'id');
+    }
+
+    public function employmentData() {
+        return $this->hasOne(EmploymentData::class, 'user_id', 'id');
+    }
+
+    public function educationalData() {
+        return $this->hasMany(EducationalData::class, 'user_id', 'id');
+    }
+
+    public function educationalOtherData() {
+        return $this->hasOne(EducationalOtherData::class, 'user_id', 'id');
+    }
+
+    public function familyData() {
+        return $this->hasMany(FamilyData::class, 'user_id', 'id');
+    }
+
+    public function documentData() {
+        return $this->hasMany(DocumentData::class, 'user_id', 'id');
+    }
+
+    public function groupsAndAffiliationData() {
+        return $this->hasMany(GroupsAndAffiliationData::class, 'user_id', 'id');
+    }
+
+    public function residenceApplicationStatus() {
+        return $this->hasOne(ResidenceApplication::class, 'user_id', 'id');
+    }
+
+    public function profilePicture() {
+        return $this->hasOne(ProfilePicture::class, 'user_id', 'id');
+    }
+
+    public function medicalHistory() {
+        return $this->hasOne(MedicalHistory::class, 'user_id', 'id');
+    }
+
+    public function houseHold() {
+        return $this->hasOne(HouseHold::class, 'user_id', 'id');
     }
 }

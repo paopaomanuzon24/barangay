@@ -32,18 +32,21 @@ class AddressDataController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $class = new AddressDataClass;
         $class->saveAddressData($request);
 
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201);        
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate();        
     }
 
     public function getAddressData(Request $request, $id) {
@@ -59,7 +62,7 @@ class AddressDataController extends Controller
         $addressData = $userData->addressData;
 
         return customResponse()
-            ->message("Address data")
+            ->message("Address data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -67,7 +70,7 @@ class AddressDataController extends Controller
 
     public function getRadioAddressType(Request $request) {
         return customResponse()
-            ->message("Radio address type")
+            ->message("Radio address type.")
             ->data(Helpers::getRadioAddressType())
             ->success()
             ->generate();
@@ -75,7 +78,7 @@ class AddressDataController extends Controller
 
     public function getRadioTemporaryType(Request $request) {
         return customResponse()
-            ->message("Radio temporary type")
+            ->message("Radio temporary type.")
             ->data(Helpers::getRadioTemporaryType())
             ->success()
             ->generate();

@@ -19,8 +19,10 @@ class ResidenceApplicationController extends Controller
         $class = new ResidenceApplicationClass;
         $class->updateResidenceApplication($request);
 
-        return response()->json([
-            'message' => 'Status has been updated.'
-        ], 201);
+        return customResponse()
+            ->data(null)
+            ->message('Status has been updated.')
+            ->success()
+            ->generate(); 
     }
 }

@@ -26,9 +26,11 @@ class DocumentDataController extends Controller
         $class = new DocumentDataClass;
         $class->saveDocumentData($request);
 
-        return response()->json([
-            'message' => 'Document(s) has been saved.'
-        ], 201);
+        return customResponse()
+            ->data(null)
+            ->message('Document(s) has been saved.')
+            ->success()
+            ->generate();
     }
 
     public function getDocumentData(Request $request, $id) {
@@ -44,7 +46,7 @@ class DocumentDataController extends Controller
         $documentData = $userData->documentData;
 
         return customResponse()
-            ->message("Document data")
+            ->message("Document data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -59,7 +61,7 @@ class DocumentDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of documents")
+            ->message("List of documents.")
             ->data($documentList)
             ->success()
             ->generate();

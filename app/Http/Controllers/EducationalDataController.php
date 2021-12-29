@@ -23,9 +23,11 @@ class EducationalDataController extends Controller
         $class = new EducationalDataClass;
         $class->saveEducationalData($request);
 
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201);  
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
     }
 
     public function getEducationalData(Request $request, $id) {
@@ -42,7 +44,7 @@ class EducationalDataController extends Controller
         $educationalOtherData = $userData->educationalOtherData;
 
         return customResponse()
-            ->message("List of education level")
+            ->message("List of education level.")
             ->data($userData)
             ->success()
             ->generate();
@@ -57,7 +59,7 @@ class EducationalDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of education level")
+            ->message("List of education level.")
             ->data($educationLevelList)
             ->success()
             ->generate();
@@ -72,7 +74,7 @@ class EducationalDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of course")
+            ->message("List of course.")
             ->data($courseList)
             ->success()
             ->generate();

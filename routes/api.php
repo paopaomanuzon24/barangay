@@ -44,8 +44,8 @@ Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
-    Route::get('user/{id}', [AuthController::class, 'show']);
     Route::get('user/list', [AuthController::class, 'list']);
+    Route::get('user/{id}', [AuthController::class, 'show']);
     Route::post('password', [AuthController::class, 'changePassword']);
 
     ##Inhabitants
@@ -83,7 +83,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::get('inhabitants/medical-history/{id}', [MedicalHistoryController::class, 'getMedicalHistory']);
     Route::post('inhabitants/medical-history/store', [MedicalHistoryController::class, 'store']);
 
-    Route::get('inhabitants/house-hold/{id}', [HouseHoldController::class, 'getHouseHold']);
+    Route::get('inhabitants/house-hold/{id}', [HouseHoldController::class, 'index']);
     Route::post('inhabitants/house-hold/store', [HouseHoldController::class, 'store']);
 
     ##Permit

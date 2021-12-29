@@ -4,6 +4,8 @@ namespace App\Classes;
 
 use Carbon\Carbon;
 
+use App\Http\Controllers\Controller;
+
 use App\Models\HouseHoldSourceWater;
 use App\Models\HouseHoldLandOwnership;
 use App\Models\HouseHoldPresence;
@@ -14,10 +16,8 @@ use App\Models\User;
 class HouseHoldClass
 {
     public function saveHouseHold($request) {
-        $userData = $request->user();
-        if (!empty($request->user_id)) {
-            $userData = User::find($request->user_id);
-        }
+        $controller = new Controller;
+        $userData = $controller->userData($request->user_id);
 
         $houseHoldData = $userData->houseHold;
         if (empty($houseHoldData)) {
@@ -25,55 +25,91 @@ class HouseHoldClass
             $houseHoldData->user_id = $userData->id;
         }
 
-        $houseHoldData->type_building_house_id = !empty($request->type_building_house_id) ? $request->type_building_house_id : 0;
-        $houseHoldData->roof_id = !empty($request->roof_id) ? $request->roof_id : 0;
-        $houseHoldData->roof_specify = !empty($request->roof_specify) ? $request->roof_specify : "";
-        $houseHoldData->outer_wall_id = !empty($request->outer_wall_id) ? $request->outer_wall_id : 0;
-        $houseHoldData->outer_wall_specify = !empty($request->outer_wall_specify) ? $request->outer_wall_specify : "";
-        $houseHoldData->state_repair_id = !empty($request->state_repair_id) ? $request->state_repair_id : 0;
-        $houseHoldData->year_built_id = !empty($request->year_built_id) ? $request->year_built_id : 0;
-        $houseHoldData->floor_area_id = !empty($request->floor_area_id) ? $request->floor_area_id : 0;
-        $houseHoldData->lighting_id = !empty($request->lighting_id) ? $request->lighting_id : 0;
-        $houseHoldData->cooking_id = !empty($request->cooking_id) ? $request->cooking_id : 0;
-        $houseHoldData->other_source_water = !empty($request->other_source_water) ? $request->other_source_water : "";
-        $houseHoldData->house_status_id = !empty($request->house_status_id) ? $request->house_status_id : 0;
-        $houseHoldData->house_acquisition_id = !empty($request->house_acquisition_id) ? $request->house_acquisition_id : 0;
-        $houseHoldData->house_acquisition_specify = !empty($request->house_acquisition_specify) ? $request->house_acquisition_specify : "";
-        $houseHoldData->house_finance_id = !empty($request->house_finance_id) ? $request->house_finance_id : 0;
-        $houseHoldData->house_finance_specify = !empty($request->house_finance_specify) ? $request->house_finance_specify : "";
-        $houseHoldData->house_rental_id = !empty($request->house_rental_id) ? $request->house_rental_id : 0;
-        $houseHoldData->lot_status_id = !empty($request->lot_status_id) ? $request->lot_status_id : 0;
-        $houseHoldData->garbage_disposal_id = !empty($request->garbage_disposal_id) ? $request->garbage_disposal_id : 0;
-        $houseHoldData->garbage_disposal_specify = !empty($request->garbage_disposal_specify) ? $request->garbage_disposal_specify : "";
-        $houseHoldData->toilet_facilty_id = !empty($request->toilet_facilty_id) ? $request->toilet_facilty_id : 0;
-        $houseHoldData->language = !empty($request->language) ? $request->language : "";
-        $houseHoldData->residence_type = !empty($request->residence_type) ? $request->residence_type : "";
-        // $houseHoldData->internet_access_type = !empty($request->internet_access_type) ? $request->internet_access_type : "";
-        $houseHoldData->garage_parking = !empty($request->garage_parking) ? $request->garage_parking : "";
-        $houseHoldData->septic_tank = !empty($request->septic_tank) ? $request->septic_tank : "";
-        $houseHoldData->septic_tank_specify = !empty($request->septic_tank_specify) ? $request->septic_tank_specify : "";
+        $step = (INT) $request->step;
+        switch ($step) {
+            case 1:
+                $params = [];
+        
+                $validator = $controller->validator($request, $params);
+                if ($validator['status']) {
+                    return $validator;
+                    break;
+                }
+                
+                $houseHoldData->type_building_house_id = !empty($request->type_building_house_id) ? $request->type_building_house_id : 0;
+                $houseHoldData->roof_id = !empty($request->roof_id) ? $request->roof_id : 0;
+                $houseHoldData->roof_specify = !empty($request->roof_specify) ? $request->roof_specify : "";
+                $houseHoldData->outer_wall_id = !empty($request->outer_wall_id) ? $request->outer_wall_id : 0;
+                $houseHoldData->outer_wall_specify = !empty($request->outer_wall_specify) ? $request->outer_wall_specify : "";
+                $houseHoldData->state_repair_id = !empty($request->state_repair_id) ? $request->state_repair_id : 0;
+                $houseHoldData->year_built_id = !empty($request->year_built_id) ? $request->year_built_id : 0;
+                $houseHoldData->floor_area_id = !empty($request->floor_area_id) ? $request->floor_area_id : 0;
+                $houseHoldData->lighting_id = !empty($request->lighting_id) ? $request->lighting_id : 0;
+                $houseHoldData->cooking_id = !empty($request->cooking_id) ? $request->cooking_id : 0;
+                $houseHoldData->other_source_water = !empty($request->other_source_water) ? $request->other_source_water : "";
+                $houseHoldData->save();
 
-        if ($request->hasFile('house_photo')) {
-            $file = $request->file("house_photo");
-            
-            $path = 'images/house/document';
+                $this->saveWaterSource($request, $houseHoldData);
+                break;
+            case 2:
+                $params = [];
+        
+                $validator = $controller->validator($request, $params);
+                if ($validator['status']) {
+                    return $validator;
+                    break;
+                }
 
-            $image = $file;
-            $imageName = $image->getClientOriginalName();
+                $houseHoldData->house_status_id = !empty($request->house_status_id) ? $request->house_status_id : 0;
+                $houseHoldData->house_acquisition_id = !empty($request->house_acquisition_id) ? $request->house_acquisition_id : 0;
+                $houseHoldData->house_acquisition_specify = !empty($request->house_acquisition_specify) ? $request->house_acquisition_specify : "";
+                $houseHoldData->house_finance_id = !empty($request->house_finance_id) ? $request->house_finance_id : 0;
+                $houseHoldData->house_finance_specify = !empty($request->house_finance_specify) ? $request->house_finance_specify : "";
+                $houseHoldData->house_rental_id = !empty($request->house_rental_id) ? $request->house_rental_id : 0;
+                $houseHoldData->lot_status_id = !empty($request->lot_status_id) ? $request->lot_status_id : 0;
+                $houseHoldData->garbage_disposal_id = !empty($request->garbage_disposal_id) ? $request->garbage_disposal_id : 0;
+                $houseHoldData->garbage_disposal_specify = !empty($request->garbage_disposal_specify) ? $request->garbage_disposal_specify : "";
+                $houseHoldData->toilet_facilty_id = !empty($request->toilet_facilty_id) ? $request->toilet_facilty_id : 0;
+                $houseHoldData->language = !empty($request->language) ? $request->language : "";
+                $houseHoldData->residence_type = !empty($request->residence_type) ? $request->residence_type : "";
+                $houseHoldData->save();
 
-            $file->storeAs("public/".$path, $imageName);
-            
-            $houseHoldData->path_name = $path.'/'.$imageName;
-            $houseHoldData->file_name = $imageName;
-            $houseHoldData->save();
+                $this->saveLandOwnership($request, $houseHoldData);
+                $this->savePresenceHouseHold($request, $houseHoldData);
+                break;
+            case 3:
+                $params = [
+                    'septic_tank' => 'required',
+                    'house_photo' => 'mimes:jpg,bmp,png,jpeg|required'
+                ];
+        
+                $validator = $controller->validator($request, $params);
+                if ($validator['status']) {
+                    return $validator;
+                    break;
+                }
+
+                $houseHoldData->garage_parking = !empty($request->garage_parking) ? $request->garage_parking : "";
+                $houseHoldData->septic_tank = !empty($request->septic_tank) ? $request->septic_tank : "";
+                $houseHoldData->septic_tank_specify = !empty($request->septic_tank_specify) ? $request->septic_tank_specify : "";
+                if ($request->hasFile('house_photo')) {
+                    $file = $request->file("house_photo");
+                    
+                    $path = 'images/house/document';
+        
+                    $image = $file;
+                    $imageName = $image->getClientOriginalName();
+        
+                    $file->storeAs("public/".$path, $imageName);
+                    
+                    $houseHoldData->path_name = $path.'/'.$imageName;
+                    $houseHoldData->file_name = $imageName;
+                }
+                $houseHoldData->save();
+
+                $this->saveInternetAccess($request, $houseHoldData);
+                break;
         }
-
-        $houseHoldData->save();
-
-        $this->saveWaterSource($request, $houseHoldData);
-        $this->saveLandOwnership($request, $houseHoldData);
-        $this->savePresenceHouseHold($request, $houseHoldData);
-        $this->saveInternetAccess($request, $houseHoldData);
     }
 
     protected function saveWaterSource($request, $houseHoldData) {

@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Controllers\Controller;
+
 use App\Classes\HouseHoldClass;
 
 use App\Models\WaterSource;
@@ -18,41 +20,14 @@ use App\Models\LandOwnership;
 use App\Models\Convenience;
 use App\Models\BuildingHouseType;
 use App\Models\Roof;
-use App\Models\User as UserModel;
 
 class HouseHoldController extends Controller
 {
-    public function store(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'septic_tank' => 'required',
-            'house_photo' => 'mimes:jpg,bmp,png,jpeg|required'
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
-        }
-
-        $class = new HouseHoldClass;
-        $class->saveHouseHold($request);
-
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201); 
-        // return customResponse()
-        //         ->message("Record has been saved.")
-        //         ->data(null)
-        //         ->success()
-        //         ->generate();    
-    }
-
-    public function getHouseHold(Request $request, $id) {
-        $userData = UserModel::find($id);
+    public function index(Request $request, $id) {
+        $userData = $this->userData($id);
         if (empty($userData)) {
             return customResponse()
-                ->message("No data")
+                ->message("User not found.")
                 ->data(null)
                 ->failed()
                 ->generate();
@@ -65,10 +40,29 @@ class HouseHoldController extends Controller
         $internetAccessList = !empty($houseHoldData->internetAccess) ? $houseHoldData->internetAccess : "";
 
         return customResponse()
-            ->message("Household")
+            ->message("Household data.")
             ->data($userData)
             ->success()
             ->generate();
+    }
+
+    public function store(Request $request) {
+        $class = new HouseHoldClass;
+        $store = $class->saveHouseHold($request);
+
+        if (!empty($store['message'])) {
+            return customResponse()
+                ->data(null)
+                ->message($store['message'])
+                ->failed()
+                ->generate();
+        }
+
+        return customResponse()
+            ->message("Record has been saved.")
+            ->data(null)
+            ->success()
+            ->generate();    
     }
 
     public function getWaterSourceList(Request $request) {
@@ -79,7 +73,7 @@ class HouseHoldController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of water source")
+            ->message("List of water source.")
             ->data($list)
             ->success()
             ->generate();
@@ -93,7 +87,7 @@ class HouseHoldController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of land ownership")
+            ->message("List of land ownership.")
             ->data($list)
             ->success()
             ->generate();
@@ -107,7 +101,7 @@ class HouseHoldController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of presence of household conveniences / devices")
+            ->message("List of presence of household conveniences / devices.")
             ->data($list)
             ->success()
             ->generate();
@@ -115,7 +109,7 @@ class HouseHoldController extends Controller
 
     public function getRadioResidenceType(Request $request) {
         return customResponse()
-            ->message("List of residence type")
+            ->message("List of residence type.")
             ->data(Helpers::getRadioResidenceType())
             ->success()
             ->generate();
@@ -123,7 +117,7 @@ class HouseHoldController extends Controller
 
     public function getInternetAccess(Request $request) {
         return customResponse()
-            ->message("List of internet access")
+            ->message("List of internet access.")
             ->data(Helpers::getInternetAccess())
             ->success()
             ->generate();
@@ -137,7 +131,7 @@ class HouseHoldController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of building/house type")
+            ->message("List of building/house type.")
             ->data($list)
             ->success()
             ->generate();
@@ -151,7 +145,7 @@ class HouseHoldController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of construction materials of the roof")
+            ->message("List of construction materials of the roof.")
             ->data($list)
             ->success()
             ->generate();

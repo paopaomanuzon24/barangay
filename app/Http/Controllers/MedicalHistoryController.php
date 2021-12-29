@@ -21,25 +21,25 @@ class MedicalHistoryController extends Controller
         $validator = Validator::make($request->all(), [
             'height' => 'required',
             'weight' => 'required',
-            'blood_type' => 'required',
-            'disease_id' => 'array',
-            'active_medical_condition' => 'array',
-            'active_medication' => 'array',
+            'blood_type' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $class = new MedicalHistoryClass;
         $class->saveMedicalHistory($request);
 
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201);
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
     }
 
     public function getMedicalHistory(Request $request, $id) {
@@ -58,7 +58,7 @@ class MedicalHistoryController extends Controller
         $medicalHistoryVaccine = !empty($medicalHistoryData->medicalHistoryVaccine) ? $medicalHistoryData->medicalHistoryVaccine : "";
 
         return customResponse()
-            ->message("Medical history data")
+            ->message("Medical history data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -66,7 +66,7 @@ class MedicalHistoryController extends Controller
 
     public function getAlcoholStatus(Request $request) {
         return customResponse()
-            ->message("List of alcohol status")
+            ->message("List of alcohol status.")
             ->data(Helpers::getAlcoholStatus())
             ->success()
             ->generate();

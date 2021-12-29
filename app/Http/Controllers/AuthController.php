@@ -46,7 +46,6 @@ class AuthController extends Controller
         }
 
         $user = new User([
-            'username' => $request->username,
             'last_name' => $request->last_name,
             'first_name' => $request->first_name,
             'email' => $request->email,
@@ -63,7 +62,7 @@ class AuthController extends Controller
 
         return customResponse()
             ->data(null)
-            ->message('Successfully created user!')
+            ->message('Successfully created user.')
             ->success()
             ->generate();
     }
@@ -162,7 +161,7 @@ class AuthController extends Controller
         if (!(Hash::check($request->old_password, $user->password))) {
             return customResponse()
                 ->data(null)
-                ->message('Current Password did not match.')
+                ->message('Current password did not match.')
                 ->failed()
                 ->generate();
         }
@@ -182,7 +181,7 @@ class AuthController extends Controller
         $userList = $class->getUserList($request);
 
         return customResponse()
-            ->message("User account list")
+            ->message("User account list.")
             ->data($userList)
             ->success()
             ->generate();
@@ -192,7 +191,7 @@ class AuthController extends Controller
         $userData = UserModel::find($id);
 
         return customResponse()
-            ->message("User account data")
+            ->message("User account data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -200,7 +199,7 @@ class AuthController extends Controller
 
     public function user(Request $request){
         return customResponse()
-            ->message("User data")
+            ->message("User data.")
             ->data($request->user())
             ->success()
             ->generate();
@@ -213,7 +212,7 @@ class AuthController extends Controller
         )->get();
 
         return customResponse()
-            ->message("List of barangay")
+            ->message("List of barangay.")
             ->data($barangayList)
             ->success()
             ->generate();
@@ -227,7 +226,7 @@ class AuthController extends Controller
         )->get();
         
         return customResponse()
-            ->message("List of user type")
+            ->message("List of user type.")
             ->data($userTypeList)
             ->success()
             ->generate();

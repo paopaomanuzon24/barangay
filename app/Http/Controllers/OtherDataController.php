@@ -27,18 +27,21 @@ class OtherDataController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $class = new OtherDataClass;
         $class->saveOtherData($request);
 
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201);
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
     }
 
     public function getOtherData(Request $request, $id) {
@@ -55,7 +58,7 @@ class OtherDataController extends Controller
         $otherDataLanguage = !empty($userData->otherData->language) ? $userData->otherData->language : "";
 
         return customResponse()
-            ->message("Other data")
+            ->message("Other data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -69,7 +72,7 @@ class OtherDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of ethnicity")
+            ->message("List of ethnicity.")
             ->data($ethnicityList)
             ->success()
             ->generate();
@@ -83,7 +86,7 @@ class OtherDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of language")
+            ->message("List of language.")
             ->data($languageList)
             ->success()
             ->generate();
@@ -93,7 +96,7 @@ class OtherDataController extends Controller
         $disabilityList = Disability::get();
 
         return customResponse()
-            ->message("List of disability")
+            ->message("List of disability.")
             ->data($disabilityList)
             ->success()
             ->generate();

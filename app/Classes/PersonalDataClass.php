@@ -39,6 +39,8 @@ class PersonalDataClass
         }
 
         $profile->save();
+
+        return $profile;
     }
     
     public function savePersonalData($request) {

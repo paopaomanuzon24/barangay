@@ -36,18 +36,21 @@ class PersonalDataController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $class = new PersonalDataClass;
         $class->savePersonalData($request);
 
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201);
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
     }
 
     public function profile(Request $request) {
@@ -56,11 +59,13 @@ class PersonalDataController extends Controller
         ]);
 
         $class = new PersonalDataClass;
-        $class->saveProfile($request);
+        $profileData = $class->saveProfile($request);
 
-        return response()->json([
-            'message' => 'Profile has been saved.'
-        ], 201);
+        return customResponse()
+            ->data($profileData)
+            ->message('Profile has been saved.')
+            ->success()
+            ->generate(); 
     }
 
     public function getProfile(Request $request, $id) {
@@ -76,7 +81,7 @@ class PersonalDataController extends Controller
         $personalData = $userData->profilePicture;
 
         return customResponse()
-            ->message("Profile")
+            ->message("Profile picture.")
             ->data($userData)
             ->success()
             ->generate();
@@ -88,7 +93,7 @@ class PersonalDataController extends Controller
         $residenceApplicationStatusData = $userData->residenceApplicationStatus;
 
         return customResponse()
-            ->message("Personal data")
+            ->message("Personal data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -96,7 +101,7 @@ class PersonalDataController extends Controller
 
     public function getRadioGender(Request $request) {
         return customResponse()
-            ->message("List of genders")
+            ->message("List of genders.")
             ->data(Helpers::getRadioGender())
             ->success()
             ->generate();
@@ -104,7 +109,7 @@ class PersonalDataController extends Controller
 
     public function getRadioCitizen(Request $request) {
         return customResponse()
-            ->message("Radio citizen")
+            ->message("Radio citizen.")
             ->data(Helpers::getRadioCitizen())
             ->success()
             ->generate();
@@ -118,7 +123,7 @@ class PersonalDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of marital status")
+            ->message("List of marital status.")
             ->data($maritalStatusList)
             ->success()
             ->generate();
@@ -132,7 +137,7 @@ class PersonalDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of religious")
+            ->message("List of religious.")
             ->data($religiousList)
             ->success()
             ->generate();
@@ -146,7 +151,7 @@ class PersonalDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of citizenship")
+            ->message("List of citizenship.")
             ->data($citizenshipList)
             ->success()
             ->generate();
@@ -160,7 +165,7 @@ class PersonalDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of residence status")
+            ->message("List of residence status.")
             ->data($statusList)
             ->success()
             ->generate();

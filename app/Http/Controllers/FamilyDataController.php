@@ -28,18 +28,21 @@ class FamilyDataController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $class = new FamilyDataClass;
         $class->saveFamilyData($request);
 
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201);        
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate();       
     }
 
     public function getFamilyData(Request $request, $id) {
@@ -55,7 +58,7 @@ class FamilyDataController extends Controller
         $familyData = $userData->familyData;
 
         return customResponse()
-            ->message("Family data")
+            ->message("Family data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -70,7 +73,7 @@ class FamilyDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of relationship")
+            ->message("List of relationship.")
             ->data($relationshipTypeList)
             ->success()
             ->generate();

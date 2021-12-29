@@ -27,9 +27,11 @@ class GroupsAndAffiliationController extends Controller
         $class = new GroupsAndAffiliationClass;
         $class->saveGroupsAndAffiliation($request);
 
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201);
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
     } 
 
     public function getGroupsAndAffiliationData(Request $request, $id) {
@@ -45,7 +47,7 @@ class GroupsAndAffiliationController extends Controller
         $employmentData = $userData->groupsAndAffiliationData;
 
         return customResponse()
-            ->message("Groups and affiliation data")
+            ->message("Groups and affiliation data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -59,7 +61,7 @@ class GroupsAndAffiliationController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of groups and affiliation")
+            ->message("List of groups and affiliation.")
             ->data($list)
             ->success()
             ->generate();

@@ -25,19 +25,22 @@ class EmploymentDataController extends Controller
             'employment_type' => 'required'
         ]);
 
-        if ($validator->fails()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
-        }
+        // if ($validator->fails()) {
+        //     return customResponse()
+        //         ->data(null)
+        //         ->message($validator->errors()->all()[0])
+        //         ->failed()
+        //         ->generate();
+        // }
 
         $class = new EmploymentDataClass;
         $class->saveEmploymentData($request);
 
-        return response()->json([
-            'message' => 'Record has been saved.'
-        ], 201);        
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate();      
     }
 
     public function getEmploymentData(Request $request, $id) {
@@ -53,7 +56,7 @@ class EmploymentDataController extends Controller
         $employmentData = $userData->employmentData;
 
         return customResponse()
-            ->message("Employment data")
+            ->message("Employment data.")
             ->data($userData)
             ->success()
             ->generate();
@@ -67,7 +70,7 @@ class EmploymentDataController extends Controller
         ->get();
 
         return customResponse()
-            ->message("List of class worker")
+            ->message("List of class worker.")
             ->data($classWorkerList)
             ->success()
             ->generate();
@@ -81,7 +84,7 @@ class EmploymentDataController extends Controller
         ->get();
         
         return customResponse()
-            ->message("List of usual occupation")
+            ->message("List of usual occupation.")
             ->data($usualOccupationList)
             ->success()
             ->generate();
@@ -95,7 +98,7 @@ class EmploymentDataController extends Controller
         ->get();
         
         return customResponse()
-            ->message("List of work affiliation")
+            ->message("List of work affiliation.")
             ->data($workAffiliationList)
             ->success()
             ->generate();
@@ -103,7 +106,7 @@ class EmploymentDataController extends Controller
 
     public function getPlaceWorkType(Request $request) {
         return customResponse()
-            ->message("Place work type")
+            ->message("Place work type.")
             ->data(Helpers::getPlaceWorkType())
             ->success()
             ->generate();
