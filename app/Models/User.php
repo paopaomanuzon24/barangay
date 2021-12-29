@@ -105,4 +105,8 @@ class User extends Authenticatable
     public function houseHold() {
         return $this->hasOne(HouseHold::class, 'user_id', 'id');
     }
+
+    public function houseKeeper() {
+        return $this->hasMany(HouseKeeper::class, 'user_id', 'id');
+    }
 }

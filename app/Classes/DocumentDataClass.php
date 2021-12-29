@@ -33,7 +33,7 @@ class DocumentDataClass
                 $file->storeAs("public/".$path,$imageName);
                 
                 $document->user_id = $userData->id;
-                $document->document_id = $request->document_id[$key];
+                $document->document_id = !empty($request->document_id[$key]) ? $request->document_id[$key] : 0;
                 $document->path_name = $path.'/'.$imageName;
                 $document->file_name = $imageName;
                 $document->save();

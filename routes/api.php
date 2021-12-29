@@ -17,6 +17,7 @@ use App\Http\Controllers\DocumentDataController;
 use App\Http\Controllers\GroupsAndAffiliationController;
 use App\Http\Controllers\MedicalHistoryController;
 use App\Http\Controllers\HouseHoldController;
+use App\Http\Controllers\HouseKeeperController;
 
 use App\Http\Controllers\PermitTypeController;
 use App\Http\Controllers\PermitTemplateController;
@@ -85,6 +86,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
 
     Route::get('inhabitants/house-hold/{id}', [HouseHoldController::class, 'index']);
     Route::post('inhabitants/house-hold/store', [HouseHoldController::class, 'store']);
+
+    Route::get('inhabitants/house-keeper/{id}', [HouseKeeperController::class, 'index']);
+    Route::post('inhabitants/house-keeper/store', [HouseKeeperController::class, 'store']);
 
     ##Permit
     Route::post('permit/type', [PermitTypeController::class, 'store']);
