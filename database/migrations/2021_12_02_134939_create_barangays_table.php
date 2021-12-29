@@ -18,6 +18,72 @@ class CreateBarangaysTable extends Migration
             $table->string("description");
             $table->timestamps();
         });
+
+        DB::table('barangays')->insert([
+            [
+                'description' => 'Acacia'
+            ],
+            [
+                'description' => 'Baritan'
+            ],
+            [
+                'description' => 'Bayan-Bayanan'
+            ],
+            [
+                'description' => 'Catmon'
+            ],
+            [
+                'description' => 'Concepcion'
+            ],
+            [
+                'description' => 'Dampalit'
+            ],
+            [
+                'description' => 'Flores'
+            ],
+            [
+                'description' => 'Hulong Duhat'
+            ],
+            [
+                'description' => 'Ibaba'
+            ],
+            [
+                'description' => 'Longos'
+            ],
+            [
+                'description' => 'Maysilo'
+            ],
+            [
+                'description' => 'Muzon'
+            ],
+            [
+                'description' => 'Niugan'
+            ],
+            [
+                'description' => 'Panghulo'
+            ],
+            [
+                'description' => 'Potrero'
+            ],
+            [
+                'description' => 'San Agustin'
+            ],
+            [
+                'description' => 'Santolan'
+            ],
+            [
+                'description' => 'Tañong'
+            ],
+            [
+                'description' => 'Tinajeros'
+            ],
+            [
+                'description' => 'Tonsuya'
+            ],
+            [
+                'description' => 'Tugatog'
+            ]
+        ]);
     }
 
     /**
