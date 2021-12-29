@@ -188,3 +188,5 @@ Route::get('toilet-facility/list', [HouseHoldController::class, 'getToiletFacili
 Route::get('radio/garange-and-parking-status/list', [HouseHoldController::class, 'getGarageAndParkingList']);
 Route::get('radio/septic-tank-status/list', [HouseHoldController::class, 'getSepticTankStatusList']);
 
+Route::get('house-keeper-type/list', [HouseKeeperController::class, 'getHouseKeeperType']);
+

@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\PersonalData;
+use App\Models\User;
 
 class InhabitantsController extends Controller
 {
@@ -54,9 +55,9 @@ class InhabitantsController extends Controller
     }
     
     public function show(Request $request, $id) {
-        $personalData = PersonalData::find($id);
-        $userData = !empty($personalData->userData) ? $personalData->userData : "";
-        if (!empty($userData)) {
+        $userData = User::find($id);
+        $personalData = !empty($userData->personalData) ? $userData->personalData : "";
+        if (!empty($personalData)) {
             $profilePicture = $userData->profilePicture;
             $personalData = $userData->personalData;
             $otherData = $userData->otherData;
@@ -72,6 +73,12 @@ class InhabitantsController extends Controller
             $medicalHistoryData = $userData->medicalHistory;
             $medicalHistoryDiseaseData = !empty($medicalHistoryData->medicalHistoryDisease) ? $medicalHistoryData->medicalHistoryDisease : "";
             $medicalActiveConditionData = !empty($medicalHistoryData->medicalActiveCondition) ? $medicalHistoryData->medicalActiveCondition : "";
+            $houseHoldData = $userData->houseHold;
+            $waterSourceList = !empty($houseHoldData->waterSource) ? $houseHoldData->waterSource : "";
+            $landOwnershipList = !empty($houseHoldData->landOwnership) ? $houseHoldData->landOwnership : "";
+            $presenceHouseHoldList = !empty($houseHoldData->presenceHouseHold) ? $houseHoldData->presenceHouseHold : "";
+            $internetAccessList = !empty($houseHoldData->internetAccess) ? $houseHoldData->internetAccess : "";
+            $houseKeeperList = $userData->houseKeeper;
         }
 
         return customResponse()

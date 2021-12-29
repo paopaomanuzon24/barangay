@@ -15,6 +15,8 @@ use App\Http\Controllers\Controller;
 
 use App\Classes\HouseKeeperClass;
 
+use App\Models\HouseKeeperType;
+
 class HouseKeeperController extends Controller
 {
     public function index(Request $request, $id) {
@@ -62,5 +64,19 @@ class HouseKeeperController extends Controller
             ->message('Record has been saved.')
             ->success()
             ->generate();  
+    }
+
+    public function getHouseKeeperType(Request $request) {
+        $list = HouseKeeperType::select(
+            "id",
+            "description"
+        )
+        ->get();
+
+        return customResponse() 
+            ->message("List of housekeeper type.")
+            ->data($list)
+            ->success()
+            ->generate();
     }
 }
