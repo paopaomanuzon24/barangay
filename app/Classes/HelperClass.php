@@ -142,6 +142,29 @@ class HelperClass
         return $ethnicityArray;
     }
 
+    public function getGarageAndParkingList() {
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Yes for one car'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Yes for more than two cars'
+            ],
+            [
+                'id' => 3,
+                'description' => 'Yes for bike and tricycle'
+            ],
+            [
+                'id' => 4,
+                'description' => 'No'
+            ]
+        );
+
+        return $array;
+    }
+
     public function getGroupsAndAffiliationList() {
         $list = GroupsAndAffiliation::get();
 
@@ -318,6 +341,21 @@ class HelperClass
         };
 
         return $religiousArray;
+    }
+
+    public function getSepticTankStatusList() {
+        $array = array(
+            [
+                'id' => 1,
+                'description' => "No, we don't have"
+            ],
+            [
+                'id' => 2,
+                'description' => 'Yes, we have'
+            ]
+        );
+
+        return $array;
     }
 
     public function getUsualOccupationList() {

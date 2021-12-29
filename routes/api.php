@@ -168,4 +168,19 @@ Route::get('radio/residence-type/list', [HouseHoldController::class, 'getRadioRe
 Route::get('checkbox/internet-access/list', [HouseHoldController::class, 'getInternetAccess']);
 Route::get('building-house-type/list', [HouseHoldController::class, 'getBuildingHouseType']);
 Route::get('roof-materials/list', [HouseHoldController::class, 'getRoofList']);
+Route::get('wall-materials/list', [HouseHoldController::class, 'getWallList']);
+Route::get('building-house-repair/list', [HouseHoldController::class, 'getBuildingHouseRepair']);
+Route::get('year-built/list', [HouseHoldController::class, 'getYearBuiltList']);
+Route::get('floor-area/list', [HouseHoldController::class, 'getFloorArea']);
+Route::get('lighting/list', [HouseHoldController::class, 'getLightingList']);
+Route::get('cooking/list', [HouseHoldController::class, 'getCookingList']);
+Route::get('house-status/list', [HouseHoldController::class, 'getHouseStatusList']);
+Route::get('house-acquisition/list', [HouseHoldController::class, 'getHouseAcquisitionList']);
+Route::get('house-financing-source/list', [HouseHoldController::class, 'getHouseFinancingSource']);
+Route::get('monthly-rental/list', [HouseHoldController::class, 'getMonthlyRental']);
+Route::get('lot-status/list', [HouseHoldController::class, 'getLotStatusList']);
+Route::get('garbage-disposal/list', [HouseHoldController::class, 'getGarbageDisposal']);
+Route::get('toilet-facility/list', [HouseHoldController::class, 'getToiletFacility']);
+Route::get('radio/garange-and-parking-status/list', [HouseHoldController::class, 'getGarageAndParkingList']);
+Route::get('radio/septic-tank-status/list', [HouseHoldController::class, 'getSepticTankStatusList']);
 
