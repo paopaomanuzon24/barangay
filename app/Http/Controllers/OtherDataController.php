@@ -16,6 +16,7 @@ use App\Classes\OtherDataClass;
 use App\Models\Ethnicity;
 use App\Models\Language;
 use App\Models\Disability;
+use App\Models\Community;
 use App\Models\User as UserModel;
 
 class OtherDataController extends Controller
@@ -98,6 +99,16 @@ class OtherDataController extends Controller
         return customResponse()
             ->message("List of disability.")
             ->data($disabilityList)
+            ->success()
+            ->generate();
+    }
+
+    public function getCommunityList(Request $request) {
+        $communityList = Community::get();
+
+        return customResponse()
+            ->message("List of disability.")
+            ->data($communityList)
             ->success()
             ->generate();
     }

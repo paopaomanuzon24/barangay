@@ -145,6 +145,7 @@ Route::get('residence-status/list', [PersonalDataController::class, 'getResidenc
 Route::get('ethnicity/list', [OtherDataController::class, 'getEthnicityList']);
 Route::get('language/list', [OtherDataController::class, 'getLanguageList']);
 Route::get('disability/list', [OtherDataController::class, 'getDisabilityList']);
+Route::get('community/list', [OtherDataController::class, 'getCommunityList']);
 
 Route::get('radio/address-type/list', [AddressDataController::class, 'getRadioAddressType']);
 Route::get('radio/temporary-type/list', [AddressDataController::class, 'getRadioTemporaryType']);

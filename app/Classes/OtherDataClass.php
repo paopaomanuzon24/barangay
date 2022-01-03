@@ -25,6 +25,8 @@ class OtherDataClass
         $otherData->ethnicity_id = $request->ethnicity_id;
         $otherData->disabled = $request->disabled;
         $otherData->disability_id = $request->disability_id;
+        $otherData->community = $request->community;
+        $otherData->community_id = $request->community_id;
         $otherData->save();
 
         $this->saveOtherDataLanguage($request->language, $otherData);

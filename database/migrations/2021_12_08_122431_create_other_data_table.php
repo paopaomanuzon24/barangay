@@ -19,6 +19,8 @@ class CreateOtherDataTable extends Migration
             $table->unsignedBigInteger('ethnicity_id')->nullable();
             $table->boolean('disabled');
             $table->unsignedBigInteger('disability_id')->nullable();
+            $table->boolean('community')->nullable();
+            $table->unsignedBigInteger('community_id')->nullable();
             $table->timestamps();
         });
     }

@@ -20,7 +20,9 @@ class OtherData extends Model
         'user_id',
         'ethnicity_id',
         'disabled',
-        'disability_id'
+        'disability_id',
+        'community',
+        'community_id'
     ];
 
     public function language() {
