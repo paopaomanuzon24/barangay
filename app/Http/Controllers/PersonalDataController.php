@@ -28,7 +28,7 @@ class PersonalDataController extends Controller
             'gender' => 'required',
             'marital_status_id' => 'required',
             'religious_id' => 'required',
-            'citizenship' => 'required',
+            // 'citizenship' => 'required',
             'birth_date' => 'required',
             'birth_place' => 'required',
             'contact_no' => 'required|digits:10',
