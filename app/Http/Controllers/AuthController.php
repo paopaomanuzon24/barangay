@@ -105,13 +105,22 @@ class AuthController extends Controller
 
         $request->session()->regenerate();
 
-        $params = array(
-            'user_id' => Auth::user()->id,
-            'session_id' => Session::getId(),
-            'token' => $tokenResult->plainTextToken
-        );
+        // $params = array(
+        //     'user_id' => Auth::user()->id,
+        //     'session_id' => Session::getId(),
+        //     'token' => $tokenResult->plainTextToken
+        // );
 
-        SessionToken::insert($params);
+        SessionToken::updateOrCreate(
+            [
+                'user_id' => Auth::user()->id
+            ],
+            [
+                'user_id' => Auth::user()->id,
+                'session_id' => Session::getId(),
+                'token' => $tokenResult->plainTextToken
+            ]
+        );
 
         return customResponse()
             ->data([
