@@ -19,7 +19,7 @@ class CheckUserSession
         $sessionId = Session::getId();
         $token = $request->bearerToken();
 
-        if (!($data->session_id == $sessionId && $token == $data->token)) {
+        if (!($token == $data->token)) {
             return customResponse()
                 ->data(null)
                 ->message('Unauthorized.')
