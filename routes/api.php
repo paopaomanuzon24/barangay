@@ -150,6 +150,7 @@ Route::get('community/list', [OtherDataController::class, 'getCommunityList']);
 Route::get('radio/address-type/list', [AddressDataController::class, 'getRadioAddressType']);
 Route::get('radio/temporary-type/list', [AddressDataController::class, 'getRadioTemporaryType']);
 
+Route::get('employee-type/list', [EmploymentDataController::class, 'getRadioEmployeeType']);
 Route::get('usual-occupation/list', [EmploymentDataController::class, 'getUsualOccupationList']);
 Route::get('class-worker/list', [EmploymentDataController::class, 'getClassWorkerList']);
 Route::get('work-affiliation/list', [EmploymentDataController::class, 'getWorkAffiliationList']);

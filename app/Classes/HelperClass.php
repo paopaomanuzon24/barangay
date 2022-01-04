@@ -255,12 +255,24 @@ class HelperClass
     }
 
     public function getRadioEmployeeType() {
-        $array = [
-            1 => "Goverment",
-            2 => "Private",
-            3 => "Self-employed",
-            4 => "Unemployed"
-        ];
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Goverment'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Private'
+            ],
+            [
+                'id' => 3,
+                'description' => 'Self-employed'
+            ],
+            [
+                'id' => 4,
+                'description' => 'Unemployed'
+            ]
+        );
 
         return $array;
     }

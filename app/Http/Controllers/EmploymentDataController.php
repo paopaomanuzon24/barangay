@@ -111,4 +111,12 @@ class EmploymentDataController extends Controller
             ->success()
             ->generate();
     }
+
+    public function getRadioEmployeeType(Request $request) {
+        return customResponse()
+            ->message("List of radio employee type.")
+            ->data(Helpers::getRadioEmployeeType())
+            ->success()
+            ->generate();
+    }
 }
