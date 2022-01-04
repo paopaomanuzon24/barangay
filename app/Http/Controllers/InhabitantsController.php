@@ -21,7 +21,7 @@ class InhabitantsController extends Controller
         $peronalDataList = PersonalData::select(
             'personal_data.id',
             'personal_data.user_id',
-            'personal_data.resident_id',
+            'personal_data.application_id',
             'personal_data.first_name',
             'personal_data.middle_name',
             'personal_data.last_name',
@@ -41,7 +41,7 @@ class InhabitantsController extends Controller
 
         if ($request->search) {
             $peronalDataList = $peronalDataList->where(function($q) use($request){
-                $q->orWhereRaw("personal_data.resident_id LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("personal_data.application_id LIKE ?","%".$request->search."%");
                 $q->orWhereRaw("CONCAT_WS(' ',CONCAT(personal_data.last_name,','),personal_data.first_name,personal_data.first_name) LIKE ?","%".$request->search."%");
             });
         }

@@ -55,7 +55,7 @@ class PersonalDataClass
         if (empty($personalData)) {
             $personalData = new PersonalData;
             $personalData->user_id = $user->id;
-            $personalData->resident_id = 0;
+            $personalData->application_id = 0;
             // $user->user_type_id = $resident;
             $user->save();
         }
@@ -78,7 +78,7 @@ class PersonalDataClass
         $personalData->emergency_contact_no = $request->emergency_contact_no;
         $personalData->save();
 
-        if (empty($personalData->resident_id)) {
+        if (empty($personalData->application_id)) {
             $this->saveResidentID($personalData);
 
             $residenceClass = new ResidenceApplicationClass;
@@ -88,7 +88,7 @@ class PersonalDataClass
 
     protected function saveResidentID($personalData) {
         $residentID = date("Y") . $personalData->id;
-        $personalData->resident_id = $residentID;
+        $personalData->application_id = $residentID;
         $personalData->save();
     }
 }
