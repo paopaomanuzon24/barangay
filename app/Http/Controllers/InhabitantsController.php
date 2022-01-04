@@ -26,12 +26,17 @@ class InhabitantsController extends Controller
             'personal_data.middle_name',
             'personal_data.last_name',
             'users.barangay_id',
+            'barangays.description as barangay_desc',
             'personal_data.birth_date',
             'users.user_type_id',
-            'residence_application.status_id'
+            'residence_application.status_id',
+            'residence_status.description as status_desc',
+            'personal_data.created_at as date_requested'
         )
         ->join("users", "users.id", "personal_data.user_id")
-        ->join("residence_application", "residence_application.user_id", "users.id");
+        ->join("barangays", "barangays.id", "users.barangay_id")
+        ->join("residence_application", "residence_application.user_id", "users.id")
+        ->join("residence_status", "residence_status.id", "residence_application.status_id");
         // ->where("users.user_type_id", $resident);
 
         if ($request->search) {
