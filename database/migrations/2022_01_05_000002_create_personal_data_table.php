@@ -24,7 +24,7 @@ class CreatePersonalDataTable extends Migration
             $table->char('gender', 1);
             $table->unsignedBigInteger('marital_status_id');
             $table->unsignedBigInteger('religious_id');
-            $table->char('citizenship', 1);
+            $table->char('citizenship', 1)->nullable();
             $table->unsignedBigInteger('citizenship_id')->nullable();
             $table->date('birth_date');
             $table->string('birth_place');
