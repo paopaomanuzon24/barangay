@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Classes\MedicalHistoryClass;
 
 use App\Models\User as UserModel;
+use App\Models\Vaccine;
 
 class MedicalHistoryController extends Controller
 {
@@ -68,6 +69,20 @@ class MedicalHistoryController extends Controller
         return customResponse()
             ->message("List of alcohol status.")
             ->data(Helpers::getAlcoholStatus())
+            ->success()
+            ->generate();
+    }
+
+    public function getVaccineList(Request $request) {
+        $list = Vaccine::select(
+            'id',
+            'description'
+        )
+        ->get();
+        
+        return customResponse()
+            ->message("List of vaccines.")
+            ->data($list)
             ->success()
             ->generate();
     }

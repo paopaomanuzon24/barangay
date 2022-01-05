@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHouseHoldInternetAccessTable extends Migration
+class CreateHouseHoldPresenceTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateHouseHoldInternetAccessTable extends Migration
      */
     public function up()
     {
-        Schema::create('house_hold_internet_access', function (Blueprint $table) {
+        Schema::create('house_hold_presence', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("house_hold_id");
-            $table->unsignedBigInteger("internet_access_id");
+            $table->unsignedBigInteger("house_hold_presence_id");
             $table->timestamps();
+
+            $table->foreign('house_hold_id')->references('id')->on('house_hold_data');
+            $table->foreign('house_hold_presence_id')->references('id')->on('house_hold_presence');
         });
     }
 
@@ -28,6 +31,6 @@ class CreateHouseHoldInternetAccessTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('house_hold_internet_access');
+        Schema::dropIfExists('house_hold_presence');
     }
 }

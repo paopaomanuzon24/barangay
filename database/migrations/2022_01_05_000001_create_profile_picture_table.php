@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHouseHoldPresenceTable extends Migration
+class CreateProfilePictureTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,14 @@ class CreateHouseHoldPresenceTable extends Migration
      */
     public function up()
     {
-        Schema::create('house_hold_presence', function (Blueprint $table) {
+        Schema::create('profile_picture', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("house_hold_id");
-            $table->unsignedBigInteger("house_hold_presence_id");
+            $table->unsignedBigInteger("user_id");
+            $table->string("profile_path");
+            $table->string("profile_name");
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
@@ -28,6 +31,6 @@ class CreateHouseHoldPresenceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('house_hold_presence');
+        Schema::dropIfExists('profile_picture');
     }
 }

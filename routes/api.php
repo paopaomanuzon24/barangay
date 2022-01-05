@@ -171,6 +171,7 @@ Route::get('document/list', [DocumentDataController::class, 'getDocumentFileList
 Route::get('groups-and-affiliation/list', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationList']);
 
 Route::get('alcohol-status/list', [MedicalHistoryController::class, 'getAlcoholStatus']);
+Route::get('vaccine/list', [MedicalHistoryController::class, 'getVaccineList']);
 
 Route::get('water-source/list', [HouseHoldController::class, 'getWaterSourceList']);
 Route::get('land-ownership/list', [HouseHoldController::class, 'getLandOwnershipList']);

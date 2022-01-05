@@ -27,6 +27,11 @@ class CreateEmploymentDataTable extends Migration
             $table->double("monthly_income", 20, 2);
             $table->double("annual_income", 20, 2);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('usual_occupation_id')->references('id')->on('usual_occupation');
+            $table->foreign('class_worker_id')->references('id')->on('class_worker');
+            $table->foreign('work_affiliation_id')->references('id')->on('work_affiliation');
         });
     }
 

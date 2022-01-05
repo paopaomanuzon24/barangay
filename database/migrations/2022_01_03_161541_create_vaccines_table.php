@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProfilePictureTable extends Migration
+class CreateVaccinesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,17 @@ class CreateProfilePictureTable extends Migration
      */
     public function up()
     {
-        Schema::create('profile_picture', function (Blueprint $table) {
+        Schema::create('vaccines', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->string("profile_path");
-            $table->string("profile_name");
+            $table->string("description");
             $table->timestamps();
         });
+
+        DB::table('vaccines')->insert([
+            [
+                'description' => 'Samples'
+            ]
+        ]);
     }
 
     /**
@@ -29,6 +33,6 @@ class CreateProfilePictureTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('profile_picture');
+        Schema::dropIfExists('vaccines');
     }
 }

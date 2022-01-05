@@ -19,6 +19,9 @@ class CreateSessionTokenTable extends Migration
             $table->string('session_id');
             $table->string('token');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('session_id')->references('id')->on('sessions');
         });
     }
 

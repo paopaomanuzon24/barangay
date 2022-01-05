@@ -15,9 +15,12 @@ class CreateMedicalHistoryVaccineTable extends Migration
     {
         Schema::create('medical_history_vaccine', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("medical_history_id");
-            $table->unsignedBigInteger("vaccine_id");
+            $table->unsignedBigInteger("medical_history_id")->nullable();
+            $table->unsignedBigInteger("vaccine_id")->nullable();
             $table->timestamps();
+
+            $table->foreign('medical_history_id')->references('id')->on('medical_history');
+            $table->foreign('vaccine_id')->references('id')->on('vaccines');
         });
     }
 

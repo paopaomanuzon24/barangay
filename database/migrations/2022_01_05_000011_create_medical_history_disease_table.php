@@ -18,6 +18,8 @@ class CreateMedicalHistoryDiseaseTable extends Migration
             $table->unsignedBigInteger("medical_history_id");
             $table->unsignedBigInteger("disease_id");
             $table->timestamps();
+
+            $table->foreign('medical_history_id')->references('id')->on('medical_history');
         });
     }
 

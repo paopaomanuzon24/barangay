@@ -17,7 +17,7 @@ class CreateFamilyDataTable extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("personal_data_id")->nullable();
-            $table->unsignedBigInteger("relationship_type_id");
+            $table->unsignedBigInteger("relationship_type_id")->nullable();
             $table->string("first_name");
             $table->string("middle_name")->nullable();
             $table->string("last_name");
@@ -26,6 +26,10 @@ class CreateFamilyDataTable extends Migration
             $table->boolean("same_address");
             $table->string("address");
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('personal_data_id')->references('id')->on('personal_data');
+            $table->foreign('relationship_type_id')->references('id')->on('relationship_type');
         });
     }
 

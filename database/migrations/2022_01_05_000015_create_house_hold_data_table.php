@@ -45,6 +45,23 @@ class CreateHouseHoldDataTable extends Migration
             $table->string("file_name")->nullable();
             $table->string("path_name")->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('type_building_house_id')->references('id')->on('building_house_type');
+            $table->foreign('roof_id')->references('id')->on('roofs');
+            $table->foreign('outer_wall_id')->references('id')->on('walls');
+            $table->foreign('state_repair_id')->references('id')->on('building_house_repair');
+            $table->foreign('year_built_id')->references('id')->on('year_built');
+            $table->foreign('floor_area_id')->references('id')->on('floor_area');
+            $table->foreign('lighting_id')->references('id')->on('lightings');
+            $table->foreign('cooking_id')->references('id')->on('cookings');
+            $table->foreign('house_status_id')->references('id')->on('house_status');
+            $table->foreign('house_acquisition_id')->references('id')->on('house_acquisition');
+            $table->foreign('house_finance_id')->references('id')->on('house_financing_source');
+            $table->foreign('house_rental_id')->references('id')->on('monthly_rental');
+            $table->foreign('lot_status_id')->references('id')->on('lot_status');
+            $table->foreign('garbage_disposal_id')->references('id')->on('garbage_disposal');
+            $table->foreign('toilet_facilty_id')->references('id')->on('toilet_facility');
         });
     }
 

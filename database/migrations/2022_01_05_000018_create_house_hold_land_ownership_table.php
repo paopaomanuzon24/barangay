@@ -18,6 +18,9 @@ class CreateHouseHoldLandOwnershipTable extends Migration
             $table->unsignedBigInteger("house_hold_id");
             $table->unsignedBigInteger("land_ownership_id");
             $table->timestamps();
+
+            $table->foreign('house_hold_id')->references('id')->on('house_hold_data');
+            $table->foreign('land_ownership_id')->references('id')->on('land_ownership');
         });
     }
 

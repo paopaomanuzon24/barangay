@@ -30,6 +30,8 @@ class CreateAddressDataTable extends Migration
             $table->string('secondary_id_path');
             $table->string('secondary_id_name');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 

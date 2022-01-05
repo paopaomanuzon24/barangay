@@ -25,6 +25,9 @@ class CreateHouseKeeperDataTable extends Migration
             $table->string("address")->nullable();
             $table->boolean("same_address")->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('house_keeper_type_id')->references('id')->on('house_keeper_type');
         });
     }
 

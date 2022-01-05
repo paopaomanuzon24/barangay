@@ -18,6 +18,9 @@ class CreateGroupsAndAffiliationDataTable extends Migration
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("groups_and_affiliation_id");
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('groups_and_affiliation_id')->references('id')->on('groups_and_affiliation');
         });
     }
 

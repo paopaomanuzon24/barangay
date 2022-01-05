@@ -21,6 +21,9 @@ class CreateDocumentDataTable extends Migration
             $table->string("path_name");
             $table->char("status_id", 1)->nullable();
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('document_id')->references('id')->on('documents');
         });
     }
 

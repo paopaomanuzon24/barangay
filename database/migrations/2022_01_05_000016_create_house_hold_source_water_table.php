@@ -21,6 +21,9 @@ class CreateHouseHoldSourceWaterTable extends Migration
             $table->boolean("cooking");
             $table->boolean("laundry");
             $table->timestamps();
+
+            $table->foreign('house_hold_id')->references('id')->on('house_hold_data');
+            $table->foreign('source_water_id')->references('id')->on('source_water');
         });
     }
 

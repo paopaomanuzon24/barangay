@@ -18,6 +18,8 @@ class CreateOtherDataLanguageTable extends Migration
             $table->unsignedBigInteger('other_data_id');
             $table->unsignedBigInteger('language_id');
             $table->timestamps();
+
+            $table->foreign('other_data_id')->references('id')->on('other_data');
         });
     }
 

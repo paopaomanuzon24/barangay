@@ -34,6 +34,11 @@ class CreatePersonalDataTable extends Migration
             $table->string('emergency_contact_no', 15)->nullable();
             $table->string('email');
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('marital_status_id')->references('id')->on('marital_status');
+            $table->foreign('religious_id')->references('id')->on('religious');
+            $table->foreign('citizenship_id')->references('id')->on('citizenship');
         });
     }
 
