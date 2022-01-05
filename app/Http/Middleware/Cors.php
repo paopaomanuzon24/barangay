@@ -35,9 +35,14 @@ class Cors
 
         // return $response;
 
+        // return $next($request)
+        //     ->header('Access-Control-Allow-Origin', '*')
+        //     ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+        //     ->header('Access-Control-Allow-Headers', 'Accept, Content-Type, Authorization');
+
         return $next($request)
-            ->header('Access-Control-Allow-Origin', '*')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-            ->header('Access-Control-Allow-Headers', 'Accept, Content-Type, Authorization');
+              ->header('Access-Control-Allow-Origin', '*')
+              ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
+              ->header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, X-Token-Auth, Authorization');
     }
 }
