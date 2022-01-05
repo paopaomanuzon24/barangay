@@ -32,6 +32,7 @@ class CreateAddressDataTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('barangay_id')->references('id')->on('barangays');
         });
     }
 

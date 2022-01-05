@@ -20,6 +20,7 @@ class CreateMedicalHistoryDiseaseTable extends Migration
             $table->timestamps();
 
             $table->foreign('medical_history_id')->references('id')->on('medical_history');
+            $table->foreign('disease_id')->references('id')->on('diseases');
         });
     }
 

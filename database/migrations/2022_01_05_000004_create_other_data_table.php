@@ -24,6 +24,7 @@ class CreateOtherDataTable extends Migration
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('disability_id')->references('id')->on('disability');
             $table->foreign('community_id')->references('id')->on('community');
         });
     }

@@ -20,7 +20,7 @@ class CreateHouseHoldPresenceTable extends Migration
             $table->timestamps();
 
             $table->foreign('house_hold_id')->references('id')->on('house_hold_data');
-            $table->foreign('house_hold_presence_id')->references('id')->on('house_hold_presence');
+            $table->foreign('house_hold_presence_id')->references('id')->on('conveniences');
         });
     }
 

@@ -19,6 +19,8 @@ class CreateUserActivityLogsTable extends Migration
             $table->ipAddress("ip_address");
             $table->string("event");
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users');
         });
     }
 
