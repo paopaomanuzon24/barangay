@@ -42,7 +42,7 @@ use App\Http\Controllers\PermitGenerationController;
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 
-Route::group(['middleware' => ['auth:api', 'usersession', 'cors']], function() {
+Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
     Route::get('user/list', [AuthController::class, 'list']);
