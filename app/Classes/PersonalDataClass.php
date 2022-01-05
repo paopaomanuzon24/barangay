@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\PersonalData;
 use App\Models\ProfilePicture;
 use App\Models\User;
+use App\Models\ResidenceApplication;
 
 use App\Classes\ResidenceApplicationClass;
 
@@ -55,7 +56,7 @@ class PersonalDataClass
         if (empty($personalData)) {
             $personalData = new PersonalData;
             $personalData->user_id = $user->id;
-            $personalData->resident_id = 0;
+            $personalData->application_id = 0;
             // $user->user_type_id = $resident;
             $user->save();
         }
@@ -78,17 +79,18 @@ class PersonalDataClass
         $personalData->emergency_contact_no = $request->emergency_contact_no;
         $personalData->save();
 
-        if (empty($personalData->resident_id)) {
-            $this->saveResidentID($personalData);
-
+        if (empty($personalData->application_id)) {
             $residenceClass = new ResidenceApplicationClass;
             $residenceClass->updateResidenceApplication($request);
+
+            $this->saveApplicationID($personalData);
         }
     }
 
-    protected function saveResidentID($personalData) {
-        $residentID = date("Y") . $personalData->id;
-        $personalData->resident_id = $residentID;
+    protected function saveApplicationID($personalData) {
+        $residenceData = ResidenceApplication::where("user_id", $personalData->user_id)->first();
+        $applicationID = date("Y") . $residenceData->id;
+        $personalData->application_id = $applicationID;
         $personalData->save();
     }
 }

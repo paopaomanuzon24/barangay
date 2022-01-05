@@ -42,7 +42,7 @@ use App\Http\Controllers\PermitGenerationController;
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 
-Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
+Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
     Route::get('user/list', [AuthController::class, 'list']);
@@ -155,6 +155,7 @@ Route::get('community/list', [OtherDataController::class, 'getCommunityList']);
 Route::get('radio/address-type/list', [AddressDataController::class, 'getRadioAddressType']);
 Route::get('radio/temporary-type/list', [AddressDataController::class, 'getRadioTemporaryType']);
 
+Route::get('employee-type/list', [EmploymentDataController::class, 'getRadioEmployeeType']);
 Route::get('usual-occupation/list', [EmploymentDataController::class, 'getUsualOccupationList']);
 Route::get('class-worker/list', [EmploymentDataController::class, 'getClassWorkerList']);
 Route::get('work-affiliation/list', [EmploymentDataController::class, 'getWorkAffiliationList']);

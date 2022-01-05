@@ -21,22 +21,27 @@ class InhabitantsController extends Controller
         $peronalDataList = PersonalData::select(
             'personal_data.id',
             'personal_data.user_id',
-            'personal_data.resident_id',
+            'personal_data.application_id',
             'personal_data.first_name',
             'personal_data.middle_name',
             'personal_data.last_name',
             'users.barangay_id',
+            'barangays.description as barangay_desc',
             'personal_data.birth_date',
             'users.user_type_id',
-            'residence_application.status_id'
+            'residence_application.status_id',
+            'residence_status.description as status_desc',
+            'personal_data.created_at as date_requested'
         )
         ->join("users", "users.id", "personal_data.user_id")
-        ->join("residence_application", "residence_application.user_id", "users.id");
+        ->join("barangays", "barangays.id", "users.barangay_id")
+        ->join("residence_application", "residence_application.user_id", "users.id")
+        ->join("residence_status", "residence_status.id", "residence_application.status_id");
         // ->where("users.user_type_id", $resident);
 
         if ($request->search) {
             $peronalDataList = $peronalDataList->where(function($q) use($request){
-                $q->orWhereRaw("personal_data.resident_id LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("personal_data.application_id LIKE ?","%".$request->search."%");
                 $q->orWhereRaw("CONCAT_WS(' ',CONCAT(personal_data.last_name,','),personal_data.first_name,personal_data.first_name) LIKE ?","%".$request->search."%");
             });
         }

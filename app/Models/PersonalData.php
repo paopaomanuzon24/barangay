@@ -18,6 +18,7 @@ class PersonalData extends Model
     protected $fillable = [
         'id',
         'user_id',
+        'application_id',
         'last_name',
         'first_name',
         'middle_name',
