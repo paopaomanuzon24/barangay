@@ -47,7 +47,7 @@ class PermitTemplateController extends Controller
             return response()->json([
                 'status' => 'success',
                 'message' => "Permit Template Added."
-            ], 400);
+            ], 200);
         }
     }
 
@@ -55,13 +55,14 @@ class PermitTemplateController extends Controller
     public function show(Request $request,$id){
 
         $template = PermitTemplate::find($id);
-        if(!empty($tempate)){
+       # dd($template);
+        if(!empty($template)){
             $path = $template->path_name;
 
             $path = Storage::url($path);
             return response()->json([
                 'path' => $path,
-            ], 400);
+            ], 200);
         }
     }
 
@@ -74,7 +75,25 @@ class PermitTemplateController extends Controller
             $path = Storage::url($path);
             return response()->json([
                 'path' => $path,
-            ], 201);
+            ], 200);
+        }
+    }
+
+    public function delete(Request $request){
+
+        $template = PermitTemplate::find($request['id']);
+        if(!empty($template)){
+           # $path = $template->path_name;
+            #$path = Storage::url($path);
+         #   dd($template->file_name);
+            $path = "public/".$template->path_name;
+            Storage::delete($path);
+            $template->delete();
+          #
+            return response()->json([
+                'status' => 'success',
+                'message' => "Permit Template Deleted."
+            ], 200);
         }
     }
 

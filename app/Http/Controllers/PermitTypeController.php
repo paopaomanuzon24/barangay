@@ -27,17 +27,28 @@ class PermitTypeController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json([
+           /*  return response()->json([
                 'status' => 'error',
                 'message' => $validator->errors()->all()
-            ], 400);
+            ], 400); */
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $permit = PermitType::where("permit_name",$request->permit_name)->first();
         if(!empty($permit)){
-            return response()->json([
+            /* return response()->json([
                 'message' => "Permit Type Exist."
-            ], 201);
+            ], 201); */
+
+            return customResponse()
+                ->data(null)
+                ->message("Permit type exist.")
+                ->success()
+                ->generate();
         }
 
         $permit = new PermitType;
@@ -46,10 +57,16 @@ class PermitTypeController extends Controller
         $permit->barangay_id = $request->barangay_id;
         $permit->save();
 
-        return response()->json([
+      /*   return response()->json([
             'status' => 'success',
             'message' => "Permit Added."
-        ], 200);
+        ], 200); */
+
+        return customResponse()
+                ->data(null)
+                ->message("Permit category Added.")
+                ->success()
+                ->generate();
 
     }
 
@@ -59,9 +76,13 @@ class PermitTypeController extends Controller
         if(!empty($permitTypeData)){
 
             $data = $permitTypeData->toArray();
-            return response()->json([
-                    $data
-            ], 200);
+
+
+            return customResponse()
+                ->data($data)
+                ->message("Permit Type Data.")
+                ->success()
+                ->generate();
         }
 
     }
@@ -78,10 +99,12 @@ class PermitTypeController extends Controller
 
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
 
@@ -91,10 +114,13 @@ class PermitTypeController extends Controller
         $permit->barangay_id = $request->barangay_id;
         $permit->save();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => "Permit Type Updated."
-        ], 200);
+
+
+        return customResponse()
+            ->data(null)
+            ->message("Permit type updated")
+            ->success()
+            ->generate();
     }
 
     public function delete(Request $request){
@@ -105,18 +131,22 @@ class PermitTypeController extends Controller
 
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
         }
 
         $barangayData = PermitType::find($request->id);
         $barangayData->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => "Permit Type deleted."
-        ], 201);
+
+
+        return customResponse()
+            ->data(null)
+            ->message("Permit type deleted.")
+            ->failed()
+            ->generate();
 
     }
 
@@ -131,16 +161,23 @@ class PermitTypeController extends Controller
 
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
         }
 
         $permitData = PermitType::find($id);
-        $return = $permitData->toArray();
+        #$return = $permitData->toArray();
 
-        return response()->json($return,201);
+        return customResponse()
+        ->data($permitData)
+        ->message("Permit Type Data.")
+        ->failed()
+        ->generate();
+
+      #  return response()->json($return,201);
     }
 
     public function list(Request $request){
@@ -151,7 +188,11 @@ class PermitTypeController extends Controller
             $return[$row->id] = $row->getOriginal();
         }
 
-        return response()->json($return);
+        return customResponse()
+            ->data($return)
+            ->message("Permit type list.")
+            ->success()
+            ->generate();
     }
 
     public function generatePermit(Request $request){

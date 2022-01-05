@@ -91,26 +91,6 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::post('inhabitants/house-keeper/store', [HouseKeeperController::class, 'store']);
 
     ##Permit
-    Route::post('permit/type', [PermitTypeController::class, 'store']);
-    Route::get('permit/type/{id}/edit', [PermitTypeController::class, 'edit']);
-    Route::post('permit/type/update', [PermitTypeController::class,'update']);
-    Route::post('permit/type/delete', [PermitTypeController::class,'delete']);
-    Route::get('permit/types', [PermitTypeController::class, 'list']);
-    Route::get('permit/type/{id}', [PermitTypeController::class, 'getPermitType']);
-
-
-    Route::post('permit/template', [PermitTemplateController::class, 'store']);
-    Route::get('permit/template', [PermitTemplateController::class, 'show']);
-
-
-    Route::post('permit/fee', [PermitFeesController::class, 'store']);
-    Route::get('permit/fees/{id}', [PermitFeesController::class, 'show']);
-    Route::get('permit/fees/{id}/edit', [PermitFeesController::class, 'edit']);
-    Route::post('permit/fees/update', [PermitFeesController::class,'update']);
-    Route::post('permit/fees/delete', [PermitFeesController::class,'delete']);
-    Route::get('permit/fees', [PermitFeesController::class,'list']);
-
-
     Route::post('barangay/officials', [BarangayOfficialController::class, 'store']);
     Route::get('barangay/officials/{id}', [BarangayOfficialController::class, 'show']);
     Route::get('barangay/officials/{id}/edit', [BarangayOfficialController::class, 'edit']);
@@ -124,6 +104,31 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession']], function() {
     Route::post('permit/category/update', [PermitCategoryController::class, 'update']);
     Route::post('permit/category/delete', [PermitCategoryController::class, 'delete']);
     Route::get('permit/categories', [PermitCategoryController::class, 'list']);
+
+    Route::post('permit/type', [PermitTypeController::class, 'store']);
+    Route::get('permit/type/{id}/edit', [PermitTypeController::class, 'edit']);
+    Route::post('permit/type/update', [PermitTypeController::class,'update']);
+    Route::post('permit/type/delete', [PermitTypeController::class,'delete']);
+    Route::get('permit/types', [PermitTypeController::class, 'list']);
+    Route::get('permit/type/{id}', [PermitTypeController::class, 'getPermitType']);
+
+
+
+    Route::post('permit/fee', [PermitFeesController::class, 'store']);
+    Route::get('permit/fees/{id}', [PermitFeesController::class, 'show']);
+    Route::get('permit/fees/{id}/edit', [PermitFeesController::class, 'edit']);
+    Route::post('permit/fees/update', [PermitFeesController::class,'update']);
+    Route::post('permit/fees/delete', [PermitFeesController::class,'delete']);
+    Route::get('permit/fees', [PermitFeesController::class,'list']);
+
+
+
+
+
+
+
+
+
 
     Route::post('permit/generate', [PermitGenerationController::class, 'generatePermit']);
 
@@ -190,4 +195,11 @@ Route::get('radio/garange-and-parking-status/list', [HouseHoldController::class,
 Route::get('radio/septic-tank-status/list', [HouseHoldController::class, 'getSepticTankStatusList']);
 
 Route::get('house-keeper-type/list', [HouseKeeperController::class, 'getHouseKeeperType']);
+
+
+Route::post('permit/template', [PermitTemplateController::class, 'store']);
+Route::get('permit/template/{id}', [PermitTemplateController::class, 'show']);
+Route::post('permit/template/delete', [PermitTemplateController::class, 'delete']);
+
+
 

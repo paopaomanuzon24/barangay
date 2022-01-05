@@ -43,7 +43,7 @@ class HelperClass
         $barangayList = Barangay::get();
 
         $barangayArray = [];
-        
+
         foreach ($barangayList as $row) {
             $barangayArray[$row->id] = $row->description;
         };
@@ -55,7 +55,7 @@ class HelperClass
         $citizenshipList = Citizenship::get();
 
         $citizenshipArray = [];
-        
+
         foreach ($citizenshipList as $row) {
             $citizenshipArray[$row->id] = $row->description;
         };
@@ -67,7 +67,7 @@ class HelperClass
         $classWorkerList = ClassWorker::get();
 
         $classWorkerArray = [];
-        
+
         foreach ($classWorkerList as $row) {
             $classWorkerArray[$row->id] = $row->description;
         };
@@ -79,7 +79,7 @@ class HelperClass
         $courseList = Course::get();
 
         $courseArray = [];
-        
+
         foreach ($courseList as $row) {
             $courseArray[$row->id] = [
                 'level_id' => $row->level_id,
@@ -95,7 +95,7 @@ class HelperClass
         $documentList = DocumentFile::get();
 
         $documentArray = [];
-        
+
         foreach ($documentList as $row) {
             $documentArray[$row->id] = $row->description;
         };
@@ -107,7 +107,7 @@ class HelperClass
         $disabilityList = Disability::get();
 
         $disabilityArray = [];
-        
+
         foreach ($disabilityList as $row) {
             $disabilityArray[$row->id] = $row->description;
         };
@@ -119,7 +119,7 @@ class HelperClass
         $educationLevelList = EducationLevel::get();
 
         $educationLevelArray = [];
-        
+
         foreach ($educationLevelList as $row) {
             $educationLevelArray[$row->id] = [
                 'code' => $row->code,
@@ -134,7 +134,7 @@ class HelperClass
         $ethnicityList = Ethnicity::get();
 
         $ethnicityArray = [];
-        
+
         foreach ($ethnicityList as $row) {
             $ethnicityArray[$row->id] = $row->description;
         };
@@ -169,7 +169,7 @@ class HelperClass
         $list = GroupsAndAffiliation::get();
 
         $array = [];
-        
+
         foreach ($list as $row) {
             $array[$row->id] = $row->description;
         };
@@ -200,7 +200,7 @@ class HelperClass
         $maritalStatusList = MaritalStatus::get();
 
         $maritalStatusArray = [];
-        
+
         foreach ($maritalStatusList as $row) {
             $maritalStatusArray[$row->id] = $row->description;
         };
@@ -212,7 +212,7 @@ class HelperClass
         $languageList = Language::get();
 
         $languageArray = [];
-        
+
         foreach ($languageList as $row) {
             $languageArray[$row->id] = $row->description;
         };
@@ -320,7 +320,7 @@ class HelperClass
         $relationshipTypeList = RelationshipType::get();
 
         $relationshipTypeArray = [];
-        
+
         foreach ($relationshipTypeList as $row) {
             $relationshipTypeArray[$row->id] = [
                 'code' => $row->code,
@@ -335,7 +335,7 @@ class HelperClass
         $religiousList = Religious::get();
 
         $religiousArray = [];
-        
+
         foreach ($religiousList as $row) {
             $religiousArray[$row->id] = $row->description;
         };
@@ -362,7 +362,7 @@ class HelperClass
         $usualOccupationList = UsualOccupation::get();
 
         $usualOccupationArray = [];
-        
+
         foreach ($usualOccupationList as $row) {
             $usualOccupationArray[$row->id] = $row->description;
         };
@@ -374,7 +374,7 @@ class HelperClass
         $userTypeList = UserType::get();
 
         $userTypeArray = [];
-        
+
         foreach ($userTypeList as $row) {
             $userTypeArray[$row->id] = $row->name;
         };
@@ -386,7 +386,7 @@ class HelperClass
         $workAffiliationList = WorkAffiliation::get();
 
         $workAffiliationArray = [];
-        
+
         foreach ($workAffiliationList as $row) {
             $workAffiliationArray[$row->id] = $row->description;
         };
@@ -424,5 +424,5 @@ class HelperClass
 
         return $statusArray;
     }
-    
+
 }

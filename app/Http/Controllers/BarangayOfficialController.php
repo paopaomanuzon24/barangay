@@ -31,17 +31,20 @@ class BarangayOfficialController extends Controller
 
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $checkData = BarangayOfficial::profileByName($request->first_name,$request->middle_name,$request->last_name)->first();
         if(!empty($checkData)){
-            return response()->json([
-                'message' => "Profile Exist."
-            ], 201);
+            return customResponse()
+                ->data(null)
+                ->message("Profile Exist")
+                ->success()
+                ->generate();
         }
 /*
         if($request->hasFile('photo')){
@@ -66,10 +69,15 @@ class BarangayOfficialController extends Controller
         $barangay->photo_path = "";
         $barangay->save();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => "Barangay Official Added ."
-        ], 200);
+
+        return customResponse()
+            ->data(null)
+            ->message("Barangay Official Added.")
+            ->success()
+            ->generate();
+
+
+
 
     }
 
@@ -83,7 +91,11 @@ class BarangayOfficialController extends Controller
             $data = $barangayData->toArray();
          #   $data['photo'] = $path;
 
-            return response()->json($data, 201);
+            return customResponse()
+            ->data($data)
+            ->message("Barangay Official Data.")
+            ->success()
+            ->generate();
         }
 
     }
@@ -101,10 +113,13 @@ class BarangayOfficialController extends Controller
 
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+
+
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
         }
 
 
@@ -116,10 +131,16 @@ class BarangayOfficialController extends Controller
        # $barangay->position_id = $request->position_id;
         $barangay->save();
 
-        return response()->json([
+       /*  return response()->json([
             'status' => 'success',
             'message' => "Profile Updated."
-        ], 201);
+        ], 201); */
+
+        return customResponse()
+        ->data(null)
+        ->message("Profile Updated.")
+        ->success()
+        ->generate();
     }
 
     public function show(Request $request, $id){
@@ -132,7 +153,13 @@ class BarangayOfficialController extends Controller
             $data = $barangayData->toArray();
          #   $data['photo'] = $path;
 
-            return response()->json($data, 201);
+           # return response()->json($data, 201);
+
+            return customResponse()
+            ->data($data)
+            ->message("Barangay official data.")
+            ->success()
+            ->generate();
         }
 
     }
@@ -153,10 +180,13 @@ class BarangayOfficialController extends Controller
 
         $barangayData = BarangayOfficial::find($request->id);
         $barangayData->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => "Profile deleted."
-        ], 201);
+
+
+        return customResponse()
+            ->message("Barangay official deleted.")
+            ->data(null)
+            ->success()
+            ->generate();
 
     }
 
@@ -168,8 +198,13 @@ class BarangayOfficialController extends Controller
         foreach($barangayData as $row){
             $return[] = $row->getOriginal();
         }
-       # dd($return);
-       return response()->json($return);
+
+        return customResponse()
+            ->message("Barangay Official List")
+            ->data($return)
+            ->success()
+            ->generate();
+
     }
 
 

@@ -20,27 +20,39 @@ class PermitCategoryController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $checkData = PermitCategory::where("description",$request->description)->first();
         if(!empty($checkData)){
-            return response()->json([
-                'message' => "Category Exist."
-            ], 201);
+
+
+            return customResponse()
+                ->data(null)
+                ->message("Permit category exist.")
+                ->success()
+                ->generate();
         }
 
         $permit = new PermitCategory;
         $permit->description = $request->description;
         $permit->save();
 
-        return response()->json([
+
+        return customResponse()
+            ->data(null)
+            ->message("Permit Category Added.")
+            ->success()
+            ->generate();
+
+      /*   return response()->json([
             'status' => 'success',
             'message' => "Category Added."
-        ], 200);
+        ], 200); */
 
     }
 
@@ -50,9 +62,15 @@ class PermitCategoryController extends Controller
         if(!empty($categoryData)){
 
             $data = $categoryData->toArray();
-            return response()->json([
+            /* return response()->json([
                     $data
-            ], 200);
+            ], 200); */
+
+            return customResponse()
+                ->data($data)
+                ->message("Permit Category List.")
+                ->success()
+                ->generate();
         }
 
     }
@@ -63,9 +81,15 @@ class PermitCategoryController extends Controller
         if(!empty($categoryData)){
 
             $data = $categoryData->toArray();
-            return response()->json([
+           /*  return response()->json([
                     $data
-            ], 200);
+            ], 200); */
+
+            return customResponse()
+                ->data($data)
+                ->message("Permit Category Data.")
+                ->success()
+                ->generate();
         }
 
     }
@@ -79,20 +103,27 @@ class PermitCategoryController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $categoryData = PermitCategory::find($request->id);
         $categoryData->description = $request->description;
         $categoryData->save();
 
-        return response()->json([
+       /*  return response()->json([
             'status' => 'success',
             'message' => "Category Updated."
-        ], 200);
+        ], 200); */
+
+        return customResponse()
+            ->data(null)
+            ->message("Permit Category Updated.")
+            ->success()
+            ->generate();
     }
 
     public function delete(Request $request){
@@ -103,18 +134,22 @@ class PermitCategoryController extends Controller
 
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
         }
 
         $barangayData = PermitCategory::find($request->id);
         $barangayData->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => "Category deleted."
-        ], 201);
+
+
+        return customResponse()
+            ->data(null)
+            ->message("Permit category deleted.")
+            ->success()
+            ->generate();
 
     }
 
@@ -128,6 +163,12 @@ class PermitCategoryController extends Controller
             $return[] = $row->getOriginal();
         }
 
-        return response()->json($return);
+        return customResponse()
+            ->data($return)
+            ->message("Permit category list.")
+            ->success()
+            ->generate();
+
+        #return response()->json($return);
     }
 }

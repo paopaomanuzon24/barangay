@@ -31,6 +31,12 @@ class PermitFeesController extends Controller
                 'status' => 'error',
                 'message' => $validator->errors()->all()
             ], 400);
+
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
         }
 
 
@@ -43,10 +49,12 @@ class PermitFeesController extends Controller
         PermitFees::create($data);
 
 
-        return response()->json([
-            'status' => 'success',
-            'message' => "Permit Fees Added."
-        ], 200);
+
+        return customResponse()
+            ->data(null)
+            ->message("Permit Fees Added.")
+            ->success()
+            ->generate();
 
     }
 
@@ -55,7 +63,13 @@ class PermitFeesController extends Controller
         $barangayData = PermitFees::find($id);
         if(!empty($barangayData)){
             $data = $barangayData->toArray();
-            return response()->json($data, 201);
+            #return response()->json($data, 201);
+
+            return customResponse()
+            ->data($data)
+            ->message("Permit Fees Data.")
+            ->success()
+            ->generate();
         }
     }
 
@@ -70,10 +84,13 @@ class PermitFeesController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+
         }
 
 
@@ -84,10 +101,13 @@ class PermitFeesController extends Controller
         $permitFee->barangay_id = $request->barangay_id;
         $permitFee->save();
 
-        return response()->json([
-            'status' => 'success',
-            'message' => "Permit Fees Updated."
-        ], 200);
+
+
+        return customResponse()
+        ->data(null)
+        ->message("Permit Fees Updated.")
+        ->success()
+        ->generate();
     }
 
     public function edit(Request $request, $id){
@@ -96,14 +116,26 @@ class PermitFeesController extends Controller
         if(!empty($permitFee)){
 
             $data = $permitFee->toArray();
-            return response()->json([
+           /*  return response()->json([
                     $data
-            ], 200);
+            ], 200); */
+            return customResponse()
+            ->data($data)
+            ->message("Permit Fees Data.")
+            ->success()
+            ->generate();
+
+
         }else{
-            return response()->json([
+          /*   return response()->json([
                 'error' => 'invalid payload',
                 'message' => 'fee not found.'
-            ], 400);
+            ], 400); */
+            return customResponse()
+            ->data(null)
+            ->message("Fee not found")
+            ->failed()
+            ->generate();
         }
 
     }
@@ -122,12 +154,24 @@ class PermitFeesController extends Controller
             ], 400);
         }
 
-        $barangayData = PermitFees::find($request->id);
-        $barangayData->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => "Profile deleted."
-        ], 201);
+        $feeData = PermitFees::find($request->id);
+        if(!empty($feeData)){
+
+            $feeData->delete();
+        }else{
+            return customResponse()
+            ->data(null)
+            ->message("Fee not found.")
+            ->failed()
+            ->generate();
+        }
+
+
+        return customResponse()
+            ->data(null)
+            ->message("Permit fees deleted.")
+            ->success()
+            ->generate();
 
     }
 
@@ -139,8 +183,12 @@ class PermitFeesController extends Controller
         foreach($barangayData as $row){
             $return[] = $row->getOriginal();
         }
-       # dd($return);
-       return response()->json($return);
+
+        return customResponse()
+            ->data($return)
+            ->message("Permit Fees List.")
+            ->success()
+            ->generate();
     }
 
 
