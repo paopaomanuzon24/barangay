@@ -10,13 +10,17 @@ class UserClass
 {
     public function getUserList($request) {
         $userList = User::select(
-            'id',
+            'users.id',
             'first_name',
             'middle_name',
             'last_name',
             'barangay_id',
-            'user_type_id'
-        );
+            'barangays.description as barangay_desc',
+            'user_type_id',
+            'user_type.name as user_type_desc'
+        )
+        ->join("barangays", "barangays.id", "users.barangay_id")
+        ->join("user_type", "user_type.id", "users.user_type_id");
 
         if ($request->search) {
             $userList = $userList->where(function($q) use($request){

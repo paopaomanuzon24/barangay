@@ -14,8 +14,31 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Classes\UserManagementClass;
 
+use App\Models\User;
+
 class UserManagementController extends Controller
 {
+    public function show(Request $request, $id) {
+        $userData = User::select(
+            'id',
+            'user_type_id',
+            'last_name',
+            'first_name',
+            'email',
+            'contact_no',
+            'gender',
+            'birth_date',
+            'address',
+            'barangay_id'
+        )->find($id);
+
+        return customResponse()
+            ->data($userData)
+            ->message('User Data.')
+            ->success()
+            ->generate();
+    }
+
     public function store(Request $request) {
         $params = [
             'last_name' => 'required|string',

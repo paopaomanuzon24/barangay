@@ -51,10 +51,12 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('password', [AuthController::class, 'changePassword']);
 
     ##User Management
+    Route::get('user-management/{id}', [UserManagementController::class, 'show']);
     Route::post('user-management/store', [UserManagementController::class, 'store']);
 
     ##Inhabitants
     Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);
+    Route::get('inhabitants/residence/list', [InhabitantsController::class, 'getResidenceList']);
     Route::get('inhabitants/{id}', [InhabitantsController::class, 'show']);
 
     Route::get('inhabitants/personal/{id}', [PersonalDataController::class, 'getPersonalData']);
