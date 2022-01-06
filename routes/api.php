@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserManagementController;
 
 use App\Http\Controllers\InhabitantsController;
 use App\Http\Controllers\PersonalDataController;
@@ -48,6 +49,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('user/list', [AuthController::class, 'list']);
     Route::get('user/{id}', [AuthController::class, 'show']);
     Route::post('password', [AuthController::class, 'changePassword']);
+
+    ##User Management
+    Route::post('user-management/store', [UserManagementController::class, 'store']);
 
     ##Inhabitants
     Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);
