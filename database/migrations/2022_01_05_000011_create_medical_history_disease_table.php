@@ -15,8 +15,8 @@ class CreateMedicalHistoryDiseaseTable extends Migration
     {
         Schema::create('medical_history_disease', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("medical_history_id");
-            $table->unsignedBigInteger("disease_id");
+            $table->unsignedBigInteger("medical_history_id")->nullable();
+            $table->unsignedBigInteger("disease_id")->nullable();
             $table->timestamps();
 
             $table->foreign('medical_history_id')->references('id')->on('medical_history');

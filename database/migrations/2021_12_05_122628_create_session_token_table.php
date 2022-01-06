@@ -15,7 +15,7 @@ class CreateSessionTokenTable extends Migration
     {
         Schema::create('session_token', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->string('session_id');
             $table->string('token');
             $table->timestamps();

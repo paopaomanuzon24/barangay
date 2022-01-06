@@ -15,8 +15,8 @@ class CreateHouseHoldSourceWaterTable extends Migration
     {
         Schema::create('house_hold_source_water', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("house_hold_id");
-            $table->unsignedBigInteger("source_water_id");
+            $table->unsignedBigInteger("house_hold_id")->nullable();
+            $table->unsignedBigInteger("source_water_id")->nullable();
             $table->boolean("drinking");
             $table->boolean("cooking");
             $table->boolean("laundry");

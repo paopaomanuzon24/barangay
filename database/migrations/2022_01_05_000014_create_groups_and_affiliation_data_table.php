@@ -15,8 +15,8 @@ class CreateGroupsAndAffiliationDataTable extends Migration
     {
         Schema::create('groups_and_affiliation_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->unsignedBigInteger("groups_and_affiliation_id");
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->unsignedBigInteger("groups_and_affiliation_id")->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

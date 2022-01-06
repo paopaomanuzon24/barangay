@@ -15,15 +15,15 @@ class CreatePersonalDataTable extends Migration
     {
         Schema::create('personal_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('application_id');
             $table->string('last_name');
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('suffix')->nullable();
             $table->char('gender', 1);
-            $table->unsignedBigInteger('marital_status_id');
-            $table->unsignedBigInteger('religious_id');
+            $table->unsignedBigInteger('marital_status_id')->nullable();
+            $table->unsignedBigInteger('religious_id')->nullable();
             $table->char('citizenship', 1)->nullable();
             $table->unsignedBigInteger('citizenship_id')->nullable();
             $table->date('birth_date');

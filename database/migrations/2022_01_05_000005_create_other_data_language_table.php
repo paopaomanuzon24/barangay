@@ -15,7 +15,7 @@ class CreateOtherDataLanguageTable extends Migration
     {
         Schema::create('other_data_language', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('other_data_id');
+            $table->unsignedBigInteger('other_data_id')->nullable();
             $table->unsignedBigInteger('language_id');
             $table->timestamps();
 

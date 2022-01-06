@@ -15,8 +15,8 @@ class CreateDocumentDataTable extends Migration
     {
         Schema::create('document_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->unsignedBigInteger("document_id");
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->unsignedBigInteger("document_id")->nullable();
             $table->string("file_name");
             $table->string("path_name");
             $table->char("status_id", 1)->nullable();

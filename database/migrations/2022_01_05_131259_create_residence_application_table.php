@@ -15,8 +15,8 @@ class CreateResidenceApplicationTable extends Migration
     {
         Schema::create('residence_application', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
-            $table->unsignedBigInteger("status_id");
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->unsignedBigInteger("status_id")->nullable();
             $table->string("remarks");
             $table->timestamps();
 

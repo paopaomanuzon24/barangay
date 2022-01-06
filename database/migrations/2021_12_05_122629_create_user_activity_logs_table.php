@@ -15,7 +15,7 @@ class CreateUserActivityLogsTable extends Migration
     {
         Schema::create('user_activity_logs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->ipAddress("ip_address");
             $table->string("event");
             $table->timestamps();
