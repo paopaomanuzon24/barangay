@@ -58,6 +58,7 @@ class PersonalDataClass
             $personalData->user_id = $user->id;
             $personalData->application_id = 0;
             // $user->user_type_id = $resident;
+            $user->email = $request->email;
             $user->save();
         }
 

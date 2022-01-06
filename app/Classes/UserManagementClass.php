@@ -5,6 +5,7 @@ namespace App\Classes;
 use Hash;
 use Carbon\Carbon;
 
+use App\Models\PersonalData;
 use App\Models\User;
 
 class UserManagementClass
@@ -28,5 +29,15 @@ class UserManagementClass
             $userData->password = Hash::make($request->password);
         }
         $userData->save();
+
+        $this->updateEmail($request, $userData);
+    }
+
+    public function updateEmail($request, $userData) {
+        $personalData = PersonalData::where("user_id", $userData->id)->first();
+        if (!empty($personalData)) {
+            $personalData->email = $request->email;
+            $personalData->save();
+        }
     }
 }
