@@ -26,7 +26,8 @@ class EducationalDataClass
             $educationalData = new EducationalData;
             $educationalData->user_id = $userData->id;
             $educationalData->level_id = $request->level_id[$key];
-            $educationalData->level_code = $request->level_code[$key];
+            $educationalData->level_code = !empty($request->level_code[$key]) ? $request->level_code[$key] : "";
+            $educationalData->course_id = $request->tertiary_course;
             $educationalData->school_name = !empty($request->school_name[$key]) ? $request->school_name[$key] : "";
             $educationalData->school_address = !empty($request->school_address[$key]) ? $request->school_address[$key] : "";
             $educationalData->year_from = !empty($request->year_from[$key]) ? $request->year_from[$key] : "";

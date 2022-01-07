@@ -20,6 +20,7 @@ class EducationalData extends Model
         'user_id', 
         'level_id', 
         'level_code', 
+        'course_id', 
         'school_name', 
         'school_address', 
         'year_from', 
