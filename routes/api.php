@@ -199,7 +199,7 @@ Route::get('monthly-rental/list', [HouseHoldController::class, 'getMonthlyRental
 Route::get('lot-status/list', [HouseHoldController::class, 'getLotStatusList']);
 Route::get('garbage-disposal/list', [HouseHoldController::class, 'getGarbageDisposal']);
 Route::get('toilet-facility/list', [HouseHoldController::class, 'getToiletFacility']);
-Route::get('radio/garange-and-parking-status/list', [HouseHoldController::class, 'getGarageAndParkingList']);
+Route::get('radio/garage-and-parking-status/list', [HouseHoldController::class, 'getGarageAndParkingList']);
 Route::get('radio/septic-tank-status/list', [HouseHoldController::class, 'getSepticTankStatusList']);
 
 Route::get('house-keeper-type/list', [HouseKeeperController::class, 'getHouseKeeperType']);
