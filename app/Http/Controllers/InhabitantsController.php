@@ -49,8 +49,6 @@ class InhabitantsController extends Controller
         }
 
         $peronalDataList = $peronalDataList->get();
-
-        dd($request->input(), $peronalDataList);
         
         return customResponse()
             ->message("List of applicants.")
