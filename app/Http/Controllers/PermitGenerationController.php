@@ -21,7 +21,7 @@ class PermitGenerationController extends Controller
 {
 
     public function generatePermit(Request $request){
-
+        dd($request);
         $this->validateGeneratePermit($request);
 
       /*   $templateData = PermitTemplate::find($request->template_id);
@@ -50,34 +50,47 @@ class PermitGenerationController extends Controller
         } */
 
         $controlNumber = $this->getControlNumber();
+        $status = 1; //# for approval
         $data = [
             'template_id' => $request->template_id,
             'permit_type_id' => $request->permit_type_id,
+            'category_id' => $request->category_id,
             'barangay_id' => $request->barangay_id,
-            'control_number' => $controlNumber
+            'control_number' => $controlNumber,
+            'status' => $status,
+            'user_id' => $request->user_id
         ];
         PermitHistory::create($data);
 
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Permit generated.'
-        ], 200);
+
+
+        return customResponse()
+            ->data(null)
+            ->message("Permit generated.")
+            ->success()
+            ->generate();
     }
 
     private function validateGeneratePermit($request){
 
         $validator = Validator::make($request->all(),[
-            'template_id' => 'required|integer|min:0',
+         #   'template_id' => 'required|integer|min:0',
             'barangay_id' => 'required|integer|min:0',
             'permit_type_id' => 'required|integer|min:0',
+            'category_id' => 'required|integer|min:0',
+            'user_id' => 'required|integer|min:0',
 
         ]);
 
         if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
+
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+
+
         }
     }
 

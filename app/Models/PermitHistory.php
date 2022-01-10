@@ -14,7 +14,7 @@ class PermitHistory extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'permit_type_id','category_id','barangay_id','template_id','control_number'
+        'permit_type_id','category_id','barangay_id','template_id','control_number','user_id','status'
     ];
     protected $primaryKey = 'id';
 

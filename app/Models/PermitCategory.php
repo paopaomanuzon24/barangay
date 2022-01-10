@@ -14,7 +14,7 @@ class PermitCategory extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'description'
+        'description','barangay_id','fee'
     ];
     protected $primaryKey = 'id';
 

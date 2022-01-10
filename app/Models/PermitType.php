@@ -14,7 +14,7 @@ class PermitType extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'permit_name','category_id','barangay_id'
+        'permit_name','category_id','barangay_id','fee'
     ];
     protected $primaryKey = 'id';
 

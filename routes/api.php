@@ -130,10 +130,12 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
 
 
-    Route::post('permit/generate', [PermitGenerationController::class, 'generatePermit']);
+
 
 
 });
+
+Route::post('permit/request', [PermitGenerationController::class, 'generatePermit']);
 
 
 ##Others

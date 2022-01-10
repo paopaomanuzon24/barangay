@@ -145,7 +145,7 @@ class PermitTypeController extends Controller
         return customResponse()
             ->data(null)
             ->message("Permit type deleted.")
-            ->failed()
+            ->success()
             ->generate();
 
     }
