@@ -182,7 +182,16 @@ class PermitTypeController extends Controller
 
     public function list(Request $request){
 
-        $permitData = PermitType::all();
+        $permitData = PermitType::where("permit_name","!=","");
+        if(!empty($request['barangay_id'])){
+            $permitData = $permitData->where("barangay_id",$request['barangay_id']);
+        }
+        if(!empty($request['category_id'])){
+            $permitData = $permitData->where("category_id",$request['category_id']);
+        }
+
+        $permitData = $permitData->get();
+
         $return = array();
         foreach($permitData as $row){
             $return[$row->id] = $row->getOriginal();

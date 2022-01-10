@@ -9,12 +9,12 @@ class PermitHistory extends Model
 {
     use HasFactory;
 
-    protected $table = 'permit_history';
+    protected $table = 'permit_payment_method';
     protected $dateformat = 'Y-m-d H:i:s';
     public $timestamps = true;
 
     protected $fillable = [
-        'permit_type_id','category_id','barangay_id','template_id','control_number','user_id','payment_method_id','status_id'
+        'description'
     ];
     protected $primaryKey = 'id';
 

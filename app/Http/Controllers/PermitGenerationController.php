@@ -21,7 +21,7 @@ class PermitGenerationController extends Controller
 {
 
     public function generatePermit(Request $request){
-        dd($request);
+
         $this->validateGeneratePermit($request);
 
       /*   $templateData = PermitTemplate::find($request->template_id);
@@ -52,13 +52,13 @@ class PermitGenerationController extends Controller
         $controlNumber = $this->getControlNumber();
         $status = 1; //# for approval
         $data = [
-            'template_id' => $request->template_id,
+           # 'template_id' => $request->template_id,
             'permit_type_id' => $request->permit_type_id,
             'category_id' => $request->category_id,
             'barangay_id' => $request->barangay_id,
             'control_number' => $controlNumber,
-            'status' => $status,
-            'user_id' => $request->user_id
+            'status_id' => $status,
+            'user_id' => $request->user_id,
         ];
         PermitHistory::create($data);
 

@@ -20,9 +20,8 @@ class CreatePermitHistoryTable extends Migration
             $table->unsignedBigInteger("category_id");
             $table->unsignedBigInteger("user_id");
             $table->unsignedBigInteger("barangay_id");
-            $table->unsignedBigInteger("user_id");
-            $table->unsignedBigInteger("payment_method_id");
-            $table->unsignedBigInteger("status");
+            $table->unsignedBigInteger("payment_method_id")->nullable();
+            $table->unsignedBigInteger("status_id");
             $table->string("control_number");
             $table->timestamps();
 
@@ -30,6 +29,10 @@ class CreatePermitHistoryTable extends Migration
             $table->foreign('category_id')->references('id')->on('permit_category');
             $table->foreign('barangay_id')->references('id')->on('barangays');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('payment_method_id')->references('id')->on('permit_payment_method');
+            $table->foreign('status_id')->references('id')->on('permit_status');
+
+
         });
     }
 
