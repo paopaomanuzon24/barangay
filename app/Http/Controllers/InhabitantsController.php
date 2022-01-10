@@ -17,6 +17,7 @@ use App\Models\User;
 class InhabitantsController extends Controller
 {
     public function getInhabitantsList(Request $request) {
+        dd($request->all());
         $peronalDataList = PersonalData::select(
             'personal_data.id',
             'personal_data.user_id',
@@ -49,10 +50,7 @@ class InhabitantsController extends Controller
         }
 
        # dd($request);
-        $url = $request->url();
 
-$urlWithQueryString = $request->fullUrl();
-dd($url,$urlWithQueryString);
 
         $peronalDataList = $peronalDataList->get();
 
