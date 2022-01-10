@@ -48,10 +48,14 @@ class InhabitantsController extends Controller
             $peronalDataList = $peronalDataList->where("users.barangay_id", $request->barangay_id);
         }
 
-        dd($request);
+       # dd($request);
+        $url = $request->url();
+
+$urlWithQueryString = $request->fullUrl();
+dd($url,$urlWithQueryString);
 
         $peronalDataList = $peronalDataList->get();
-        
+
         return customResponse()
             ->message("List of applicants.")
             ->data($peronalDataList)
@@ -94,14 +98,14 @@ class InhabitantsController extends Controller
         }
 
         $peronalDataList = $peronalDataList->get();
-        
+
         return customResponse()
             ->message("List of residence.")
             ->data($peronalDataList)
             ->success()
             ->generate();
     }
-    
+
     public function show(Request $request, $id) {
         $userData = User::find($id);
         $personalData = !empty($userData->personalData) ? $userData->personalData : "";
