@@ -15,7 +15,7 @@ class CreateOtherDataTable extends Migration
     {
         Schema::create('other_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->unsignedBigInteger('ethnicity_id')->nullable();
             $table->boolean('disabled');
             $table->unsignedBigInteger('disability_id')->nullable();

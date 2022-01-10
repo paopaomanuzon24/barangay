@@ -15,7 +15,7 @@ class CreateHouseKeeperDataTable extends Migration
     {
         Schema::create('house_keeper_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("house_keeper_type_id")->nullable();
             $table->string("first_name")->nullable();
             $table->string("middle_name")->nullable();

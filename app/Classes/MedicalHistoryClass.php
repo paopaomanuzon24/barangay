@@ -33,7 +33,7 @@ class MedicalHistoryClass
         $medicalHistoryData->commorbidity = !empty($request->commorbidity) ? $request->commorbidity : 0;
         $medicalHistoryData->other_medical_history = !empty($request->other_medical_history) ? $request->other_medical_history : "";
         $medicalHistoryData->allergies = !empty($request->allergies) ? $request->allergies : "";
-        $medicalHistoryData->vaccination = !empty($request->vaccination[0]) ? $request->vaccination[0] : "";
+        // $medicalHistoryData->vaccination = !empty($request->vaccination[0]) ? $request->vaccination[0] : "";
         $medicalHistoryData->save();
 
         $this->saveMedicalHistoryDisease($request, $medicalHistoryData);

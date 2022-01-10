@@ -15,8 +15,8 @@ class CreateHouseHoldInternetAccessTable extends Migration
     {
         Schema::create('house_hold_internet_access', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("house_hold_id");
-            $table->unsignedBigInteger("internet_access_id");
+            $table->unsignedBigInteger("house_hold_id")->nullable();
+            $table->unsignedBigInteger("internet_access_id")->nullable();
             $table->timestamps();
 
             $table->foreign('house_hold_id')->references('id')->on('house_hold_data');

@@ -15,7 +15,7 @@ class CreateFamilyDataTable extends Migration
     {
         Schema::create('family_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("personal_data_id")->nullable();
             $table->unsignedBigInteger("relationship_type_id")->nullable();
             $table->string("first_name");

@@ -15,9 +15,10 @@ class CreateEducationalDataTable extends Migration
     {
         Schema::create('educational_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("level_id")->nullable();
             $table->string("level_code");
+            $table->unsignedBigInteger("course_id")->nullable();
             $table->string("school_name");
             $table->string("school_address");
             $table->char("year_from", 5);

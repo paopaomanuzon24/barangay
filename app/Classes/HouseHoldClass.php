@@ -80,7 +80,7 @@ class HouseHoldClass
             case 3:
                 $params = [
                     'septic_tank' => 'required',
-                    'house_photo' => 'mimes:jpg,bmp,png,jpeg|required'
+                    'house_photo' => 'mimes:jpg,bmp,png,jpeg'
                 ];
         
                 $validator = $controller->validator($request, $params);

@@ -15,8 +15,8 @@ class CreateHouseHoldPresenceTable extends Migration
     {
         Schema::create('house_hold_presence', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("house_hold_id");
-            $table->unsignedBigInteger("house_hold_presence_id");
+            $table->unsignedBigInteger("house_hold_id")->nullable();
+            $table->unsignedBigInteger("house_hold_presence_id")->nullable();
             $table->timestamps();
 
             $table->foreign('house_hold_id')->references('id')->on('house_hold_data');

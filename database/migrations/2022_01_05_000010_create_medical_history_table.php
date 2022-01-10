@@ -15,7 +15,7 @@ class CreateMedicalHistoryTable extends Migration
     {
         Schema::create('medical_history', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->string("height");
             $table->string("weight");
             $table->string("blood_type");
@@ -27,7 +27,7 @@ class CreateMedicalHistoryTable extends Migration
             // $table->boolean("active_medication");
             $table->string("other_medical_history");
             $table->string("allergies");
-            $table->string("vaccination");
+            // $table->string("vaccination");
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

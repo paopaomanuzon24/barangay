@@ -15,7 +15,7 @@ class CreateProfilePictureTable extends Migration
     {
         Schema::create('profile_picture', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->string("profile_path");
             $table->string("profile_name");
             $table->timestamps();

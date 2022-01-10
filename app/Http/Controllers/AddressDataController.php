@@ -27,8 +27,8 @@ class AddressDataController extends Controller
             'full_address' => 'required|string',
             'address_type' => 'required',
             'starting_from' => 'required',
-            'primary_file' => 'mimes:jpg,bmp,png,jpeg|required',
-            'secondary_file' => 'mimes:jpg,bmp,png,jpeg|required'
+            'primary_file' => 'mimes:jpg,bmp,png,jpeg',
+            'secondary_file' => 'mimes:jpg,bmp,png,jpeg'
         ]);
 
         if ($validator->fails()) {

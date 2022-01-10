@@ -15,7 +15,7 @@ class CreateEducationalOtherDataTable extends Migration
     {
         Schema::create('educational_other_data', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id");
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("level_id")->nullable();
             $table->string("level_code")->nullable();
             $table->unsignedBigInteger("course_id")->nullable();

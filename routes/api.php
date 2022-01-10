@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserManagementController;
 
 use App\Http\Controllers\InhabitantsController;
 use App\Http\Controllers\PersonalDataController;
@@ -49,8 +50,13 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('user/{id}', [AuthController::class, 'show']);
     Route::post('password', [AuthController::class, 'changePassword']);
 
+    ##User Management
+    Route::get('user-management/{id}', [UserManagementController::class, 'show']);
+    Route::post('user-management/store', [UserManagementController::class, 'store']);
+
     ##Inhabitants
     Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);
+    Route::get('inhabitants/residence/list', [InhabitantsController::class, 'getResidenceList']);
     Route::get('inhabitants/{id}', [InhabitantsController::class, 'show']);
 
     Route::get('inhabitants/personal/{id}', [PersonalDataController::class, 'getPersonalData']);
@@ -195,7 +201,7 @@ Route::get('monthly-rental/list', [HouseHoldController::class, 'getMonthlyRental
 Route::get('lot-status/list', [HouseHoldController::class, 'getLotStatusList']);
 Route::get('garbage-disposal/list', [HouseHoldController::class, 'getGarbageDisposal']);
 Route::get('toilet-facility/list', [HouseHoldController::class, 'getToiletFacility']);
-Route::get('radio/garange-and-parking-status/list', [HouseHoldController::class, 'getGarageAndParkingList']);
+Route::get('radio/garage-and-parking-status/list', [HouseHoldController::class, 'getGarageAndParkingList']);
 Route::get('radio/septic-tank-status/list', [HouseHoldController::class, 'getSepticTankStatusList']);
 
 Route::get('house-keeper-type/list', [HouseKeeperController::class, 'getHouseKeeperType']);

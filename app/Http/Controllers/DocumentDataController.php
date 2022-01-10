@@ -20,7 +20,7 @@ class DocumentDataController extends Controller
 {
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-            'document_file' => 'mimes:jpg,bmp,png,jpeg|required|array'
+            'document_file' => 'mimes:jpg,bmp,png,jpeg'
         ]);
 
         $class = new DocumentDataClass;
