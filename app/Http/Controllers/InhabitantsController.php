@@ -17,7 +17,6 @@ use App\Models\User;
 class InhabitantsController extends Controller
 {
     public function getInhabitantsList(Request $request) {
-        dd($request->all());
         $peronalDataList = PersonalData::select(
             'personal_data.id',
             'personal_data.user_id',
@@ -48,9 +47,6 @@ class InhabitantsController extends Controller
         if ($request->barangay_id) {
             $peronalDataList = $peronalDataList->where("users.barangay_id", $request->barangay_id);
         }
-
-       # dd($request);
-
 
         $peronalDataList = $peronalDataList->get();
 
