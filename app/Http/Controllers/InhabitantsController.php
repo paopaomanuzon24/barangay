@@ -48,6 +48,8 @@ class InhabitantsController extends Controller
             $peronalDataList = $peronalDataList->where("users.barangay_id", $request->barangay_id);
         }
 
+        dd($request);
+
         $peronalDataList = $peronalDataList->get();
         
         return customResponse()
