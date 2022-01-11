@@ -5,11 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PermitPaymentMethod extends Model
+class PermitStatus extends Model
 {
     use HasFactory;
 
-    protected $table = 'permit_payment_method';
+    protected $table = 'permit_status';
     protected $dateformat = 'Y-m-d H:i:s';
     public $timestamps = true;
 

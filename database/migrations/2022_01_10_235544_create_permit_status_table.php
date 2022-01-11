@@ -22,6 +22,15 @@ class CreatePermitStatusTable extends Migration
         DB::table('permit_status')->insert([
             'description' => 'For Approval',
         ]);
+        DB::table('permit_status')->insert([
+            'description' => 'For Release',
+        ]);
+        DB::table('permit_status')->insert([
+            'description' => 'For Payment',
+        ]);
+        DB::table('permit_status')->insert([
+            'description' => 'Denied',
+        ]);
 
     }
 

@@ -20,4 +20,32 @@ class PermitHistory extends Model
 
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
+
+    public function category()
+    {
+        return $this->belongsTo(PermitCategory::class, 'category_id', 'id');
+    }
+
+    public function barangay(){
+        return $this->belongsTo(Barangay::class,'barangay_id','id');
+    }
+
+    public function permitType(){
+        return $this->belongsTo(PermitType::class,'permit_type_id','id');
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    public function paymentMethod(){
+        return $this->belongsTo(PermitPaymentMethod::class,'payment_method_id','id');
+    }
+
+    public function status(){
+        return $this->belongsTo(PermitStatus::class,'status_id','id');
+    }
+
+
+
 }

@@ -25,7 +25,8 @@ use App\Http\Controllers\PermitTemplateController;
 use App\Http\Controllers\PermitFeesController;
 use App\Http\Controllers\BarangayOfficialController;
 use App\Http\Controllers\PermitCategoryController;
-use App\Http\Controllers\PermitGenerationController;
+use App\Http\Controllers\PermitRequestController;
+use App\Http\Controllers\PermitPaymentMethodController;
 
 
 
@@ -111,13 +112,14 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('permit/category/delete', [PermitCategoryController::class, 'delete']);
     Route::get('permit/categories', [PermitCategoryController::class, 'list']);
 
+
     Route::post('permit/type', [PermitTypeController::class, 'store']);
     Route::get('permit/type/{id}/edit', [PermitTypeController::class, 'edit']);
     Route::post('permit/type/update', [PermitTypeController::class,'update']);
     Route::post('permit/type/delete', [PermitTypeController::class,'delete']);
 
     Route::get('permit/type/{id}', [PermitTypeController::class, 'getPermitType']);
-
+    Route::get('permit/types', [PermitTypeController::class, 'list']);
 
 
     Route::post('permit/fee', [PermitFeesController::class, 'store']);
@@ -128,20 +130,15 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('permit/fees', [PermitFeesController::class,'list']);
 
 
+    Route::post('permit/request', [PermitRequestController::class, 'generatePermit']);
+    Route::get('permit/request/list', [PermitRequestController::class, 'list']);
 
-
-
-
-
-
-    Route::post('permit/request', [PermitGenerationController::class, 'generatePermit']);
-
-
-
+    Route::get('permit/paymentmethod/list', [PermitPaymentMethodController::class, 'list']);
 
 });
 
-Route::get('permit/types', [PermitTypeController::class, 'list']);
+
+
 
 
 ##Others

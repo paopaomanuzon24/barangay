@@ -158,13 +158,18 @@ class PermitCategoryController extends Controller
     public function list(Request $request){
 
         $return = array();
-        $barangayData = PermitCategory::all();
-        foreach($barangayData as $row){
-            $return[] = $row->getOriginal();
+        $categoryData = PermitCategory::all();
+        if(empty($categoryData)){
+            return customResponse()
+            ->data(null)
+            ->message("No permit category found")
+            ->success()
+            ->generate();
         }
 
+
         return customResponse()
-            ->data($return)
+            ->data($categoryData)
             ->message("Permit category list.")
             ->success()
             ->generate();

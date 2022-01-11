@@ -23,6 +23,8 @@ class CreatePermitHistoryTable extends Migration
             $table->unsignedBigInteger("payment_method_id")->nullable();
             $table->unsignedBigInteger("status_id");
             $table->string("control_number");
+            $table->date("release_date")->nullable();
+
             $table->timestamps();
 
             $table->foreign('permit_type_id')->references('id')->on('permit_type');

@@ -17,7 +17,7 @@ use App\Models\PermitHistory;
 
 
 
-class PermitGenerationController extends Controller
+class PermitRequestController extends Controller
 {
 
     public function generatePermit(Request $request){
@@ -59,6 +59,7 @@ class PermitGenerationController extends Controller
             'control_number' => $controlNumber,
             'status_id' => $status,
             'user_id' => $request->user_id,
+            'payment_method_id' => $request->payment_method_id
         ];
         PermitHistory::create($data);
 
@@ -79,6 +80,7 @@ class PermitGenerationController extends Controller
             'permit_type_id' => 'required|integer|min:0',
             'category_id' => 'required|integer|min:0',
             'user_id' => 'required|integer|min:0',
+            'payment_method_id' => 'required|integer|min:0'
 
         ]);
 
@@ -99,4 +101,48 @@ class PermitGenerationController extends Controller
     }
 
 
+    public function list(Request $request){
+
+        $historyData = PermitHistory::where("user_id","!=","");
+
+        if(!empty($request['barangay_id'])){
+            $historyData = $historyData->where("barangay_id",$request['barangay_id']);
+        }
+        if(!empty($request['category_id'])){
+            $historyData = $historyData->where("category_id",$request['category_id']);
+        }
+        if(!empty($request['permit_type_id'])){
+            $historyData = $historyData->where("permit_type_id",$request['permit_type_id']);
+        }
+        if(!empty($request['user_id'])){
+            $historyData = $historyData->where("user_id",$request['user_id']);
+        }
+
+        $historyData = $historyData->with('category','barangay','permitType','user','paymentMethod','status')->get();
+
+        $return = array();
+        foreach($historyData as $row){
+
+            $userFullName = $row->user->first_name.' '. $row->user->middle_name.' '. $row->user->last_name;
+            $return[] = array(
+                'id' => $row->id,
+                'category' => $row->category->description,
+                'barangay' => $row->barangay->description,
+                'permit_type' => $row->permitType->permit_name,
+                'user' => $userFullName,
+                'payment_method' => $row->paymentMethod->description,
+                'status' => $row->status->description,
+                'release_date' => $row->release_date,
+
+            );
+
+        }
+
+        return customResponse()
+            ->data($return)
+            ->message("Permit request list.")
+            ->success()
+            ->generate();
+
+    }
 }
