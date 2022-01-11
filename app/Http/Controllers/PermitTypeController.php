@@ -198,7 +198,7 @@ class PermitTypeController extends Controller
         }
 
         return customResponse()
-            ->data($return)
+            ->data($permitData)
             ->message("Permit type list.")
             ->success()
             ->generate();
