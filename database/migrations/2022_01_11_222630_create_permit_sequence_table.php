@@ -15,7 +15,10 @@ class CreatePermitSequenceTable extends Migration
     {
         Schema::create('permit_sequence', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("barangay_id");
+            $table->unsignedBigInteger("sequence");
             $table->timestamps();
+            $table->foreign('barangay_id')->references('id')->on('barangays');
         });
     }
 

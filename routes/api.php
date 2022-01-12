@@ -137,13 +137,13 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('permit/paymentmethod/list', [PermitPaymentMethodController::class, 'list']);
 
     Route::get('permit/request/list', [PermitRequestController::class, 'list']);
-    Route::post('permit/request', [PermitRequestController::class, 'generatePermit']);
+
     Route::get('permit/request/{id}', [PermitRequestController::class, 'show']);
 
     Route::post('permit/payment', [PermitRequestController::class, 'permitPayment']);
 
 });
-
+Route::post('permit/request', [PermitRequestController::class, 'generatePermit']);
 #Route::get('permit/request/{id}/edit', [PermitRequestController::class, 'permitPayment']);
 #Route::post('permit/request/update', [PermitRequestController::class, 'permitPayment']);
 

@@ -41,6 +41,8 @@ class CreatePermitHistoryTable extends Migration
 
 
         });
+
+
     }
 
     /**

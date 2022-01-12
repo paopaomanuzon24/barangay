@@ -15,8 +15,8 @@ use App\Models\PermitFees;
 use App\Models\PermitType;
 use App\Models\PermitHistory;
 use App\Models\PermitStatus;
-
-
+use App\Models\Barangay;
+use App\Models\PermitSequence;
 
 class PermitRequestController extends Controller
 {
@@ -51,7 +51,7 @@ class PermitRequestController extends Controller
             ], 400);
         } */
 
-        $controlNumber = $this->getControlNumber();
+        $controlNumber = $this->getSequenceNumber($request->barangay_id);
         if(!empty($request['payment_image']) && !empty($request['reference_number'])){
             $status = PermitStatus::FOR_APPROVAL_STATUS;
         }else{
@@ -74,7 +74,8 @@ class PermitRequestController extends Controller
             'permit_type_id' => $request->permit_type_id,
             'category_id' => $request->category_id,
             'barangay_id' => $request->barangay_id,
-            'control_number' => $controlNumber,
+            'application_id' => $controlNumber,
+
             'status_id' => $status,
             'user_id' => $request->user_id,
             'payment_method_id' => $request->payment_method_id,
@@ -99,11 +100,11 @@ class PermitRequestController extends Controller
 
         $validator = Validator::make($request->all(),[
          #   'template_id' => 'required|integer|min:0',
-            'barangay_id' => 'required|integer|min:0',
-            'permit_type_id' => 'required|integer|min:0',
-            'category_id' => 'required|integer|min:0',
-            'user_id' => 'required|integer|min:0',
-            'payment_method_id' => 'required|integer|min:0',
+            'barangay_id' => 'required|integer|min:1',
+            'permit_type_id' => 'required|integer|min:1',
+            'category_id' => 'required|integer|min:1',
+            'user_id' => 'required|integer|min:1',
+            'payment_method_id' => 'required|integer|min:1',
             'payment_image' => 'mimes:jpg,bmp,png,pdf,txt,doc,docx',
 
 
@@ -164,8 +165,38 @@ class PermitRequestController extends Controller
 
 
 
-    private function getControlNumber(){
-        return rand();
+    private function getSequenceNumber($barangayId){
+        $return = "";
+        $barangayData = Barangay::find($barangayId);
+
+        if(!empty($barangayData)){
+            $sequenceData = PermitSequence::where("barangay_id",$barangayId)->first();
+            if(!empty($sequenceData)){
+                $sequence = $sequenceData->sequence + 1;
+                $sequenceData->sequence = $sequenceData->sequence + 1;
+
+            }else{
+                $sequenceData = new PermitSequence;
+                $sequenceData->barangay_id = $barangayId;
+                $sequenceData->sequence = 1;
+                $sequence = 1;
+
+            }
+            $year = substr(date('Y'),2,2);
+            $day = date('d');
+            $sequence = str_pad($sequence, 5, '0', STR_PAD_LEFT);
+            $return = $barangayId.''.$year.$day.$sequence;
+            $sequenceData->save();
+            return $return;
+        }else{
+            return customResponse()
+            ->data(null)
+            ->message("Barangay not found.")
+            ->failed()
+            ->generate();
+        }
+
+
     }
 
 
