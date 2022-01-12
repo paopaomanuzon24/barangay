@@ -16,7 +16,8 @@ class PermitCategoryController extends Controller
 
 
         $validator = Validator::make($request->all(),[
-            'description' => 'required|string'
+            'description' => 'required|string',
+            'barangay_id' => 'required|integer|min:0'
         ]);
 
         if($validator->fails()){
@@ -29,8 +30,6 @@ class PermitCategoryController extends Controller
 
         $checkData = PermitCategory::where("description",$request->description)->first();
         if(!empty($checkData)){
-
-
             return customResponse()
                 ->data(null)
                 ->message("Permit category exist.")
@@ -40,6 +39,7 @@ class PermitCategoryController extends Controller
 
         $permit = new PermitCategory;
         $permit->description = $request->description;
+        $permit->barangay_id = $request->barangay_id;
         $permit->save();
 
 
@@ -49,10 +49,7 @@ class PermitCategoryController extends Controller
             ->success()
             ->generate();
 
-      /*   return response()->json([
-            'status' => 'success',
-            'message' => "Category Added."
-        ], 200); */
+
 
     }
 
@@ -60,14 +57,8 @@ class PermitCategoryController extends Controller
 
         $categoryData = PermitCategory::find($id);
         if(!empty($categoryData)){
-
-            $data = $categoryData->toArray();
-            /* return response()->json([
-                    $data
-            ], 200); */
-
             return customResponse()
-                ->data($data)
+                ->data($categoryData)
                 ->message("Permit Category List.")
                 ->success()
                 ->generate();
@@ -78,15 +69,20 @@ class PermitCategoryController extends Controller
     public function edit(Request $request, $id){
 
         $categoryData = PermitCategory::find($id);
-        if(!empty($categoryData)){
 
-            $data = $categoryData->toArray();
-           /*  return response()->json([
-                    $data
-            ], 200); */
-
+        $validator = Validator::make($request->all(),[
+            'id' => 'required|integer|min:0'
+        ]);
+        if($validator->fails()){
             return customResponse()
-                ->data($data)
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
+        }
+        if(!empty($categoryData)){
+            return customResponse()
+                ->data($categoryData)
                 ->message("Permit Category Data.")
                 ->success()
                 ->generate();
@@ -98,7 +94,8 @@ class PermitCategoryController extends Controller
 
         $validator = Validator::make($request->all(),[
             'description' => 'required|string',
-            'id' => 'required|integer|min:0'
+            'id' => 'required|integer|min:0',
+            'barangay_id' => 'required|integer|min:0'
 
         ]);
 
@@ -109,15 +106,20 @@ class PermitCategoryController extends Controller
                 ->failed()
                 ->generate();
         }
+        $categoryData = PermitCategory::where("description",$request->description)->first();
+        if(!empty($categoryData)){
+            return customResponse()
+            ->data(null)
+            ->message("Permit Category Exist.")
+            ->success()
+            ->generate();
+        }
 
         $categoryData = PermitCategory::find($request->id);
         $categoryData->description = $request->description;
+        $categoryData->barangay_id = $request->barangay_id;
         $categoryData->save();
 
-       /*  return response()->json([
-            'status' => 'success',
-            'message' => "Category Updated."
-        ], 200); */
 
         return customResponse()
             ->data(null)
@@ -157,8 +159,14 @@ class PermitCategoryController extends Controller
 
     public function list(Request $request){
 
-        $return = array();
-        $categoryData = PermitCategory::all();
+
+        $categoryData = PermitCategory::where("description","!=","");
+        if(!empty($request['barangay_id'])){
+            $categoryData = $categoryData->where("barangay_id",$request->barangay_id);
+        }
+
+
+        $categoryData = $categoryData->get();
         if(empty($categoryData)){
             return customResponse()
             ->data(null)

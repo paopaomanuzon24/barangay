@@ -213,4 +213,29 @@ class PermitRequestController extends Controller
             ->generate();
 
     }
+
+    public function show(Request $request, $id){
+
+        $permitData = PermitHistory::find($id);
+        if(!empty($permitData)){
+            $userFullName = $permitData->user->first_name.' '. $permitData->user->middle_name.' '. $permitData->user->last_name;
+            $return = array(
+                'id' => $permitData->id,
+                'category' => $permitData->category->description,
+                'barangay' => $permitData->barangay->description,
+                'permit_type' => $permitData->permitType->permit_name,
+                'user' => $userFullName,
+                'payment_method' => $permitData->paymentMethod->description,
+                'status' => $permitData->status->description,
+                'release_date' => $permitData->release_date,
+
+            );
+            return customResponse()
+                ->data($return)
+                ->message("Permit request data.")
+                ->success()
+                ->generate();
+        }
+
+    }
 }

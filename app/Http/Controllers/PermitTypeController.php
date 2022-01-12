@@ -23,14 +23,11 @@ class PermitTypeController extends Controller
         $validator = Validator::make($request->all(),[
             'permit_name' => 'required|string',
             'category_id' => 'required|integer|min:0',
-            'barangay_id' => 'required|integer|min:0'
+            'barangay_id' => 'required|integer|min:0',
+            'fee' => 'required|numeric|min:0'
         ]);
 
         if($validator->fails()){
-           /*  return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400); */
             return customResponse()
                 ->data(null)
                 ->message($validator->errors()->all()[0])
@@ -40,10 +37,6 @@ class PermitTypeController extends Controller
 
         $permit = PermitType::where("permit_name",$request->permit_name)->first();
         if(!empty($permit)){
-            /* return response()->json([
-                'message' => "Permit Type Exist."
-            ], 201); */
-
             return customResponse()
                 ->data(null)
                 ->message("Permit type exist.")
@@ -55,6 +48,7 @@ class PermitTypeController extends Controller
         $permit->permit_name = $request->permit_name;
         $permit->category_id = $request->category_id;
         $permit->barangay_id = $request->barangay_id;
+        $permit->fee = $request->fee;
         $permit->save();
 
       /*   return response()->json([
@@ -74,12 +68,8 @@ class PermitTypeController extends Controller
 
         $permitTypeData = PermitType::find($id);
         if(!empty($permitTypeData)){
-
-            $data = $permitTypeData->toArray();
-
-
             return customResponse()
-                ->data($data)
+                ->data($permitTypeData)
                 ->message("Permit Type Data.")
                 ->success()
                 ->generate();
@@ -93,13 +83,13 @@ class PermitTypeController extends Controller
             'permit_name' => 'required|string',
             'id' => 'required|integer|min:0',
             'category_id' => 'required|integer|min:0',
-            'barangay_id' => 'required|integer|min:0'
+            'barangay_id' => 'required|integer|min:0',
+            'fee' => 'required|numeric|min:0'
 
         ]);
 
 
         if($validator->fails()){
-
             return customResponse()
                 ->data(null)
                 ->message($validator->errors()->all()[0])
@@ -109,18 +99,22 @@ class PermitTypeController extends Controller
 
 
         $permit = PermitType::find($request->id);
-        $permit->permit_name = $request->permit_name;
-        $permit->category_id = $request->category_id;
-        $permit->barangay_id = $request->barangay_id;
-        $permit->save();
-
-
-
-        return customResponse()
+        if(!empty($permit)){
+            $permit->permit_name = $request->permit_name;
+            $permit->category_id = $request->category_id;
+            $permit->barangay_id = $request->barangay_id;
+            $permit->save();
+            return customResponse()
             ->data(null)
             ->message("Permit type updated")
             ->success()
             ->generate();
+        }
+
+
+
+
+
     }
 
     public function delete(Request $request){
@@ -139,14 +133,14 @@ class PermitTypeController extends Controller
         }
 
         $barangayData = PermitType::find($request->id);
-        $barangayData->delete();
-
-
-        return customResponse()
+        if(!empty($barangayData)){
+            $barangayData->delete();
+            return customResponse()
             ->data(null)
             ->message("Permit type deleted.")
             ->success()
             ->generate();
+        }
 
     }
 
@@ -169,7 +163,7 @@ class PermitTypeController extends Controller
         }
 
         $permitData = PermitType::find($id);
-        #$return = $permitData->toArray();
+
 
         return customResponse()
         ->data($permitData)
@@ -177,7 +171,7 @@ class PermitTypeController extends Controller
         ->failed()
         ->generate();
 
-      #  return response()->json($return,201);
+
     }
 
     public function list(Request $request){
@@ -204,63 +198,17 @@ class PermitTypeController extends Controller
             ->generate();
     }
 
-    public function generatePermit(Request $request){
+    public function show(Request $request, $id){
 
-        $this->validateGeneratePermit($request);
-
-        $templateData = PermitTemplate::find($request->template_id);
-
-        if(empty($templateData)){
-            return response()->json([
-                'error' => 'invalid',
-                'message' => "Template not found."
-            ], 400);
+        $permitTypeData = PermitType::find($id);
+        if(!empty($permitTypeData)){
+            return customResponse()
+                ->data($permitTypeData)
+                ->message("Permit type data.")
+                ->success()
+                ->generate();
         }
 
-        $typeData = PermitType::find($request->permit_type_id);
-        if(empty($typeData)){
-            return response()->json([
-                'error' => 'invalid',
-                'message' => "Permit type not found."
-            ], 400);
-        }
-
-        $feeData = PermitFees::find($request->permit_fee_id);
-        if(empty($feeData)){
-            return response()->json([
-                'error' => 'invalid',
-                'message' => "Permit Fee not found."
-            ], 400);
-        }
-
-        $controlNumber = rand();
-        $data = [
-            'template' => Storage::url($templateData->path_name),
-            'permitType' => $typeData->permit_name,
-            'fee' => $feeData->fee,
-            'control_number' => $controlNumber
-        ];
-
-        return response()->json([
-            'data' => $data
-        ], 200);
-    }
-
-    private function validateGeneratePermit($request){
-
-        $validator = Validator::make($request->all(),[
-            'template_id' => 'required|integer',
-            'barangay_id' => 'required|integer',
-            'permit_type_id' => 'required|integer',
-            'permit_fee_id' => 'required|integer'
-        ]);
-
-        if($validator->fails()){
-            return response()->json([
-                'status' => 'error',
-                'message' => $validator->errors()->all()
-            ], 400);
-        }
     }
 
 

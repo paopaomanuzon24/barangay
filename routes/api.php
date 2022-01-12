@@ -105,21 +105,22 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('barangay/officials/delete', [BarangayOfficialController::class, 'delete']);
     Route::get('barangay/officials', [BarangayOfficialController::class, 'list']);
 
-    Route::post('permit/category', [PermitCategoryController::class, 'store']);
-    Route::get('permit/category/{id}', [PermitCategoryController::class, 'show']);
-    Route::get('permit/category/{id}/edit', [PermitCategoryController::class, 'edit']);
-    Route::post('permit/category/update', [PermitCategoryController::class, 'update']);
-    Route::post('permit/category/delete', [PermitCategoryController::class, 'delete']);
-    Route::get('permit/categories', [PermitCategoryController::class, 'list']);
 
 
     Route::post('permit/type', [PermitTypeController::class, 'store']);
     Route::get('permit/type/{id}/edit', [PermitTypeController::class, 'edit']);
     Route::post('permit/type/update', [PermitTypeController::class,'update']);
     Route::post('permit/type/delete', [PermitTypeController::class,'delete']);
-
     Route::get('permit/type/{id}', [PermitTypeController::class, 'getPermitType']);
     Route::get('permit/types', [PermitTypeController::class, 'list']);
+    Route::get('permit/type/{id}', [PermitTypeController::class, 'show']);
+
+    Route::post('permit/category', [PermitCategoryController::class, 'store']);
+    Route::get('permit/category/{id}', [PermitCategoryController::class, 'show']);
+    Route::get('permit/category/{id}/edit', [PermitCategoryController::class, 'edit']);
+    Route::post('permit/category/update', [PermitCategoryController::class, 'update']);
+    Route::post('permit/category/delete', [PermitCategoryController::class, 'delete']);
+    Route::get('permit/categories', [PermitCategoryController::class, 'list']);
 
 
     Route::post('permit/fee', [PermitFeesController::class, 'store']);
@@ -137,12 +138,15 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('permit/request/list', [PermitRequestController::class, 'list']);
     Route::post('permit/request', [PermitRequestController::class, 'generatePermit']);
+    Route::get('permit/request/{id}', [PermitRequestController::class, 'show']);
+
     Route::post('permit/payment', [PermitRequestController::class, 'permitPayment']);
 
 });
 
 #Route::get('permit/request/{id}/edit', [PermitRequestController::class, 'permitPayment']);
 #Route::post('permit/request/update', [PermitRequestController::class, 'permitPayment']);
+
 
 
 

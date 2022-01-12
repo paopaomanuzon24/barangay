@@ -17,19 +17,19 @@ class CreatePermitCategoryTable extends Migration
             $table->id();
             $table->string("description");
             $table->unsignedBigInteger("barangay_id");
-            $table->double('fee',20,2);
+
             $table->timestamps();
         });
 
         DB::table('permit_category')->insert([
             'description' => 'Business Permit',
             'barangay_id' => '1',
-            'fee' => 20,
+
         ]);
         DB::table('permit_category')->insert([
             'description' => 'Building Permit',
             'barangay_id' => '1',
-            'fee' => 20,
+
         ]);
     }
 
