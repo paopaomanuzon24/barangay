@@ -24,6 +24,11 @@ class CreatePermitHistoryTable extends Migration
             $table->unsignedBigInteger("status_id");
             $table->string("control_number");
             $table->date("release_date")->nullable();
+            $table->string('file_name')->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('reference_number')->nullable();
+            $table->string('waive_reason')->nullable();
+            $table->unsignedSmallInteger('is_waive');
 
             $table->timestamps();
 

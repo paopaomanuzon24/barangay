@@ -14,6 +14,7 @@ use App\Models\PermitTemplate;
 use App\Models\PermitFees;
 use App\Models\PermitType;
 use App\Models\PermitHistory;
+use App\Models\PermitStatus;
 
 
 
@@ -23,6 +24,7 @@ class PermitRequestController extends Controller
     public function generatePermit(Request $request){
 
         $this->validateGeneratePermit($request);
+
 
       /*   $templateData = PermitTemplate::find($request->template_id);
 
@@ -50,7 +52,23 @@ class PermitRequestController extends Controller
         } */
 
         $controlNumber = $this->getControlNumber();
-        $status = 1; //# for approval
+        if(!empty($request['payment_image']) && !empty($request['reference_number'])){
+            $status = PermitStatus::FOR_APPROVAL_STATUS;
+        }else{
+            $status = PermitStatus::FOR_PAYMENT_STATUS;
+        }
+
+        $path = "";
+        $imageName = "";
+        if($request->hasFile('payment_image') && !empty($request['reference_number'])){
+            $path = 'public/images/permit/payment';
+
+            $image = $request->file('payment_image');
+            $imageName = $image->getClientOriginalName();
+
+            $request->file('payment_image')->storeAs($path,$imageName);
+        }
+        #$status = 1; //# for approval
         $data = [
            # 'template_id' => $request->template_id,
             'permit_type_id' => $request->permit_type_id,
@@ -59,9 +77,14 @@ class PermitRequestController extends Controller
             'control_number' => $controlNumber,
             'status_id' => $status,
             'user_id' => $request->user_id,
-            'payment_method_id' => $request->payment_method_id
+            'payment_method_id' => $request->payment_method_id,
+            'file_name' => $imageName,
+            'file_path' => $path,
+            'is_waive' => !empty($request['is_waive']) ? 1:  0 ,
+            'waive_reason' => $request['reason_for_waving']
         ];
         PermitHistory::create($data);
+
 
 
 
@@ -80,21 +103,66 @@ class PermitRequestController extends Controller
             'permit_type_id' => 'required|integer|min:0',
             'category_id' => 'required|integer|min:0',
             'user_id' => 'required|integer|min:0',
-            'payment_method_id' => 'required|integer|min:0'
+            'payment_method_id' => 'required|integer|min:0',
+            'payment_image' => 'mimes:jpg,bmp,png,pdf,txt,doc,docx',
+
 
         ]);
 
         if($validator->fails()){
-
             return customResponse()
             ->data(null)
             ->message($validator->errors()->all()[0])
             ->failed()
             ->generate();
-
-
         }
     }
+
+    public function permitPayment(Request $request){
+
+
+        $validator = Validator::make($request->all(),[
+            'payment_file' => 'mimes:jpg,bmp,png,pdf,txt,doc,docx',
+            'id' => 'required|integer|min:0',
+        ]);
+
+        if($validator->fails()){
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+        }
+
+        $path = "";
+        $imageName = "";
+
+        if($request->hasFile('payment_file') && !empty($request['reference_number'])){
+
+            $path = 'public/images/permit/payment';
+
+            $image = $request->file('payment_file');
+            $imageName = $image->getClientOriginalName();
+
+            $request->file('payment_file')->storeAs($path,$imageName);
+
+            $status = PermitStatus::FOR_APPROVAL_STATUS;
+            $historyData = PermitHistory::find($request['id']);
+            $historyData->file_path = $path;
+            $historyData->file_name = $imageName;
+            $historyData->status_id = $status;
+            $historyData->reference_number = $request['reference_number'];
+            $historyData->save();
+            return customResponse()
+            ->data(null)
+            ->message("Permit payment success.")
+            ->success()
+            ->generate();
+        }
+
+    }
+
+
 
     private function getControlNumber(){
         return rand();
