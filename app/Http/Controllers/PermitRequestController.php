@@ -70,8 +70,38 @@ class PermitRequestController extends Controller
                 'message' => "Permit Fee not found."
             ], 400);
         } */
+        $controlNumber = "";
+        $barangayId = $request->barangay_id;
+        $barangayData = Barangay::find($barangayId);
 
-        $controlNumber = $this->getSequenceNumber($request->barangay_id);
+        if(!empty($barangayData)){
+            $sequenceData = PermitSequence::where("barangay_id",$barangayId)->first();
+            if(!empty($sequenceData)){
+                $sequence = $sequenceData->sequence + 1;
+                $sequenceData->sequence = $sequenceData->sequence + 1;
+
+            }else{
+                $sequenceData = new PermitSequence;
+                $sequenceData->barangay_id = $barangayId;
+                $sequenceData->sequence = 1;
+                $sequence = 1;
+
+            }
+            $year = substr(date('Y'),2,2);
+            $day = date('d');
+            $sequence = str_pad($sequence, 5, '0', STR_PAD_LEFT);
+            $controlNumber = $barangayId.''.$year.$day.$sequence;
+            $sequenceData->save();
+
+        }else{
+            return customResponse()
+            ->data(null)
+            ->message("Barangay not found.")
+            ->failed()
+            ->generate();
+        }
+
+       # $controlNumber = $this->getSequenceNumber($request->barangay_id);
         if(!empty($request['payment_image']) && !empty($request['reference_number'])){
             $status = PermitStatus::FOR_APPROVAL_STATUS;
         }else{
