@@ -33,6 +33,7 @@ class PermitRequestController extends Controller
                'user_id' => 'required|integer|min:1',
                'payment_method_id' => 'required|integer|min:1',
                'payment_image' => 'mimes:jpg,bmp,png,pdf,txt,doc,docx',
+               'reference_number' => 'integer'
 
 
            ]);
@@ -131,6 +132,7 @@ class PermitRequestController extends Controller
             'payment_method_id' => $request->payment_method_id,
             'file_name' => $imageName,
             'file_path' => $path,
+            'reference_number' => $request['reference_number'],
             'is_waive' => !empty($request['is_waive']) ? 1:  0 ,
             'waive_reason' => $request['reason_for_waving']
         ];
@@ -146,11 +148,6 @@ class PermitRequestController extends Controller
             ->generate();
     }
 
-    private function validateGeneratePermit($request){
-
-
-
-    }
 
     public function permitPayment(Request $request){
 
@@ -292,7 +289,7 @@ class PermitRequestController extends Controller
                 'payment_method' => $permitData->paymentMethod->description,
                 'status' => $permitData->status->description,
                 'release_date' => $permitData->release_date,
-
+                'application_id' => $permitData->application_id
             );
             return customResponse()
                 ->data($return)
@@ -302,4 +299,113 @@ class PermitRequestController extends Controller
         }
 
     }
+
+    public function denyRequest(Request $request){
+        $status = PermitStatus::DENIED_STATUS;
+
+        $validator = Validator::make($request->all(),[
+            'feedback' => 'string',
+            'id' => 'required|integer|min:1',
+        ]);
+
+        if($validator->fails()){
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+        }
+
+        $permit = PermitHistory::find($request->id);
+        if(!empty($permit)){
+            if($permit->status_id == $status){
+                 return customResponse()
+                ->data(null)
+                ->message("Permit is already denied.")
+                ->failed()
+                ->generate();
+            }
+            $permit->status_id = $status;
+            $permit->feedback = $request->feedback;
+            $permit->save();
+            return customResponse()
+            ->data(null)
+            ->message("Permit denied.")
+            ->success()
+            ->generate();
+        }else{
+            return customResponse()
+            ->data(null)
+            ->message("Permit not found")
+            ->failed()
+            ->generate();
+        }
+    }
+
+    public function getPermitPaymentData(Request $request,$id){
+        $permitData = PermitHistory::find($id);
+        if(!empty($permitData)){
+            if(empty($permitData->file_name) && empty($permitData->file_path)){
+                return customResponse()
+                ->data(null)
+                ->message("Payment proof not found.")
+                ->failed()
+                ->generate();
+            }
+            $path = $permitData->file_path.'/'.$permitData->file_name;
+
+            $path = Storage::url($path);
+
+            $return = array(
+                'path'=> $path,
+                'reference_number' => $permitData->reference_number
+            );
+            return customResponse()
+            ->data($return)
+            ->message("Permit proof data.")
+            ->success()
+            ->generate();
+        }else{
+            return customResponse()
+            ->data(null)
+            ->message("Permit not found")
+            ->failed()
+            ->generate();
+        }
+    }
+
+    /* public function edit(Request $request,$id){
+
+
+        $permitData = PermitHistory::find($id);
+
+
+        if(!empty($permitData)){
+            $userFullName = $permitData->user->first_name.' '. $permitData->user->middle_name.' '. $permitData->user->last_name;
+            $return = array(
+                'id' => $permitData->id,
+                'category' => $permitData->category->description,
+                'barangay' => $permitData->barangay->description,
+                'permit_type' => $permitData->permitType->permit_name,
+                'user' => $userFullName,
+                'payment_method' => $permitData->paymentMethod->description,
+                'status' => $permitData->status->description,
+                'release_date' => $permitData->release_date,
+                'application_id' => $permitData->application_id
+
+            );
+            return customResponse()
+                ->data($return)
+                ->message("Permit request data.")
+                ->success()
+                ->generate();
+        }else{
+            return customResponse()
+            ->data(null)
+            ->message("Permit not found")
+            ->failed()
+            ->generate();
+        }
+
+    } */
 }

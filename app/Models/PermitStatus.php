@@ -22,4 +22,5 @@ class PermitStatus extends Model
     const UPDATED_AT = 'updated_at';
     const FOR_APPROVAL_STATUS = 1;
     const FOR_PAYMENT_STATUS = 3;
+    const DENIED_STATUS = 4;
 }
