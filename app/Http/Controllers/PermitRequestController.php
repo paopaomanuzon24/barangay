@@ -23,7 +23,27 @@ class PermitRequestController extends Controller
 
     public function generatePermit(Request $request){
 
-        $this->validateGeneratePermit($request);
+      #  $this->validateGeneratePermit($request);
+
+        $validator = Validator::make($request->all(),[
+            #   'template_id' => 'required|integer|min:0',
+               'barangay_id' => 'required|integer|min:1',
+               'permit_type_id' => 'required|integer|min:1',
+               'category_id' => 'required|integer|min:1',
+               'user_id' => 'required|integer|min:1',
+               'payment_method_id' => 'required|integer|min:1',
+               'payment_image' => 'mimes:jpg,bmp,png,pdf,txt,doc,docx',
+
+
+           ]);
+
+           if($validator->fails()){
+               return customResponse()
+               ->data(null)
+               ->message($validator->errors()->all()[0])
+               ->failed()
+               ->generate();
+           }
 
 
       /*   $templateData = PermitTemplate::find($request->template_id);
@@ -98,25 +118,8 @@ class PermitRequestController extends Controller
 
     private function validateGeneratePermit($request){
 
-        $validator = Validator::make($request->all(),[
-         #   'template_id' => 'required|integer|min:0',
-            'barangay_id' => 'required|integer|min:1',
-            'permit_type_id' => 'required|integer|min:1',
-            'category_id' => 'required|integer|min:1',
-            'user_id' => 'required|integer|min:1',
-            'payment_method_id' => 'required|integer|min:1',
-            'payment_image' => 'mimes:jpg,bmp,png,pdf,txt,doc,docx',
 
 
-        ]);
-
-        if($validator->fails()){
-            return customResponse()
-            ->data(null)
-            ->message($validator->errors()->all()[0])
-            ->failed()
-            ->generate();
-        }
     }
 
     public function permitPayment(Request $request){
