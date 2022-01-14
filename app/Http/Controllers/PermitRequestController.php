@@ -247,7 +247,16 @@ class PermitRequestController extends Controller
             $historyData = $historyData->where("user_id",$request['user_id']);
         }
 
-        $historyData = $historyData->with('category','barangay','permitType','user','paymentMethod','status')->get();
+        $historyData = $historyData->with('category','barangay','permitType','user','paymentMethod','status');
+        if(!empty($request['sort'])){
+            switch($request['sort']){
+
+                case "desc":
+                    $historyData = $historyData->orderByDesc("id");
+                break;
+            }
+        }
+        $historyData = $historyData->get();
 
         $return = array();
         foreach($historyData as $row){
