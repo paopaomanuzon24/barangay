@@ -44,7 +44,7 @@ class PermitRequestController extends Controller
             ->failed()
             ->generate();
         }
-        $request['payment_image'] = $request['payment_image'][0];
+
 
 
       /*   $templateData = PermitTemplate::find($request->template_id);
@@ -113,11 +113,21 @@ class PermitRequestController extends Controller
         $imageName = "";
         if($request->hasFile('payment_image') && !empty($request['reference_number'])){
             $path = 'public/images/permit/payment';
+            if(is_array($request->file('payment_image'))){
+                $image = $request->file('payment_image')[0];
+            }else{
+                $image = $request->file('payment_image');
+            }
 
-            $image = $request->file('payment_image')[0];
             $imageName = $image->getClientOriginalName();
 
-            $request->file('payment_image')[0]->storeAs($path,$imageName);
+            if(is_array($request->file('payment_image'))){
+                $request->file('payment_image')[0]->storeAs($path,$imageName);
+            }else{
+                $request->file('payment_image')->storeAs($path,$imageName);
+            }
+
+
         }
         #$status = 1; //# for approval
         $data = [
@@ -172,10 +182,25 @@ class PermitRequestController extends Controller
 
             $path = 'public/images/permit/payment';
 
-            $image = $request->file('payment_file');
+          #  $image = $request->file('payment_file');
+          #  $imageName = $image->getClientOriginalName();
+
+          #  $request->file('payment_file')->storeAs($path,$imageName);
+
+            if(is_array($request->file('payment_image'))){
+                $image = $request->file('payment_image')[0];
+            }else{
+                $image = $request->file('payment_image');
+            }
+
             $imageName = $image->getClientOriginalName();
 
-            $request->file('payment_file')->storeAs($path,$imageName);
+            if(is_array($request->file('payment_image'))){
+                $request->file('payment_image')[0]->storeAs($path,$imageName);
+            }else{
+                $request->file('payment_image')->storeAs($path,$imageName);
+            }
+
 
             $status = PermitStatus::FOR_APPROVAL_STATUS;
             $historyData = PermitHistory::find($request['id']);
