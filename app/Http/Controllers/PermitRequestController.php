@@ -32,7 +32,7 @@ class PermitRequestController extends Controller
                'category_id' => 'required|integer|min:1',
                'user_id' => 'required|integer|min:1',
                'payment_method_id' => 'required|integer|min:1',
-               'payment_image' => 'image|mimes:jpeg,jpg,png',
+               'payment_image' => 'mimes:jpeg,jpg,png',
                'reference_number' => 'integer'
            ]);
 
