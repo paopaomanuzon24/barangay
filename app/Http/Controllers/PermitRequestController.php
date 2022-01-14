@@ -25,7 +25,7 @@ class PermitRequestController extends Controller
 
       #  $this->validateGeneratePermit($request);
 
-
+        dd($request->input());
         $validator = Validator::make($request->all(),[
             #   'template_id' => 'required|integer|min:0',
                'barangay_id' => 'required|integer|min:1',
