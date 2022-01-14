@@ -262,7 +262,8 @@ class PermitRequestController extends Controller
                 'payment_method' => $row->paymentMethod->description,
                 'status' => $row->status->description,
                 'release_date' => $row->release_date,
-                'application_id' => $row->application_id
+                'application_id' => $row->application_id,
+                'request_date' => $row->created_at
 
             );
 
