@@ -114,7 +114,7 @@ class PermitRequestController extends Controller
         if($request->hasFile('payment_image') && !empty($request['reference_number'])){
             $path = 'public/images/permit/payment';
 
-            $image = $request->file('payment_image');
+            $image = $request->file('payment_image')[0];
             $imageName = $image->getClientOriginalName();
 
             $request->file('payment_image')->storeAs($path,$imageName);
