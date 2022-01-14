@@ -25,7 +25,7 @@ class PermitRequestController extends Controller
 
       #  $this->validateGeneratePermit($request);
 
-        dd($request->input());
+     #   dd($request->input());
         $validator = Validator::make($request->all(),[
             #   'template_id' => 'required|integer|min:0',
                'barangay_id' => 'required|integer|min:1',
@@ -33,7 +33,7 @@ class PermitRequestController extends Controller
                'category_id' => 'required|integer|min:1',
                'user_id' => 'required|integer|min:1',
                'payment_method_id' => 'required|integer|min:1',
-               'payment_image' => 'mimes:jpeg,jpg,png',
+               'payment_image.*' => 'mimes:jpeg,jpg,png',
                'reference_number' => 'integer'
            ]);
 
