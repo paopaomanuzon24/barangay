@@ -37,13 +37,14 @@ class PermitRequestController extends Controller
                'reference_number' => 'integer'
            ]);
 
-           if($validator->fails()){
-               return customResponse()
-               ->data(null)
-               ->message($validator->errors()->all()[0])
-               ->failed()
-               ->generate();
-           }
+        if($validator->fails()){
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+        }
+        $request['payment_image'] = $request['payment_image'][0];
 
 
       /*   $templateData = PermitTemplate::find($request->template_id);
