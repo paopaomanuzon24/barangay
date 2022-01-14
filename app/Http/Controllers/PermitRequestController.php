@@ -117,7 +117,7 @@ class PermitRequestController extends Controller
             $image = $request->file('payment_image')[0];
             $imageName = $image->getClientOriginalName();
 
-            $request->file('payment_image')->storeAs($path,$imageName);
+            $request->file('payment_image')[0]->storeAs($path,$imageName);
         }
         #$status = 1; //# for approval
         $data = [
