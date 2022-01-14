@@ -112,7 +112,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('permit/type/update', [PermitTypeController::class,'update']);
     Route::post('permit/type/delete', [PermitTypeController::class,'delete']);
     Route::get('permit/type/{id}', [PermitTypeController::class, 'getPermitType']);
-    Route::get('permit/types', [PermitTypeController::class, 'list']);
+
     Route::get('permit/type/{id}', [PermitTypeController::class, 'show']);
 
     Route::post('permit/category', [PermitCategoryController::class, 'store']);
@@ -152,7 +152,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
 });
 
-
+Route::get('permit/types', [PermitTypeController::class, 'list']);
 #Route::get('permit/request/{id}/edit', [PermitRequestController::class, 'edit']);
 
 #Route::post('permit/request/update', [PermitRequestController::class, 'permitPayment']);
