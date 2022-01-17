@@ -49,7 +49,7 @@ class AnnouncementClass
 
         $announcementList = Announcement::select(
             'announcements.id',
-            'announcements.pinned as pin_post',
+            'announcements.pinned',
             'announcements.title',
             'announcements.content',
             'announcements.img_path',
@@ -64,6 +64,7 @@ class AnnouncementClass
         )
         ->join("users", "users.id", "announcements.created_by")
         ->leftJoin("barangays", "barangays.id", "announcements.barangay_id")
+        ->orderBy("announcements.pinned", "desc")
         ->orderBy("announcements.id", "desc");
 
         if (!empty($userData->barangay_id)) {
