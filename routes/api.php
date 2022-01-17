@@ -28,7 +28,7 @@ use App\Http\Controllers\PermitCategoryController;
 use App\Http\Controllers\PermitRequestController;
 use App\Http\Controllers\PermitPaymentMethodController;
 
-
+use App\Http\Controllers\AnnouncementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -151,6 +151,12 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('permit/payment/{id}', [PermitRequestController::class, 'getPermitPaymentData']);
     Route::post('permit/request', [PermitRequestController::class, 'generatePermit']);
 
+
+    ##Announcement
+    Route::get('announement/list', [AnnouncementController::class, 'index']);
+    Route::get('announement/display', [AnnouncementController::class, 'display']);
+    Route::get('announement/{id}', [AnnouncementController::class, 'show']);
+    Route::post('announement/store', [AnnouncementController::class, 'store']);
 });
 
 

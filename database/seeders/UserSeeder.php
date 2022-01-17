@@ -27,6 +27,30 @@ class UserSeeder extends Seeder
             'user_type_id' => 1
         ]);
 
+        DB::table('users')->insert([
+            'first_name' => 'Secretary',
+            'last_name' => 'Secretary',
+            'email' => 'secretary@gmail.com',
+            'contact_no' => '0987654321',
+            'gender' => 'M',
+            'birth_date' => '1999-01-08',
+            'address' => '123 fake street',
+            'password' => Hash::make("Pass1234!"),
+            'user_type_id' => 4
+        ]);
+
+        DB::table('users')->insert([
+            'first_name' => 'Treasury',
+            'last_name' => 'Treasury',
+            'email' => 'treasury@gmail.com',
+            'contact_no' => '0987654321',
+            'gender' => 'M',
+            'birth_date' => '1999-01-08',
+            'address' => '123 fake street',
+            'password' => Hash::make("Pass1234!"),
+            'user_type_id' => 3
+        ]);
+
         // DB::table('barangays')->insert([
         //     [
         //         'description' => 'Acacia'
