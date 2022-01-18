@@ -410,6 +410,42 @@ class PermitRequestController extends Controller
         }
     }
 
+    public function approveRequest(Request $request){
+        $validator = Validator::make($request->all(),[
+            'id' => 'required|integer|min:1',
+        ]);
+        if($validator->fails()){
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+        }
+
+        $permitData = PermitHistory::find($request->id);
+        if(empty($permitData)){
+            return customResponse()
+            ->data(null)
+            ->message("Permit request not found")
+            ->failed()
+            ->generate();
+        }
+
+        $status = PermitStatus::FOR_RELEAST_STATUS;
+        $releaseDate = date('Y-m-d H:i:s');
+        $permitData->release_date = $releaseDate;
+        $permitData->status_id = $status;
+        $permitData->save();
+
+        return customResponse()
+        ->data(null)
+        ->message("Permit request approved.")
+        ->success()
+        ->generate();
+
+
+    }
+
     /* public function edit(Request $request,$id){
 
 

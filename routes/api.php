@@ -151,7 +151,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('permit/payment/{id}', [PermitRequestController::class, 'getPermitPaymentData']);
     Route::post('permit/request', [PermitRequestController::class, 'generatePermit']);
 
+    Route::post('permit/request/approve', [PermitRequestController::class, 'approveRequest']);
 });
+
 
 
 #Route::get('permit/request/{id}/edit', [PermitRequestController::class, 'edit']);
