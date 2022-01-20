@@ -48,7 +48,12 @@ class InhabitantsController extends Controller
             $peronalDataList = $peronalDataList->where("users.barangay_id", $request->barangay_id);
         }
 
-        $peronalDataList = $peronalDataList->get();
+        $peronalDataList = $peronalDataList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
 
         return customResponse()
             ->message("List of applicants.")
@@ -91,7 +96,12 @@ class InhabitantsController extends Controller
             $peronalDataList = $peronalDataList->where("users.barangay_id", $request->barangay_id);
         }
 
-        $peronalDataList = $peronalDataList->get();
+        $peronalDataList = $peronalDataList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
 
         return customResponse()
             ->message("List of residence.")

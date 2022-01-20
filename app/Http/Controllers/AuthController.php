@@ -96,6 +96,7 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
+        $barangayData = $user->barangayData;
 
         $tokenResult = $user->createToken('Personal Access Token');
         $eventType = UserActivityLogClass::EVENT_LOGIN;

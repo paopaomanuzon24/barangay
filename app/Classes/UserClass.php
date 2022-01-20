@@ -36,7 +36,12 @@ class UserClass
             $userList = $userList->where("users.user_type_id", $request->user_type);
         }
 
-        $userList = $userList->get();
+        $userList = $userList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
         
         return $userList;
     }
