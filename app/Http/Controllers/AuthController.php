@@ -96,6 +96,7 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
+        
 
         $tokenResult = $user->createToken('Personal Access Token');
         $eventType = UserActivityLogClass::EVENT_LOGIN;
@@ -124,8 +125,9 @@ class AuthController extends Controller
 
         return customResponse()
             ->data([
-                'access_token' => $tokenResult->plainTextToken,
+                'barangay' => (!empty($user->barangayData->description) ? $user->barangayData->description : NULL),
                 'user' => $user,
+                'access_token' => $tokenResult->plainTextToken,
                 'token_type' => 'Bearer',
                 'expires_at' => Carbon::parse(
                     Carbon::now()->addDays(1)

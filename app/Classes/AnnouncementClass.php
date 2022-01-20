@@ -39,7 +39,12 @@ class AnnouncementClass
             $announcementList = $announcementList->where("announcements.barangay_id", $request->barangay_id);
         }
 
-        $announcementList = $announcementList->get();
+        $announcementList = $announcementList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
 
         return $announcementList;
     }
@@ -74,7 +79,12 @@ class AnnouncementClass
             });
         }
 
-        $announcementList = $announcementList->get();
+        $announcementList = $announcementList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
 
         return $announcementList;
     }

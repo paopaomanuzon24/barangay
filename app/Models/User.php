@@ -54,6 +54,10 @@ class User extends Authenticatable
         return $this->hasOne(SessionToken::class, 'user_id', 'id');
     }
 
+    public function barangayData() {
+        return $this->hasOne(Barangay::class, 'id', 'barangay_id');
+    }
+
     public function personalData() {
         return $this->hasOne(PersonalData::class, 'user_id', 'id');
     }
