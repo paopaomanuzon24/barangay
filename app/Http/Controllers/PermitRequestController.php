@@ -446,6 +446,56 @@ class PermitRequestController extends Controller
 
     }
 
+    public function editRequestLayout(Request $request,$id){
+
+
+        $permitData = PermitHistory::find($id);
+        if(empty($permitData)){
+            return customResponse()
+            ->data(null)
+            ->message("Permit request not found")
+            ->failed()
+            ->generate();
+        }
+
+        $userFullName = $permitData->user->first_name.' '. $permitData->user->middle_name.' '. $permitData->user->last_name;
+        $return = array(
+            'id' => $permitData->id,
+            'user' => $userFullName,
+            'position' => "",
+            "address" => "",
+            "hotline" => "",
+            "email" => ""
+        );
+        return customResponse()
+            ->data($return)
+            ->message("Permit layout data.")
+            ->success()
+            ->generate();
+    }
+
+    public function updateRequestLayout(Request $request){
+        $validator = Validator::make($request->all(),[
+            'id' => 'required|integer|min:1',
+        ]);
+        if($validator->fails()){
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+        }
+
+        $permitData = PermitHistory::find($request->id);
+        if(empty($permitData)){
+            return customResponse()
+            ->data(null)
+            ->message("Permit request not found")
+            ->failed()
+            ->generate();
+        }
+    }
+
     /* public function edit(Request $request,$id){
 
 
