@@ -17,6 +17,7 @@ use App\Models\PermitHistory;
 use App\Models\PermitStatus;
 use App\Models\Barangay;
 use App\Models\PermitSequence;
+use Illuminate\Http\Response;
 
 class PermitRequestController extends Controller
 {
@@ -316,6 +317,12 @@ class PermitRequestController extends Controller
         $permitData = PermitHistory::find($id);
         if(!empty($permitData)){
             $userFullName = $permitData->user->first_name.' '. $permitData->user->middle_name.' '. $permitData->user->last_name;
+            $payment_file = "";
+            if(!empty($permitData->file_path)){
+                $payment_file = $permitData->file_path.'/'.$permitData->file_name;
+                $payment_file = Storage::url($payment_file);
+            }
+
             $return = array(
                 'id' => $permitData->id,
                 'category' => $permitData->category->description,
@@ -325,7 +332,10 @@ class PermitRequestController extends Controller
                 'payment_method' => $permitData->paymentMethod->description,
                 'status' => $permitData->status->description,
                 'release_date' => $permitData->release_date,
-                'application_id' => $permitData->application_id
+                'application_id' => $permitData->application_id,
+                'reference_number' => $permitData->reference_number,
+                'payment_file' => $payment_file,
+
             );
             return customResponse()
                 ->data($return)
@@ -494,6 +504,54 @@ class PermitRequestController extends Controller
             ->failed()
             ->generate();
         }
+    }
+
+    public function printPermit(Request $request){
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $section = $phpWord->addSection();
+        $text = $section->addText("gwapo");
+        $text = $section->addText("macho");
+        $text = $section->addText("ko",array('name'=>'Arial','size' => 20,'bold' => true));
+
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $objWriter->save('Appdividend.docx');
+        # dd(public_path('Appdividend.docx'));
+        $path = public_path('Appdividend.docx');
+        #return Storage::download('helloWorld.docx');
+        $headers = array(
+            'Content-Type' => 'application/vnd.msword',
+
+        );
+
+       # $filename = 'img.png';
+        $fsize = filesize($path);
+
+        $handle = fopen($path, "rb");
+        $contents = fread($handle, $fsize);
+        fclose($handle);
+
+        header('content-type: application/vnd.msword');
+        header('Content-Length: ' . $fsize);
+
+        return $contents;
+
+        #return response()->download($path , "Appdividend.docx",$headers);
+
+
+
+        /* return response()->make(view('report.accounting.list_of_studentbalance',$data), '200',
+                [
+                    'Content-Type'=>'application/pdf',
+                    'Content-Disposition'=>'inline; filname="list_of_studentbalance.pdf"'
+                ]); */
+    #    return response()->file();
+
+    #    $contents, 200, array('content-type'=>'application/pdf')
+
+
+
+
+       # return response()->download(public_path('Appdividend.docx'));
     }
 
     /* public function edit(Request $request,$id){

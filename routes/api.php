@@ -167,6 +167,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('announement/store', [AnnouncementController::class, 'store']);
 });
 
+Route::post('permit/request/print', [PermitRequestController::class, 'printPermit']);
 
 
 
