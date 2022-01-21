@@ -21,8 +21,8 @@ class CreateEducationalDataTable extends Migration
             $table->unsignedBigInteger("course_id")->nullable();
             $table->string("school_name");
             $table->string("school_address");
-            $table->char("year_from", 5);
-            $table->char("year_to", 5);
+            $table->char("year_graduated", 5);
+            $table->char("highest_year_reached", 5);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

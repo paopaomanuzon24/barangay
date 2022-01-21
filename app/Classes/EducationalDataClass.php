@@ -30,8 +30,8 @@ class EducationalDataClass
             $educationalData->course_id = $request->tertiary_course;
             $educationalData->school_name = !empty($request->school_name[$key]) ? $request->school_name[$key] : "";
             $educationalData->school_address = !empty($request->school_address[$key]) ? $request->school_address[$key] : "";
-            $educationalData->year_from = !empty($request->year_from[$key]) ? $request->year_from[$key] : "";
-            $educationalData->year_to = !empty($request->year_to[$key]) ? $request->year_to[$key] : "";
+            $educationalData->year_graduated = !empty($request->year_graduated[$key]) ? $request->year_graduated[$key] : "";
+            $educationalData->highest_year_reached = !empty($request->highest_year_reached[$key]) ? $request->highest_year_reached[$key] : "";
             $educationalData->save();
         }
 
