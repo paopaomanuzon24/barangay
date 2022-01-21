@@ -18,6 +18,7 @@ use App\Models\PermitStatus;
 use App\Models\Barangay;
 use App\Models\PermitSequence;
 use Illuminate\Http\Response;
+use App\Classes\Permit\PermitRequestClass;
 
 class PermitRequestController extends Controller
 {
@@ -507,14 +508,9 @@ class PermitRequestController extends Controller
     }
 
     public function printPermit(Request $request){
-        $phpWord = new \PhpOffice\PhpWord\PhpWord();
-        $section = $phpWord->addSection();
-        $text = $section->addText("gwapo");
-        $text = $section->addText("macho");
-        $text = $section->addText("ko",array('name'=>'Arial','size' => 20,'bold' => true));
 
-        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save('Appdividend.docx');
+        $permitClass = new PermitRequestClass;
+        $permitClass->generatePermitLayout();
         # dd(public_path('Appdividend.docx'));
         $path = public_path('Appdividend.docx');
         #return Storage::download('helloWorld.docx');

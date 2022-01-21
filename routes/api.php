@@ -149,7 +149,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('permit/admin/request', [PermitRequestController::class, 'generatePermit']);
     Route::post('permit/request/deny', [PermitRequestController::class, 'denyRequest']);
 
-    Route::get('permit/request/{id}', [PermitRequestController::class, 'show']);
+
     Route::get('permit/payment/{id}', [PermitRequestController::class, 'getPermitPaymentData']);
     Route::post('permit/request', [PermitRequestController::class, 'generatePermit']);
 
@@ -169,6 +169,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
 Route::post('permit/request/print', [PermitRequestController::class, 'printPermit']);
 
+Route::get('permit/request/{id}', [PermitRequestController::class, 'show']);
 
 
 
