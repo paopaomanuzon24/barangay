@@ -158,7 +158,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('permit/request/layout/{id}/edit', [PermitLayoutController::class, 'editRequestLayout']);
 
-    Route::post('permit/request/print', [PermitRequestController::class, 'printPermit']);
+    Route::get('permit/request/print', [PermitRequestController::class, 'printPermit']);
 
 
     ##Announcement
