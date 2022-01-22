@@ -20,10 +20,30 @@ class PermitRequestClass
         $section->addText("BARANGAY CLEARANCE");
         $section->addText("This Business clearance is given to:");
 
+         $table = $section->addTable();
+        $table->addRow(1);
+        $cell = $table->addCell(1);
+        $cell = $table->addCell(200);
+
+        $tableStyle = array(
+            'borderColor' => 'FFFFFF',
+            'borderSize'  => 6,
+            'cellMargin'  => 30
+        );
+        $firstRowStyle = array('bgColor' => 'FFFFFF');
+        $phpWord->addTableStyle('myTable', $tableStyle, $firstRowStyle);
+        $table = $section->addTable('myTable');
+        $table->addRow(.1);
+        $lineStyle = array('weight' => 1, 'width' => 100, 'height' => 0, 'color' => 000000);
+        $cell = $table->addCell(2000)->addText("Name of Business");
+       # $cell = $table->addCell(1000)->addLine($lineStyle);
+
+        $table->addRow(.1);
+        $cell = $table->addCell(2000)->addText("Name of Business");
+        $cell = $table->addCell(1000)->addLine($lineStyle);
+       # $cell->getStyle()->setGridSpan(5);
 
 
-
-        $section->addText("Name of Business");
 
         $section->addText("Business Address");
         $section->addText("Name of Owner");
@@ -38,7 +58,7 @@ class PermitRequestClass
 
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-      #  $objWriter->save('Appdividend.docx');
+        $objWriter->save('Appdividend.docx');
 
     }
 

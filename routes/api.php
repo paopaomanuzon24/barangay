@@ -126,13 +126,13 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('permit/categories', [PermitCategoryController::class, 'list']);
 
 
-    Route::post('permit/fee', [PermitFeesController::class, 'store']);
+   /*  Route::post('permit/fee', [PermitFeesController::class, 'store']);
     Route::get('permit/fees/{id}', [PermitFeesController::class, 'show']);
     Route::get('permit/fees/{id}/edit', [PermitFeesController::class, 'edit']);
     Route::post('permit/fees/update', [PermitFeesController::class,'update']);
     Route::post('permit/fees/delete', [PermitFeesController::class,'delete']);
     Route::get('permit/fees', [PermitFeesController::class,'list']);
-
+ */
 
 
 
@@ -155,8 +155,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::post('permit/request/approve', [PermitRequestController::class, 'approveRequest']);
     Route::post('permit/request/layout/update', [PermitLayoutController::class, 'updateRequestLayout']);
-
+    Route::get('permit/request/{id}', [PermitRequestController::class, 'show']);
     Route::get('permit/request/layout/{id}/edit', [PermitLayoutController::class, 'editRequestLayout']);
+
 
     Route::get('permit/request/print', [PermitRequestController::class, 'printPermit']);
 
@@ -169,7 +170,6 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 });
 
 
-Route::get('permit/request/{id}', [PermitRequestController::class, 'show']);
 
 
 
