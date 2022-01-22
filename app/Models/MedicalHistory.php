@@ -22,6 +22,7 @@ class MedicalHistory extends Model
         'weight',
         'blood_type',
         'smoke_no',
+        'smoke_status',
         'alcohol_no',
         'alcohol_status',
         'comorbidity',
