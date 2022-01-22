@@ -16,6 +16,7 @@ use App\User;
 
 use App\Classes\UserClass;
 use App\Classes\UserActivityLogClass;
+use App\Classes\DocumentDataClass;
 
 use App\Models\SessionToken;
 use App\Models\User as UserModel;
@@ -59,6 +60,12 @@ class AuthController extends Controller
         ]);
 
         $user->save();
+        $request->user_id = $user->id;
+
+        if (!empty($request->is_residence)) {
+            $class = new DocumentDataClass;
+            $class->saveDocumentData($request);
+        }
 
         return customResponse()
             ->data(null)

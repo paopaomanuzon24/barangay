@@ -17,7 +17,9 @@ class UserClass
             'barangay_id',
             'barangays.description as barangay_desc',
             'user_type_id',
-            'user_type.name as user_type_desc'
+            'user_type.name as user_type_desc',
+            'contact_no',
+            'address'
         )
         ->join("barangays", "barangays.id", "users.barangay_id")
         ->join("user_type", "user_type.id", "users.user_type_id");

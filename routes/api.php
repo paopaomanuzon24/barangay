@@ -106,6 +106,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('inhabitants/house-hold/store', [HouseHoldController::class, 'store']);
 
     Route::get('inhabitants/house-keeper/{id}', [HouseKeeperController::class, 'index']);
+    Route::get('inhabitants/house-keeper/list/{id}', [HouseKeeperController::class, 'list']);
     Route::post('inhabitants/house-keeper/store', [HouseKeeperController::class, 'store']);
 
     ##Permit

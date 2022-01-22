@@ -21,6 +21,9 @@ class AddressDataClass
             $addressData->user_id = $userData->id;
         }
 
+        $userData->address = $request->full_address;
+        $userData->save();
+
         $addressData->blk = $request->blk;
         $addressData->street = $request->street;
         $addressData->barangay_id = $request->barangay_id;
