@@ -58,7 +58,7 @@ class EducationalDataController extends Controller
         )
         ->join("education_level", "education_level.id", "educational_data.level_id")
         ->leftJoin("courses", "courses.id", "educational_data.course_id")
-        ->where("user_id", $userData->id)
+        ->where("educational_data.user_id", $userData->id)
         ->paginate(
             (int) $request->get('per_page', 10),
             ['*'],

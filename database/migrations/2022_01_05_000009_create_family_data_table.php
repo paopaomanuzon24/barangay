@@ -18,13 +18,6 @@ class CreateFamilyDataTable extends Migration
             $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("personal_data_id")->nullable();
             $table->unsignedBigInteger("relationship_type_id")->nullable();
-            $table->string("first_name");
-            $table->string("middle_name")->nullable();
-            $table->string("last_name");
-            $table->date("birth_date");
-            $table->string('contact_no', 15);
-            $table->boolean("same_address");
-            $table->string("address");
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

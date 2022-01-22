@@ -19,13 +19,6 @@ class FamilyData extends Model
         'id',
         'user_id',
         'personal_data_id',
-        'relationship_type_id',
-        'first_name',
-        'middle_name',
-        'last_name',
-        'birth_date',
-        'contact_no',
-        'same_address',
-        'address',
+        'relationship_type_id'
     ];
 }
