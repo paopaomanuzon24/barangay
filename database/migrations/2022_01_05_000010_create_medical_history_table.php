@@ -20,9 +20,9 @@ class CreateMedicalHistoryTable extends Migration
             $table->string("weight");
             $table->string("blood_type");
             $table->string("smoke_no");
-            $table->string("alocohol_no");
+            $table->string("alcohol_no");
             $table->string("alcohol_status");
-            $table->boolean("commorbidity");
+            $table->boolean("comorbidity");
             // $table->string("active_medical_condition");
             // $table->boolean("active_medication");
             $table->string("other_medical_history");

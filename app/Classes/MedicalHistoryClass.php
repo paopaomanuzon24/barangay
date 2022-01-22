@@ -28,9 +28,9 @@ class MedicalHistoryClass
         $medicalHistoryData->weight = !empty($request->weight) ? $request->weight : "";
         $medicalHistoryData->blood_type = !empty($request->blood_type) ? $request->blood_type : "";
         $medicalHistoryData->smoke_no = !empty($request->smoke_no) ? $request->smoke_no : "";
-        $medicalHistoryData->alocohol_no = !empty($request->alocohol_no) ? $request->alocohol_no : "";
+        $medicalHistoryData->alcohol_no = !empty($request->alcohol_no) ? $request->alcohol_no : "";
         $medicalHistoryData->alcohol_status = !empty($request->alcohol_status) ? $request->alcohol_status : "";
-        $medicalHistoryData->commorbidity = !empty($request->commorbidity) ? $request->commorbidity : 0;
+        $medicalHistoryData->comorbidity = !empty($request->comorbidity) ? $request->comorbidity : 0;
         $medicalHistoryData->other_medical_history = !empty($request->other_medical_history) ? $request->other_medical_history : "";
         $medicalHistoryData->allergies = !empty($request->allergies) ? $request->allergies : "";
         // $medicalHistoryData->vaccination = !empty($request->vaccination[0]) ? $request->vaccination[0] : "";
