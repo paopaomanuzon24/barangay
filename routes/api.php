@@ -77,6 +77,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('inhabitants/employment/store', [EmploymentDataController::class, 'store']);
 
     Route::get('inhabitants/educational/{id}', [EducationalDataController::class, 'getEducationalData']);
+    Route::get('inhabitants/educational/list/{id}', [EducationalDataController::class, 'list']);
     Route::post('inhabitants/educational/store', [EducationalDataController::class, 'store']);
 
     Route::get('inhabitants/family/{id}', [FamilyDataController::class, 'getFamilyData']);

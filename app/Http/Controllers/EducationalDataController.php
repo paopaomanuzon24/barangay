@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Classes\EducationalDataClass;
 
 use App\Models\EducationLevel;
+use App\Models\EducationalData;
 use App\Models\Course;
 use App\Models\User as UserModel;
 
@@ -30,7 +31,7 @@ class EducationalDataController extends Controller
             ->generate(); 
     }
 
-    public function getEducationalData(Request $request, $id) {
+    public function list(Request $request, $id) {
         $userData = UserModel::find($id);
         if (empty($userData)) {
             return customResponse()
@@ -39,13 +40,53 @@ class EducationalDataController extends Controller
                 ->failed()
                 ->generate();
         }
-        
-        $educationalList = $userData->educationalData;
-        $educationalOtherData = $userData->educationalOtherData;
+
+        // EducationLevel
+        // $educationalList = $userData->educationalData;
+        // $educationalOtherData = $userData->educationalOtherData;
+
+        $educationalList = EducationalData::select(
+            'educational_data.id',
+            'educational_data.user_id',
+            'educational_data.level_id',
+            'education_level.description as level_desc',
+            'educational_data.course_id',
+            'courses.description as course_desc',
+            'educational_data.school_name',
+            'educational_data.year_graduated',
+            'educational_data.highest_year_reached'
+        )
+        ->join("education_level", "education_level.id", "educational_data.level_id")
+        ->leftJoin("courses", "courses.id", "educational_data.course_id")
+        ->where("user_id", $userData->id)
+        ->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
 
         return customResponse()
             ->message("List of education level.")
-            ->data($userData)
+            ->data($educationalList)
+            ->success()
+            ->generate();
+    }
+
+    public function getEducationalData(Request $request, $id) {
+        $educationalData = EducationalData::select(
+            'educational_data.id',
+            'educational_data.user_id',
+            'educational_data.level_id',
+            'educational_data.course_id',
+            'educational_data.school_name',
+            'educational_data.year_graduated',
+            'educational_data.highest_year_reached'
+        )->find($id);
+
+        return customResponse()
+            ->message("Educational data.")
+            ->data($educationalData)
             ->success()
             ->generate();
     }

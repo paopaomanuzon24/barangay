@@ -17,12 +17,12 @@ class CreateEducationalDataTable extends Migration
             $table->id();
             $table->unsignedBigInteger("user_id")->nullable();
             $table->unsignedBigInteger("level_id")->nullable();
-            $table->string("level_code");
+            $table->string("level_code")->nullable();
             $table->unsignedBigInteger("course_id")->nullable();
-            $table->string("school_name");
-            $table->string("school_address");
-            $table->char("year_graduated", 5);
-            $table->char("highest_year_reached", 5);
+            $table->string("school_name")->nullable();
+            $table->string("school_address")->nullable();
+            $table->char("year_graduated", 5)->nullable();
+            $table->char("highest_year_reached", 5)->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
