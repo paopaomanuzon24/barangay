@@ -231,6 +231,7 @@ Route::get('groups-and-affiliation/list', [GroupsAndAffiliationController::class
 Route::get('alcohol-status/list', [MedicalHistoryController::class, 'getAlcoholStatus']);
 Route::get('vaccine/list', [MedicalHistoryController::class, 'getVaccineList']);
 Route::get('blood-type/list', [MedicalHistoryController::class, 'getBloodTypeList']);
+Route::get('disease/list', [MedicalHistoryController::class, 'getDiseaseList']);
 
 Route::get('water-source/list', [HouseHoldController::class, 'getWaterSourceList']);
 Route::get('land-ownership/list', [HouseHoldController::class, 'getLandOwnershipList']);
