@@ -15,6 +15,7 @@ use App\Classes\MedicalHistoryClass;
 
 use App\Models\MedicalActiveCondition;
 use App\Models\User as UserModel;
+use App\Models\BloodType;
 use App\Models\Vaccine;
 
 class MedicalHistoryController extends Controller
@@ -159,6 +160,20 @@ class MedicalHistoryController extends Controller
         
         return customResponse()
             ->message("List of vaccines.")
+            ->data($list)
+            ->success()
+            ->generate();
+    }
+
+    public function getBloodTypeList(Request $request) {
+        $list = BloodType::select(
+            'id',
+            'description'
+        )
+        ->get();
+        
+        return customResponse()
+            ->message("List of blood type.")
             ->data($list)
             ->success()
             ->generate();
