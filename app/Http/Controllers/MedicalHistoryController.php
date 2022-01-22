@@ -119,7 +119,12 @@ class MedicalHistoryController extends Controller
         )
         ->join("diseases", "diseases.id", "medical_active_condition.disease_id")
         ->where("user_id", $id)
-        ->get();
+        ->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
 
         return customResponse()
             ->data($medActiveList)
