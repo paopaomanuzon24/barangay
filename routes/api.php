@@ -220,6 +220,7 @@ Route::get('radio/place-work-type/list', [EmploymentDataController::class, 'getP
 
 Route::get('education-level/list', [EducationalDataController::class, 'getEducationLevel']);
 Route::get('course/list', [EducationalDataController::class, 'getCourseList']);
+Route::get('year-level/list', [EducationalDataController::class, 'getYearLevelList']);
 
 Route::get('relationship/list', [FamilyDataController::class, 'getRelationshipTypeList']);
 

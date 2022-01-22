@@ -22,7 +22,7 @@ class CreateEducationalDataTable extends Migration
             $table->string("school_name")->nullable();
             $table->string("school_address")->nullable();
             $table->char("year_graduated", 5)->nullable();
-            $table->char("highest_year_reached", 5)->nullable();
+            $table->unsignedBigInteger("highest_year_reached")->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

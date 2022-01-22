@@ -15,6 +15,7 @@ use App\Classes\EducationalDataClass;
 
 use App\Models\EducationLevel;
 use App\Models\EducationalData;
+use App\Models\YearLevel;
 use App\Models\Course;
 use App\Models\User as UserModel;
 
@@ -135,6 +136,26 @@ class EducationalDataController extends Controller
         return customResponse()
             ->message("List of course.")
             ->data($courseList)
+            ->success()
+            ->generate();
+    }
+
+    public function getYearLevelList(Request $request) {
+        $yearLevelList = YearLevel::select(
+            'id',
+            'level_id',
+            'level_code',
+            'description'
+        );
+
+        if (!empty($request->level_id)) {
+            $yearLevelList = $yearLevelList->where("level_id", $request->level_id);
+        }
+        $yearLevelList = $yearLevelList->get();
+
+        return customResponse()
+            ->message("List of year level.")
+            ->data($yearLevelList)
             ->success()
             ->generate();
     }
