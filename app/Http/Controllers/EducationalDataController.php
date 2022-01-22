@@ -44,10 +44,12 @@ class EducationalDataController extends Controller
             'courses.description as course_desc',
             'educational_data.school_name',
             'educational_data.year_graduated',
-            'educational_data.highest_year_reached'
+            'educational_data.highest_year_reached',
+            'year_level.description as highest_year_reached_desc'
         )
         ->join("education_level", "education_level.id", "educational_data.level_id")
         ->leftJoin("courses", "courses.id", "educational_data.course_id")
+        ->leftJoin("year_level", "year_level.id", "educational_data.highest_year_reached")
         ->where("educational_data.user_id", $userData->id)
         ->paginate(
             (int) $request->get('per_page', 10),
