@@ -77,10 +77,14 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('inhabitants/employment/store', [EmploymentDataController::class, 'store']);
 
     Route::get('inhabitants/educational/{id}', [EducationalDataController::class, 'getEducationalData']);
+    Route::get('inhabitants/educational/list/{id}', [EducationalDataController::class, 'list']);
     Route::post('inhabitants/educational/store', [EducationalDataController::class, 'store']);
+    Route::post('inhabitants/educational/destroy/{id}', [EducationalDataController::class, 'destroy']);
 
     Route::get('inhabitants/family/{id}', [FamilyDataController::class, 'getFamilyData']);
+    Route::get('inhabitants/family/list/{id}', [FamilyDataController::class, 'list']);
     Route::post('inhabitants/family/store', [FamilyDataController::class, 'store']);
+    Route::post('inhabitants/family/destroy/{id}', [FamilyDataController::class, 'destroy']);
 
     Route::post('inhabitants/application/update', [ResidenceApplicationController::class, 'update']);
 
@@ -92,6 +96,11 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('inhabitants/medical-history/{id}', [MedicalHistoryController::class, 'getMedicalHistory']);
     Route::post('inhabitants/medical-history/store', [MedicalHistoryController::class, 'store']);
+
+    Route::get('inhabitants/active-medical-condition/{id}', [MedicalHistoryController::class, 'getActiveMedicalConditionData']);
+    Route::get('inhabitants/active-medical-condition/list/{id}', [MedicalHistoryController::class, 'getActiveMedicalConditionList']);
+    Route::post('inhabitants/active-medical-condition/store', [MedicalHistoryController::class, 'saveMedicalCondtion']);
+    Route::post('inhabitants/active-medical-condition/destroy/{id}', [MedicalHistoryController::class, 'destroyMedicalCondtion']);
 
     Route::get('inhabitants/house-hold/{id}', [HouseHoldController::class, 'index']);
     Route::post('inhabitants/house-hold/store', [HouseHoldController::class, 'store']);
@@ -211,6 +220,7 @@ Route::get('radio/place-work-type/list', [EmploymentDataController::class, 'getP
 
 Route::get('education-level/list', [EducationalDataController::class, 'getEducationLevel']);
 Route::get('course/list', [EducationalDataController::class, 'getCourseList']);
+Route::get('year-level/list', [EducationalDataController::class, 'getYearLevelList']);
 
 Route::get('relationship/list', [FamilyDataController::class, 'getRelationshipTypeList']);
 
@@ -220,6 +230,8 @@ Route::get('groups-and-affiliation/list', [GroupsAndAffiliationController::class
 
 Route::get('alcohol-status/list', [MedicalHistoryController::class, 'getAlcoholStatus']);
 Route::get('vaccine/list', [MedicalHistoryController::class, 'getVaccineList']);
+Route::get('blood-type/list', [MedicalHistoryController::class, 'getBloodTypeList']);
+Route::get('disease/list', [MedicalHistoryController::class, 'getDiseaseList']);
 
 Route::get('water-source/list', [HouseHoldController::class, 'getWaterSourceList']);
 Route::get('land-ownership/list', [HouseHoldController::class, 'getLandOwnershipList']);

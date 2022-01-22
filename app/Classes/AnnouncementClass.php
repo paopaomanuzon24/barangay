@@ -97,9 +97,9 @@ class AnnouncementClass
             $announcementData = new Announcement;
         }
 
-        if (!empty($request->pinned)) {
-            $this->removePinned();
-        }
+        // if (!empty($request->pinned)) {
+        //     $this->removePinned();
+        // }
 
         $announcementData->barangay_id = $request->barangay_id;
         $announcementData->title = $request->title;

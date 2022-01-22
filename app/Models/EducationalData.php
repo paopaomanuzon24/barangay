@@ -23,7 +23,7 @@ class EducationalData extends Model
         'course_id', 
         'school_name', 
         'school_address', 
-        'year_from', 
-        'year_to'
+        'year_graduated', 
+        'highest_year_reached'
     ];
 }

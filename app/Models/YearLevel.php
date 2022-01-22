@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FamilyData extends Model
+class YearLevel extends Model
 {
-    protected $table = 'family_data';
+    protected $table = 'year_level';
     public $timestamps = true;
     public $incrementing = true;
     protected $connection = 'mysql';
@@ -17,8 +17,8 @@ class FamilyData extends Model
      */
     protected $fillable = [
         'id',
-        'user_id',
-        'personal_data_id',
-        'relationship_type_id'
+        'level_id',
+        'level_code',
+        'description',
     ];
 }

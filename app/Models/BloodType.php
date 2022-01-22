@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class FamilyData extends Model
+class BloodType extends Model
 {
-    protected $table = 'family_data';
+    protected $table = 'blood_type';
     public $timestamps = true;
     public $incrementing = true;
     protected $connection = 'mysql';
@@ -16,9 +16,6 @@ class FamilyData extends Model
      * @var array
      */
     protected $fillable = [
-        'id',
-        'user_id',
-        'personal_data_id',
-        'relationship_type_id'
+        'id','description'
     ];
 }
