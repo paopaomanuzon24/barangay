@@ -20,17 +20,6 @@ use App\Models\User as UserModel;
 
 class EducationalDataController extends Controller
 {
-    public function store(Request $request) {
-        $class = new EducationalDataClass;
-        $class->saveEducationalData($request);
-
-        return customResponse()
-            ->data(null)
-            ->message('Record has been saved.')
-            ->success()
-            ->generate(); 
-    }
-
     public function list(Request $request, $id) {
         $userData = UserModel::find($id);
         if (empty($userData)) {
@@ -88,6 +77,35 @@ class EducationalDataController extends Controller
             ->message("Educational data.")
             ->data($educationalData)
             ->success()
+            ->generate();
+    }
+
+    public function store(Request $request) {
+        $class = new EducationalDataClass;
+        $class->saveEducationalData($request);
+
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
+    }
+
+    public function destroy(Request $request, $id) {
+        $educationalData = EducationalData::find($id);
+        if (!empty($educationalData)) {
+            $educationalData->delete();
+            return customResponse()
+                ->message("Record has been deleted.")
+                ->data(null)
+                ->success()
+                ->generate();
+        }
+
+        return customResponse()
+            ->message("No data.")
+            ->data(null)
+            ->failed()
             ->generate();
     }
 

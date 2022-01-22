@@ -17,8 +17,8 @@ class MedicalActiveCondition extends Model
      */
     protected $fillable = [
         'id',
-        'medical_history_id',
-        'active_medical_condition',
+        'user_id',
+        'disease_id',
         'active_medication'
     ];
 }

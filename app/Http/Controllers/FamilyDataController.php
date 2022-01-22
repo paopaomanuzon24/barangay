@@ -19,29 +19,6 @@ use App\Models\User as UserModel;
 
 class FamilyDataController extends Controller
 {
-    public function store(Request $request) {
-        $validator = Validator::make($request->all(), [
-            'relationship_type_id' => 'required'
-        ]);
-
-        if ($validator->fails()) {
-            return customResponse()
-                ->data(null)
-                ->message($validator->errors()->all()[0])
-                ->failed()
-                ->generate();
-        }
-
-        $class = new FamilyDataClass;
-        $class->saveFamilyData($request);
-
-        return customResponse()
-            ->data(null)
-            ->message('Record has been saved.')
-            ->success()
-            ->generate();       
-    }
-
     public function list(Request $request, $id) {
         $userData = UserModel::find($id);
         if (empty($userData)) {
@@ -108,6 +85,47 @@ class FamilyDataController extends Controller
             ->message("Family data.")
             ->data($familyData)
             ->success()
+            ->generate();
+    }
+
+    public function store(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'relationship_type_id' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
+        }
+
+        $class = new FamilyDataClass;
+        $class->saveFamilyData($request);
+
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate();       
+    }
+
+    public function destroy(Request $request, $id) {
+        $familyData = FamilyData::find($id);
+        if (!empty($familyData)) {
+            $familyData->delete();
+            return customResponse()
+                ->message("Record has been deleted.")
+                ->data(null)
+                ->success()
+                ->generate();
+        }
+
+        return customResponse()
+            ->message("No data.")
+            ->data(null)
+            ->failed()
             ->generate();
     }
 

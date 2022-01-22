@@ -37,8 +37,27 @@ class MedicalHistoryClass
         $medicalHistoryData->save();
 
         $this->saveMedicalHistoryDisease($request, $medicalHistoryData);
-        $this->saveMedicalActiveCondition($request, $medicalHistoryData);
+        // $this->saveMedicalActiveCondition($request, $medicalHistoryData);
         $this->saveMedicalHistoryVaccine($request, $medicalHistoryData);
+    }
+
+    public function saveMedicalCondtion($request) {
+        $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = User::find($request->user_id);
+        }
+
+        $medActiveCondionData = MedicalActiveCondition::where("user_id", $userData->id)
+            ->where("disease_id", $request->disease_id)
+            ->first();
+        if (empty($medActiveCondionData)) {
+            $medActiveCondionData = new MedicalActiveCondition;
+        }
+        
+        $medActiveCondionData->user_id = $userData->id;
+        $medActiveCondionData->disease_id = $request->disease_id;
+        $medActiveCondionData->active_medication = !empty($request->active_medication) ? $request->active_medication : 0;
+        $medActiveCondionData->save();
     }
 
     protected function saveMedicalHistoryDisease($request, $medicalHistoryData) {

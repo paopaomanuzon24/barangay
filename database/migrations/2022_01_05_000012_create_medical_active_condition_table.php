@@ -15,12 +15,13 @@ class CreateMedicalActiveConditionTable extends Migration
     {
         Schema::create('medical_active_condition', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("medical_history_id")->nullable();
-            $table->string("active_medical_condition");
+            $table->unsignedBigInteger("user_id")->nullable();
+            $table->unsignedBigInteger("disease_id");
             $table->boolean("active_medication");
             $table->timestamps();
 
-            $table->foreign('medical_history_id')->references('id')->on('medical_history');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('disease_id')->references('id')->on('diseases');
         });
     }
 

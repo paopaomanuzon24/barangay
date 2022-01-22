@@ -79,10 +79,12 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('inhabitants/educational/{id}', [EducationalDataController::class, 'getEducationalData']);
     Route::get('inhabitants/educational/list/{id}', [EducationalDataController::class, 'list']);
     Route::post('inhabitants/educational/store', [EducationalDataController::class, 'store']);
+    Route::post('inhabitants/educational/destroy/{id}', [EducationalDataController::class, 'destroy']);
 
     Route::get('inhabitants/family/{id}', [FamilyDataController::class, 'getFamilyData']);
     Route::get('inhabitants/family/list/{id}', [FamilyDataController::class, 'list']);
     Route::post('inhabitants/family/store', [FamilyDataController::class, 'store']);
+    Route::post('inhabitants/family/destroy/{id}', [FamilyDataController::class, 'destroy']);
 
     Route::post('inhabitants/application/update', [ResidenceApplicationController::class, 'update']);
 
@@ -94,6 +96,11 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('inhabitants/medical-history/{id}', [MedicalHistoryController::class, 'getMedicalHistory']);
     Route::post('inhabitants/medical-history/store', [MedicalHistoryController::class, 'store']);
+
+    Route::get('inhabitants/active-medical-condition/{id}', [MedicalHistoryController::class, 'getActiveMedicalConditionData']);
+    Route::get('inhabitants/active-medical-condition/list/{id}', [MedicalHistoryController::class, 'getActiveMedicalConditionList']);
+    Route::post('inhabitants/active-medical-condition/store', [MedicalHistoryController::class, 'saveMedicalCondtion']);
+    Route::post('inhabitants/active-medical-condition/destroy/{id}', [MedicalHistoryController::class, 'destroyMedicalCondtion']);
 
     Route::get('inhabitants/house-hold/{id}', [HouseHoldController::class, 'index']);
     Route::post('inhabitants/house-hold/store', [HouseHoldController::class, 'store']);
