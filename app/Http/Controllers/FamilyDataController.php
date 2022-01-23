@@ -42,8 +42,8 @@ class FamilyDataController extends Controller
             'contact_no',
             'address'
         )
-        ->join("barangays", "barangays.id", "users.barangay_id")
-        ->join("user_type", "user_type.id", "users.user_type_id");
+        ->leftJoin("barangays", "barangays.id", "users.barangay_id")
+        ->leftJoin("user_type", "user_type.id", "users.user_type_id");
 
         if ($request->search) {
             $userList = $userList->where(function($q) use($request){
