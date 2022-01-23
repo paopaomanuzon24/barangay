@@ -27,7 +27,7 @@ class FamilyDataController extends Controller
         ];
 
         foreach ($familyDataList as $row) {
-            $familyDataArray[] = $row->personal_data_id;
+            $familyDataArray[] = $row->family_user_id;
         }
 
         $userList = UserModel::select(
@@ -94,7 +94,7 @@ class FamilyDataController extends Controller
             'family_data.user_id',
             'family_data.relationship_type_id',
             'relationship_type.description as relationship_type_desc',
-            'family_data.personal_data_id',
+            'family_data.family_user_id',
             'users.first_name',
             'users.middle_name',
             'users.last_name',
@@ -103,7 +103,7 @@ class FamilyDataController extends Controller
             'users.address'
         )
         ->leftJoin("relationship_type", "relationship_type.id", "family_data.relationship_type_id")
-        ->leftJoin("users", "users.id", "family_data.personal_data_id")
+        ->leftJoin("users", "users.id", "family_data.family_user_id")
         // ->leftJoin("address_data", "address_data.user_id", "family_data.user_id")
         ->where("family_data.user_id", $userData->id)
         ->paginate(
@@ -126,7 +126,7 @@ class FamilyDataController extends Controller
             'family_data.user_id',
             'family_data.relationship_type_id',
             'relationship_type.description as relationship_type_desc',
-            'family_data.personal_data_id',
+            'family_data.family_user_id',
             'users.first_name',
             'users.middle_name',
             'users.last_name',
@@ -135,7 +135,7 @@ class FamilyDataController extends Controller
             'users.address'
         )
         ->leftJoin("relationship_type", "relationship_type.id", "family_data.relationship_type_id")
-        ->leftJoin("users", "users.id", "family_data.personal_data_id")
+        ->leftJoin("users", "users.id", "family_data.family_user_id")
         // ->leftJoin("address_data", "address_data.user_id", "family_data.user_id")
         ->find($id);
 
