@@ -106,6 +106,8 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('inhabitants/house-hold/{id}', [HouseHoldController::class, 'index']);
     Route::post('inhabitants/house-hold/store', [HouseHoldController::class, 'store']);
+    Route::get('inhabitants/house-hold-water-source/list', [HouseHoldController::class, 'houseHoldWaterSourceList']);
+    Route::post('inhabitants/house-hold-water-source/store', [HouseHoldController::class, 'saveHouseHoldWaterSource']);
 
     Route::get('inhabitants/house-keeper/{id}', [HouseKeeperController::class, 'index']);
     Route::get('inhabitants/house-keeper/list/{id}', [HouseKeeperController::class, 'list']);
