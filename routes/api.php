@@ -89,7 +89,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('inhabitants/application/update', [ResidenceApplicationController::class, 'update']);
 
     Route::get('inhabitants/document/{id}', [DocumentDataController::class, 'getDocumentData']);
+    Route::get('inhabitants/document/list/{id}', [DocumentDataController::class, 'list']);
     Route::post('inhabitants/document/store', [DocumentDataController::class, 'store']);
+    Route::post('inhabitants/document/destroy/{id}', [DocumentDataController::class, 'destroy']);
 
     Route::get('inhabitants/groups/{id}', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
     Route::post('inhabitants/groups/store', [GroupsAndAffiliationController::class, 'store']);

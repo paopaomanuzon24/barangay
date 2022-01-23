@@ -49,7 +49,7 @@ class HouseHoldClass
                 $houseHoldData->other_source_water = !empty($request->other_source_water) ? $request->other_source_water : "";
                 $houseHoldData->save();
 
-                $this->saveWaterSource($request, $houseHoldData);
+                // $this->saveWaterSource($request, $houseHoldData);
                 break;
             case 2:
                 $params = [];
@@ -79,7 +79,7 @@ class HouseHoldClass
                 break;
             case 3:
                 $params = [
-                    'septic_tank' => 'required',
+                    // 'septic_tank' => 'required',
                     'house_photo' => 'mimes:jpg,bmp,png,jpeg'
                 ];
         
@@ -112,57 +112,57 @@ class HouseHoldClass
         }
     }
 
-    protected function saveWaterSource($request, $houseHoldData) {
-        $this->deleteHouseHoldSourceWater($houseHoldData->id);
+    // protected function saveWaterSource($request, $houseHoldData) {
+    //     $this->deleteHouseHoldSourceWater($houseHoldData->id);
 
-        foreach ($request->drinking as $waterSourceID => $drinkVal) {
-            $waterSourceData = HouseHoldSourceWater::where("house_hold_id", $houseHoldData->id)
-                ->where("source_water_id", $waterSourceID)
-                ->first();
-            if (empty($waterSourceData)) {
-                $waterSourceData = new HouseHoldSourceWater;
-                $waterSourceData->house_hold_id = $houseHoldData->id;
-            }
+    //     foreach ($request->drinking as $waterSourceID => $drinkVal) {
+    //         $waterSourceData = HouseHoldSourceWater::where("house_hold_id", $houseHoldData->id)
+    //             ->where("source_water_id", $waterSourceID)
+    //             ->first();
+    //         if (empty($waterSourceData)) {
+    //             $waterSourceData = new HouseHoldSourceWater;
+    //             $waterSourceData->house_hold_id = $houseHoldData->id;
+    //         }
             
-            $waterSourceData->source_water_id = $waterSourceID;
-            $waterSourceData->drinking = !empty($drinkVal) ? $drinkVal : 0;
-            $waterSourceData->cooking = !empty($waterSourceData->cooking) ? $waterSourceData->cooking : 0;
-            $waterSourceData->laundry = !empty($waterSourceData->laundry) ? $waterSourceData->laundry : 0;
-            $waterSourceData->save();
-        }
+    //         $waterSourceData->source_water_id = $waterSourceID;
+    //         $waterSourceData->drinking = !empty($drinkVal) ? $drinkVal : 0;
+    //         $waterSourceData->cooking = !empty($waterSourceData->cooking) ? $waterSourceData->cooking : 0;
+    //         $waterSourceData->laundry = !empty($waterSourceData->laundry) ? $waterSourceData->laundry : 0;
+    //         $waterSourceData->save();
+    //     }
 
-        foreach ($request->cooking as $waterSourceID => $cookVal) {
-            $waterSourceData = HouseHoldSourceWater::where("house_hold_id", $houseHoldData->id)
-                ->where("source_water_id", $waterSourceID)
-                ->first();
-            if (empty($waterSourceData)) {
-                $waterSourceData = new HouseHoldSourceWater;
-                $waterSourceData->house_hold_id = $houseHoldData->id;
-            }
+    //     foreach ($request->cooking as $waterSourceID => $cookVal) {
+    //         $waterSourceData = HouseHoldSourceWater::where("house_hold_id", $houseHoldData->id)
+    //             ->where("source_water_id", $waterSourceID)
+    //             ->first();
+    //         if (empty($waterSourceData)) {
+    //             $waterSourceData = new HouseHoldSourceWater;
+    //             $waterSourceData->house_hold_id = $houseHoldData->id;
+    //         }
             
-            $waterSourceData->source_water_id = $waterSourceID;
-            $waterSourceData->cooking = !empty($cookVal) ? $cookVal : 0;
-            $waterSourceData->drinking = !empty($waterSourceData->drinking) ? $waterSourceData->drinking : 0;
-            $waterSourceData->laundry = !empty($waterSourceData->laundry) ? $waterSourceData->laundry : 0;
-            $waterSourceData->save();
-        }
+    //         $waterSourceData->source_water_id = $waterSourceID;
+    //         $waterSourceData->cooking = !empty($cookVal) ? $cookVal : 0;
+    //         $waterSourceData->drinking = !empty($waterSourceData->drinking) ? $waterSourceData->drinking : 0;
+    //         $waterSourceData->laundry = !empty($waterSourceData->laundry) ? $waterSourceData->laundry : 0;
+    //         $waterSourceData->save();
+    //     }
 
-        foreach ($request->laundry as $waterSourceID => $laundryVal) {
-            $waterSourceData = HouseHoldSourceWater::where("house_hold_id", $houseHoldData->id)
-                ->where("source_water_id", $waterSourceID)
-                ->first();
-            if (empty($waterSourceData)) {
-                $waterSourceData = new HouseHoldSourceWater;
-                $waterSourceData->house_hold_id = $houseHoldData->id;
-            }
+    //     foreach ($request->laundry as $waterSourceID => $laundryVal) {
+    //         $waterSourceData = HouseHoldSourceWater::where("house_hold_id", $houseHoldData->id)
+    //             ->where("source_water_id", $waterSourceID)
+    //             ->first();
+    //         if (empty($waterSourceData)) {
+    //             $waterSourceData = new HouseHoldSourceWater;
+    //             $waterSourceData->house_hold_id = $houseHoldData->id;
+    //         }
             
-            $waterSourceData->source_water_id = $waterSourceID;
-            $waterSourceData->laundry = !empty($laundryVal) ? $laundryVal : 0;
-            $waterSourceData->cooking = !empty($waterSourceData->cooking) ? $waterSourceData->cooking : 0;
-            $waterSourceData->drinking = !empty($waterSourceData->drinking) ? $waterSourceData->drinking : 0;
-            $waterSourceData->save();
-        }
-    }
+    //         $waterSourceData->source_water_id = $waterSourceID;
+    //         $waterSourceData->laundry = !empty($laundryVal) ? $laundryVal : 0;
+    //         $waterSourceData->cooking = !empty($waterSourceData->cooking) ? $waterSourceData->cooking : 0;
+    //         $waterSourceData->drinking = !empty($waterSourceData->drinking) ? $waterSourceData->drinking : 0;
+    //         $waterSourceData->save();
+    //     }
+    // }
 
     protected function saveLandOwnership($request, $houseHoldData) {
         $this->deleteHouseHoldLandOwnership($houseHoldData->id);
@@ -218,11 +218,11 @@ class HouseHoldClass
         }
     }
 
-    protected function deleteHouseHoldSourceWater($id) {
-        HouseHoldSourceWater::where("house_hold_id", $id)->each(function($row){
-            $row->delete();
-        });
-    }
+    // protected function deleteHouseHoldSourceWater($id) {
+    //     HouseHoldSourceWater::where("house_hold_id", $id)->each(function($row){
+    //         $row->delete();
+    //     });
+    // }
     
     protected function deleteHouseHoldLandOwnership($id) {
         HouseHoldLandOwnership::where("house_hold_id", $id)->each(function($row){
