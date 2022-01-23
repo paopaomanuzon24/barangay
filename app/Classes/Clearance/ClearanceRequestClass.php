@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Classes\Permit;
+namespace App\Classes\Clearance;
 
 
 
-class PermitRequestClass
+class ClearanceRequestClass
 {
 
-    public function generatePermitLayout(){
+    public function generateLayout(){
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
         $section = $phpWord->addSection();
@@ -58,7 +58,7 @@ class PermitRequestClass
 
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
-        $objWriter->save('Appdividend.docx');
+        $objWriter->save('Clearance.docx');
 
     }
 
