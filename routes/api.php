@@ -92,6 +92,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('inhabitants/family/{id}', [FamilyDataController::class, 'getFamilyData']);
     Route::get('inhabitants/family/list/{id}', [FamilyDataController::class, 'list']);
+    Route::get('inhabitants/family/user/list/{id}', [FamilyDataController::class, 'userList']);
     Route::post('inhabitants/family/store', [FamilyDataController::class, 'store']);
     Route::post('inhabitants/family/destroy/{id}', [FamilyDataController::class, 'destroy']);
 
@@ -120,6 +121,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('inhabitants/house-keeper/{id}', [HouseKeeperController::class, 'getHouseKeeperData']);
     Route::get('inhabitants/house-keeper/list/{id}', [HouseKeeperController::class, 'list']);
+    Route::get('inhabitants/house-keeper/user/list/{id}', [HouseKeeperController::class, 'userList']);
     Route::post('inhabitants/house-keeper/store', [HouseKeeperController::class, 'store']);
     Route::post('inhabitants/house-keeper/destroy/{id}', [HouseKeeperController::class, 'destroy']);
 

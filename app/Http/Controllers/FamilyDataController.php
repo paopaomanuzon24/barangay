@@ -19,6 +19,64 @@ use App\Models\User as UserModel;
 
 class FamilyDataController extends Controller
 {
+    public function userList(Request $request, $id) {
+        $familyDataList = FamilyData::where("user_id", $id)->get();
+
+        $familyDataArray = [
+            $id
+        ];
+
+        foreach ($familyDataList as $row) {
+            $familyDataArray[] = $row->personal_data_id;
+        }
+
+        $userList = UserModel::select(
+            'users.id',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'barangay_id',
+            'barangays.description as barangay_desc',
+            'user_type_id',
+            'user_type.name as user_type_desc',
+            'contact_no',
+            'address'
+        )
+        ->join("barangays", "barangays.id", "users.barangay_id")
+        ->join("user_type", "user_type.id", "users.user_type_id");
+
+        if ($request->search) {
+            $userList = $userList->where(function($q) use($request){
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+            });
+        }
+
+        if ($request->barangay_id) {
+            $userList = $userList->where("users.barangay_id", $request->barangay_id);
+        }
+
+        if ($request->user_type) {
+            $userList = $userList->where("users.user_type_id", $request->user_type);
+        }
+
+        if (count($familyDataArray) > 0) {
+            $userList = $userList->whereNotIn("users.id", $familyDataArray);
+        }
+
+        $userList = $userList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
+        
+        return customResponse()
+            ->message("Family data.")
+            ->data($userList)
+            ->success()
+            ->generate();
+    }
+
     public function list(Request $request, $id) {
         $userData = UserModel::find($id);
         if (empty($userData)) {
@@ -37,16 +95,16 @@ class FamilyDataController extends Controller
             'family_data.relationship_type_id',
             'relationship_type.description as relationship_type_desc',
             'family_data.personal_data_id',
-            'personal_data.first_name',
-            'personal_data.middle_name',
-            'personal_data.last_name',
-            'personal_data.birth_date',
-            'personal_data.contact_no',
-            'address_data.full_address'
+            'users.first_name',
+            'users.middle_name',
+            'users.last_name',
+            'users.birth_date',
+            'users.contact_no',
+            'users.address'
         )
         ->leftJoin("relationship_type", "relationship_type.id", "family_data.relationship_type_id")
-        ->leftJoin("personal_data", "personal_data.id", "family_data.personal_data_id")
-        ->leftJoin("address_data", "address_data.user_id", "family_data.user_id")
+        ->leftJoin("users", "users.id", "family_data.personal_data_id")
+        // ->leftJoin("address_data", "address_data.user_id", "family_data.user_id")
         ->where("family_data.user_id", $userData->id)
         ->paginate(
             (int) $request->get('per_page', 10),
@@ -69,16 +127,16 @@ class FamilyDataController extends Controller
             'family_data.relationship_type_id',
             'relationship_type.description as relationship_type_desc',
             'family_data.personal_data_id',
-            'personal_data.first_name',
-            'personal_data.middle_name',
-            'personal_data.last_name',
-            'personal_data.birth_date',
-            'personal_data.contact_no',
-            'address_data.full_address'
+            'users.first_name',
+            'users.middle_name',
+            'users.last_name',
+            'users.birth_date',
+            'users.contact_no',
+            'users.address'
         )
         ->leftJoin("relationship_type", "relationship_type.id", "family_data.relationship_type_id")
-        ->leftJoin("personal_data", "personal_data.id", "family_data.personal_data_id")
-        ->leftJoin("address_data", "address_data.user_id", "family_data.user_id")
+        ->leftJoin("users", "users.id", "family_data.personal_data_id")
+        // ->leftJoin("address_data", "address_data.user_id", "family_data.user_id")
         ->find($id);
 
         return customResponse()
