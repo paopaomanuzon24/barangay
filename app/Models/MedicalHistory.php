@@ -37,9 +37,9 @@ class MedicalHistory extends Model
         return $this->hasMany(MedicalHistoryDisease::class, 'medical_history_id', 'id');
     }
 
-    public function medicalActiveCondition() {
-        return $this->hasMany(MedicalActiveCondition::class, 'medical_history_id', 'id');
-    }
+    // public function medicalActiveCondition() {
+    //     return $this->hasMany(MedicalActiveCondition::class, 'medical_history_id', 'id');
+    // }
 
     public function medicalHistoryVaccine() {
         return $this->hasMany(MedicalHistoryVaccine::class, 'medical_history_id', 'id');
