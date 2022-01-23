@@ -20,7 +20,7 @@ use App\Models\HouseKeeperType;
 
 class HouseKeeperController extends Controller
 {
-    public function index(Request $request, $id) {
+    public function list(Request $request, $id) {
         $userData = $this->userData($id);
         if (empty($userData)) {
             return customResponse()
@@ -35,18 +35,18 @@ class HouseKeeperController extends Controller
         $houseKeeperList = HouseKeeper::select(
             'house_keeper_data.id',
             'house_keeper_data.user_id',
+            'house_keeper_data.house_keeper_user_id',
             'house_keeper_data.house_keeper_type_id',
             'house_keeper_type.description as house_keeper_type_desc',
-            'house_keeper_data.personal_data_id',
-            'personal_data.first_name',
-            'personal_data.middle_name',
-            'personal_data.last_name',
-            'personal_data.birth_date',
-            'personal_data.contact_no',
-            'address_data.full_address'
+            'users.first_name',
+            'users.middle_name',
+            'users.last_name',
+            'users.birth_date',
+            'users.contact_no',
+            'users.address'
         )
         ->leftJoin("house_keeper_type", "house_keeper_type.id", "house_keeper_data.house_keeper_type_id")
-        ->leftJoin("users", "users.id", "house_keeper_data.user_id")
+        ->leftJoin("users", "users.id", "house_keeper_data.house_keeper_user_id")
         ->where("house_keeper_data.user_id", $userData->id)
         ->paginate(
             (int) $request->get('per_page', 10),
@@ -62,8 +62,29 @@ class HouseKeeperController extends Controller
             ->generate();
     }
 
-    public function list(Request $request) {
-        dd($request->input());
+    public function getHouseKeeperData(Request $request, $id) {
+        $houseKeeperData = HouseKeeper::select(
+            'house_keeper_data.id',
+            'house_keeper_data.user_id',
+            'house_keeper_data.house_keeper_user_id',
+            'house_keeper_data.house_keeper_type_id',
+            'house_keeper_type.description as house_keeper_type_desc',
+            'users.first_name',
+            'users.middle_name',
+            'users.last_name',
+            'users.birth_date',
+            'users.contact_no',
+            'users.address'
+        )
+        ->leftJoin("house_keeper_type", "house_keeper_type.id", "house_keeper_data.house_keeper_type_id")
+        ->leftJoin("users", "users.id", "house_keeper_data.house_keeper_user_id")
+        ->find($id);
+
+        return customResponse()
+            ->message("Housekeeper Data.")
+            ->data($houseKeeperData)
+            ->success()
+            ->generate();
     }
 
     public function store(Request $request) {
@@ -87,6 +108,24 @@ class HouseKeeperController extends Controller
             ->message('Record has been saved.')
             ->success()
             ->generate();  
+    }
+
+    public function destroy(Request $request, $id) {
+        $houseKeeperData = HouseKeeper::find($id);
+        if (!empty($houseKeeperData)) {
+            $houseKeeperData->delete();
+            return customResponse()
+                ->message("Record has been deleted.")
+                ->data(null)
+                ->success()
+                ->generate();
+        }
+
+        return customResponse()
+            ->message("No data.")
+            ->data(null)
+            ->failed()
+            ->generate(); 
     }
 
     public function getHouseKeeperType(Request $request) {
