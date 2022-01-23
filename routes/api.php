@@ -29,6 +29,15 @@ use App\Http\Controllers\PermitRequestController;
 use App\Http\Controllers\PermitPaymentMethodController;
 use App\Http\Controllers\PermitLayoutController;
 
+use App\Http\Controllers\ClearanceTypeController;
+use App\Http\Controllers\ClearancePaymentMethodController;
+use App\Http\Controllers\ClearanceCategoryController;
+use App\Http\Controllers\ClearanceRequestController;
+
+
+
+
+
 
 use App\Http\Controllers\AnnouncementController;
 
@@ -170,6 +179,39 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('permit/request/print', [PermitRequestController::class, 'printPermit']);
 
+    #Clearance Category
+    Route::post('clearance/category', [ClearanceCategoryController::class, 'store']);
+    Route::get('clearance/category/{id}', [ClearanceCategoryController::class, 'show']);
+    Route::get('clearance/category/{id}/edit', [ClearanceCategoryController::class, 'edit']);
+    Route::post('clearance/category/update', [ClearanceCategoryController::class, 'update']);
+    Route::post('clearance/category/delete', [ClearanceCategoryController::class, 'delete']);
+    Route::get('clearance/categories', [ClearanceCategoryController::class, 'list']);
+
+
+
+    #Clearance Type
+    Route::post('clearance/type', [ClearanceTypeController::class, 'store']);
+    Route::get('clearance/type/{id}/edit', [ClearanceTypeController::class, 'edit']);
+    Route::post('clearance/type/update', [ClearanceTypeController::class,'update']);
+    Route::post('clearance/type/delete', [ClearanceTypeController::class,'delete']);
+    Route::get('clearance/type/{id}', [ClearanceTypeController::class, 'show']);
+    Route::get('clearance/types', [ClearanceTypeController::class, 'list']);
+
+
+    #Clearance Payment Method
+    Route::get('clearance/paymentmethod/list', [ClearancePaymentMethodController::class, 'list']);
+
+    #Clearance Request
+    Route::post('clearance/request', [ClearanceRequestController::class, 'requestPermit']);
+    Route::post('clearance/admin/request', [ClearanceRequestController::class, 'requestPermit']);
+    Route::get('clearance/request/list', [ClearanceRequestController::class, 'list']);
+    Route::post('clearance/payment', [ClearanceRequestController::class, 'clearancePayment']);
+    Route::get('clearance/request/{id}', [ClearanceRequestController::class, 'show']);
+    Route::post('clearance/request/deny', [ClearanceRequestController::class, 'denyRequest']);
+    Route::get('clearance/payment/{id}', [ClearanceRequestController::class, 'getClearancePaymentData']);
+    Route::post('clearance/request/approve', [ClearanceRequestController::class, 'approveRequest']);
+    Route::get('clearance/print', [ClearanceRequestController::class, 'printClearance']);
+
 
     ##Announcement
     Route::get('announement/list', [AnnouncementController::class, 'index']);
@@ -177,9 +219,6 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('announement/{id}', [AnnouncementController::class, 'show']);
     Route::post('announement/store', [AnnouncementController::class, 'store']);
 });
-
-
-
 
 
 
