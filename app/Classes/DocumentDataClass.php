@@ -5,7 +5,11 @@ namespace App\Classes;
 use Carbon\Carbon;
 
 use App\Models\DocumentData;
+use App\Models\DocumentFileData;
 use App\Models\User;
+
+use App\Classes\ResidenceApplicationClass;
+use App\Classes\PersonalDataClass;
 
 class DocumentDataClass
 {
@@ -15,15 +19,28 @@ class DocumentDataClass
             $userData = User::find($request->user_id);
         }
 
-        DocumentData::where("user_id", $userData->id)->where("status_id", "")->each(function($row){
+        $documentData = DocumentData::where("user_id", $userData->id)
+            ->where("document_id", $request->document_id)
+            ->first();
+        if (empty($documentData)) {
+            $documentData = new DocumentData;
+        }
+
+        $documentData->user_id = $userData->id;
+        $documentData->document_id = $request->document_id;
+        $documentData->path_name = "";
+        $documentData->file_name = "";
+        $documentData->save();
+
+        DocumentFileData::where("document_data_id", $documentData->id)->each(function($row){
             $row->delete();
         });
 
         $fileArray = $request->file("document_file");
-
+        
         if ($request->hasFile('document_file')) {
             foreach ($fileArray as $key => $file) {
-                $document = new DocumentData;
+                $document = new DocumentFileData;
 
                 $path = 'images/documents';
 
@@ -32,12 +49,16 @@ class DocumentDataClass
 
                 $file->storeAs("public/".$path,$imageName);
                 
-                $document->user_id = $userData->id;
-                $document->document_id = !empty($request->document_id[$key]) ? $request->document_id[$key] : 0;
+                $document->document_data_id = $documentData->id;
                 $document->path_name = $path.'/'.$imageName;
                 $document->file_name = $imageName;
                 $document->save();
             }
+        }
+
+        if (!empty($request->is_residence)) {
+            $personalDataClass = new PersonalDataClass;
+            $personalDataClass->savePersonalData($request);
         }
     }
 }

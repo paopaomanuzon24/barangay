@@ -15,6 +15,7 @@ use App\Http\Controllers\Controller;
 
 use App\Classes\HouseHoldClass;
 
+use App\Models\HouseHoldSourceWater;
 use App\Models\WaterSource;
 use App\Models\LandOwnership;
 use App\Models\Convenience;
@@ -33,6 +34,7 @@ use App\Models\MonthlyRental;
 use App\Models\LotStatus;
 use App\Models\GarbageDisposal;
 use App\Models\ToiletFacility;
+use App\Models\User;
 
 class HouseHoldController extends Controller
 {
@@ -76,6 +78,67 @@ class HouseHoldController extends Controller
             ->data(null)
             ->success()
             ->generate();    
+    }
+
+    public function houseHoldWaterSourceList(Request $request) {
+        $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = User::find($request->user_id);
+        }
+
+        $houseHoldWaterSourceList = HouseHoldSourceWater::select(
+            'house_hold_source_water.id',
+            'house_hold_source_water.user_id',
+            'house_hold_source_water.source_water_id',
+            'source_water.description as source_water_desc',
+            'house_hold_source_water.drinking',
+            'house_hold_source_water.cooking',
+            'house_hold_source_water.laundry'
+        )
+        ->join("source_water", "source_water.id", "house_hold_source_water.source_water_id")
+        ->get();
+
+        return customResponse()
+            ->message("House Hold Source Of Water.")
+            ->data($houseHoldWaterSourceList)
+            ->success()
+            ->generate(); 
+    }
+
+    public function saveHouseHoldWaterSource(Request $request) {
+        $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = User::find($request->user_id);
+        }
+
+        if (empty($request->drinking) && empty($request->cooking) && empty($request->laundry)) {
+            $waterSourceData = HouseHoldSourceWater::where("user_id", $userData->id)
+                ->where("source_water_id", $request->source_water_id)
+                ->first();
+            if (!empty($waterSourceData)) {
+                $waterSourceData->delete();
+            }
+        } else {
+            $waterSourceData = HouseHoldSourceWater::where("user_id", $userData->id)
+                ->where("source_water_id", $request->source_water_id)
+                ->first();
+            if (empty($waterSourceData)) {
+                $waterSourceData = new HouseHoldSourceWater;
+            }
+
+            $waterSourceData->user_id = $userData->id;
+            $waterSourceData->source_water_id = $request->source_water_id;
+            $waterSourceData->drinking = !empty($request->drinking) ? $request->drinking : 0;
+            $waterSourceData->cooking = !empty($request->cooking) ? $request->cooking : 0;
+            $waterSourceData->laundry = !empty($request->laundry) ? $request->laundry : 0;
+            $waterSourceData->save();
+        }  
+
+        return customResponse()
+            ->message("Record has been saved.")
+            ->data(null)
+            ->success()
+            ->generate();
     }
 
     public function getWaterSourceList(Request $request) {

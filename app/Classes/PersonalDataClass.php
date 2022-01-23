@@ -2,6 +2,7 @@
 
 namespace App\Classes;
 
+use Hash;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -45,21 +46,38 @@ class PersonalDataClass
     }
     
     public function savePersonalData($request) {
-        $user = $request->user();
-        if (!empty($request->user_id)) {
-            $user = User::find($request->user_id);
+        $resident = 5;
+        $approved = 1;
+
+        $userData = User::find($request->user_id);
+        if (empty($userData)) {
+            $userData = new User;
+            $userData->user_type_id = $resident;
+            $userData->last_name = $request->last_name;
+            $userData->first_name = $request->first_name;
+            $userData->email = $request->email;
+            $userData->contact_no = $request->contact_no;
+            $userData->gender = strtoupper($request->gender);
+            $userData->birth_date = date("Y-m-d", strtotime($request->birth_date));
+            $userData->address = "";
+            $userData->barangay_id = $request->barangay_id;
+            $userData->password = Hash::make($request->last_name);
+            $userData->save();
+        }
+
+        if (empty($request->user_id)) {
+            $request->user_id = $userData->id;
+            $request->status_id = $approved;
         }
         
-        // $resident = 5;
-        $personalData = $user->personalData;
+        $personalData = $userData->personalData;
 
         if (empty($personalData)) {
             $personalData = new PersonalData;
-            $personalData->user_id = $user->id;
+            $personalData->user_id = $userData->id;
             $personalData->application_id = 0;
-            // $user->user_type_id = $resident;
-            $user->email = $request->email;
-            $user->save();
+            $userData->email = $request->email;
+            $userData->save();
         }
 
         $personalData->last_name = $request->last_name;
@@ -86,6 +104,8 @@ class PersonalDataClass
 
             $this->saveApplicationID($personalData);
         }
+
+        return $personalData;
     }
 
     protected function saveApplicationID($personalData) {

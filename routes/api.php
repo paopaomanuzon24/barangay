@@ -98,7 +98,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('inhabitants/application/update', [ResidenceApplicationController::class, 'update']);
 
     Route::get('inhabitants/document/{id}', [DocumentDataController::class, 'getDocumentData']);
+    Route::get('inhabitants/document/list/{id}', [DocumentDataController::class, 'list']);
     Route::post('inhabitants/document/store', [DocumentDataController::class, 'store']);
+    Route::post('inhabitants/document/destroy/{id}', [DocumentDataController::class, 'destroy']);
 
     Route::get('inhabitants/groups/{id}', [GroupsAndAffiliationController::class, 'getGroupsAndAffiliationData']);
     Route::post('inhabitants/groups/store', [GroupsAndAffiliationController::class, 'store']);
@@ -113,9 +115,13 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     Route::get('inhabitants/house-hold/{id}', [HouseHoldController::class, 'index']);
     Route::post('inhabitants/house-hold/store', [HouseHoldController::class, 'store']);
+    Route::get('inhabitants/house-hold-water-source/list', [HouseHoldController::class, 'houseHoldWaterSourceList']);
+    Route::post('inhabitants/house-hold-water-source/store', [HouseHoldController::class, 'saveHouseHoldWaterSource']);
 
-    Route::get('inhabitants/house-keeper/{id}', [HouseKeeperController::class, 'index']);
+    Route::get('inhabitants/house-keeper/{id}', [HouseKeeperController::class, 'getHouseKeeperData']);
+    Route::get('inhabitants/house-keeper/list/{id}', [HouseKeeperController::class, 'list']);
     Route::post('inhabitants/house-keeper/store', [HouseKeeperController::class, 'store']);
+    Route::post('inhabitants/house-keeper/destroy/{id}', [HouseKeeperController::class, 'destroy']);
 
     ##Permit
     Route::post('barangay/officials', [BarangayOfficialController::class, 'store']);

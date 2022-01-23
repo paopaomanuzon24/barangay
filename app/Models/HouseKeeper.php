@@ -19,6 +19,7 @@ class HouseKeeper extends Model
         'id',
         'user_id',
         'house_keeper_type_id',
+        'house_keeper_user_id',
         'first_name',
         'middle_name',
         'last_name',

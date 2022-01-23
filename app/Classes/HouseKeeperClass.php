@@ -15,22 +15,34 @@ class HouseKeeperClass
             $userData = User::find($request->user_id);
         }
 
-        HouseKeeper::where("user_id", $userData->user_id)->each(function($row){
-            $row->delete();
-        });
-
-        foreach ($request->house_keeper_type_id as $key => $value) {
+        $houseKeeperData = HouseKeeper::where("user_id", $userData->id)
+            ->where("house_keeper_user_id", $request->house_keeper_user_id)
+            ->first();
+        if (empty($houseKeeperData)) {
             $houseKeeperData = new HouseKeeper;
-            $houseKeeperData->user_id = $request->user_id;
-            $houseKeeperData->house_keeper_type_id = $request->house_keeper_type_id[$key];
-            $houseKeeperData->first_name = $request->first_name[$key];
-            $houseKeeperData->middle_name = $request->middle_name[$key];
-            $houseKeeperData->last_name = $request->last_name[$key];
-            $houseKeeperData->birth_date = $request->birth_date[$key];
-            $houseKeeperData->contact_no = $request->contact_no[$key];
-            $houseKeeperData->address = $request->address[$key];
-            $houseKeeperData->same_address = $request->same_address[$key];
-            $houseKeeperData->save();
         }
+
+        $houseKeeperData->user_id = $userData->id;
+        $houseKeeperData->house_keeper_user_id = $request->house_keeper_user_id;
+        $houseKeeperData->house_keeper_type_id = $request->house_keeper_type_id;
+        $houseKeeperData->save();
+
+        // HouseKeeper::where("user_id", $userData->user_id)->each(function($row){
+        //     $row->delete();
+        // });
+
+        // foreach ($request->house_keeper_type_id as $key => $value) {
+        //     $houseKeeperData = new HouseKeeper;
+        //     $houseKeeperData->user_id = $request->user_id;
+        //     $houseKeeperData->house_keeper_type_id = $request->house_keeper_type_id[$key];
+        //     $houseKeeperData->first_name = $request->first_name[$key];
+        //     $houseKeeperData->middle_name = $request->middle_name[$key];
+        //     $houseKeeperData->last_name = $request->last_name[$key];
+        //     $houseKeeperData->birth_date = $request->birth_date[$key];
+        //     $houseKeeperData->contact_no = $request->contact_no[$key];
+        //     $houseKeeperData->address = $request->address[$key];
+        //     $houseKeeperData->same_address = $request->same_address[$key];
+        //     $houseKeeperData->save();
+        // }
     }
 }

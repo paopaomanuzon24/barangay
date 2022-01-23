@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DocumentData extends Model
+class DocumentFileData extends Model
 {
-    protected $table = 'document_data';
+    protected $table = 'document_file_data';
     public $timestamps = true;
     public $incrementing = true;
     protected $connection = 'mysql';
@@ -17,14 +17,8 @@ class DocumentData extends Model
      */
     protected $fillable = [
         'id',
-        'user_id',
-        'document_id',
+        'document_data_id',
         'file_name',
-        'path_name',
-        'status_id'
+        'path_name'
     ];
-
-    public function documentFileData() {
-        return $this->hasMany(DocumentFileData::class, 'document_data_id', 'id');
-    }
 }

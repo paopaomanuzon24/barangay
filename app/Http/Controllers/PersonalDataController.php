@@ -44,10 +44,10 @@ class PersonalDataController extends Controller
         }
 
         $class = new PersonalDataClass;
-        $class->savePersonalData($request);
+        $personalData = $class->savePersonalData($request);
 
         return customResponse()
-            ->data(null)
+            ->data($personalData)
             ->message('Record has been saved.')
             ->success()
             ->generate(); 
