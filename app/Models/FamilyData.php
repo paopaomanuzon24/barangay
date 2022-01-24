@@ -18,7 +18,7 @@ class FamilyData extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'personal_data_id',
+        'family_user_id',
         'relationship_type_id'
     ];
 }

@@ -17,9 +17,68 @@ use App\Classes\HouseKeeperClass;
 
 use App\Models\HouseKeeper;
 use App\Models\HouseKeeperType;
+use App\Models\User as UserModel;
 
 class HouseKeeperController extends Controller
 {
+    public function userList(Request $request, $id) {
+        $houseKeeperList = HouseKeeper::where("user_id", $id)->get();
+
+        $houseKeeperArray = [
+            $id
+        ];
+
+        foreach ($houseKeeperList as $row) {
+            $houseKeeperArray[] = $row->house_keeper_type_id;
+        }
+
+        $userList = UserModel::select(
+            'users.id',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'barangay_id',
+            'barangays.description as barangay_desc',
+            'user_type_id',
+            'user_type.name as user_type_desc',
+            'contact_no',
+            'address'
+        )
+        ->leftJoin("barangays", "barangays.id", "users.barangay_id")
+        ->leftJoin("user_type", "user_type.id", "users.user_type_id");
+
+        if ($request->search) {
+            $userList = $userList->where(function($q) use($request){
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+            });
+        }
+
+        if ($request->barangay_id) {
+            $userList = $userList->where("users.barangay_id", $request->barangay_id);
+        }
+
+        if ($request->user_type) {
+            $userList = $userList->where("users.user_type_id", $request->user_type);
+        }
+
+        if (count($houseKeeperArray) > 0) {
+            $userList = $userList->whereNotIn("users.id", $houseKeeperArray);
+        }
+
+        $userList = $userList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
+        
+        return customResponse()
+            ->message("Family data.")
+            ->data($userList)
+            ->success()
+            ->generate();
+    }
+    
     public function list(Request $request, $id) {
         $userData = $this->userData($id);
         if (empty($userData)) {

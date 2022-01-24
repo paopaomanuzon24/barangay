@@ -16,14 +16,14 @@ class FamilyDataClass
         }
 
         $familyData = FamilyData::where("user_id", $userData->id)
-            ->where("personal_data_id", $request->personal_data_id)
+            ->where("family_user_id", $request->family_user_id)
             ->first();
         if (empty($familyData)) {
             $familyData = new FamilyData;
         }
 
         $familyData->user_id = $userData->id;
-        $familyData->personal_data_id = $request->personal_data_id;
+        $familyData->family_user_id = $request->family_user_id;
         $familyData->relationship_type_id = $request->relationship_type_id;
         $familyData->save();
 
@@ -32,15 +32,15 @@ class FamilyDataClass
         // });
 
         // foreach ($request->relationship_type_id as $key => $value) {
-        //     $personalDataID = !empty($request->personal_data_id[$key]) ? $request->personal_data_id[$key] : 0;
+        //     $personalDataID = !empty($request->family_user_id[$key]) ? $request->family_user_id[$key] : 0;
             
-        //     $familyData = FamilyData::where("user_id", $userData->id)->where("personal_data_id", $personalDataID)->first();
+        //     $familyData = FamilyData::where("user_id", $userData->id)->where("family_user_id", $personalDataID)->first();
         //     if (empty($familyData)) {
         //         $familyData = new FamilyData;
         //     }
 
         //     $familyData->user_id = $userData->id;
-        //     $familyData->personal_data_id = $personalDataID;
+        //     $familyData->family_user_id = $personalDataID;
         //     $familyData->relationship_type_id = $request->relationship_type_id[$key];
         //     $familyData->first_name = $request->first_name[$key];
         //     $familyData->middle_name = !empty($request->middle_name[$key]) ? $request->middle_name[$key] : "";

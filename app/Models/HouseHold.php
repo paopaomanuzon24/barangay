@@ -38,7 +38,7 @@ class HouseHold extends Model
         'lot_status_id',
         'garbage_disposal_id',
         'garbage_disposal_specify',
-        'toilet_facilty_id',
+        'toilet_facility_id',
         'language',
         'residence_type',
         // 'internet_access_type',
@@ -49,9 +49,9 @@ class HouseHold extends Model
         'path_name'
     ];
 
-    public function waterSource() {
-        return $this->hasMany(HouseHoldSourceWater::class, 'house_hold_id', 'id');
-    }
+    // public function waterSource() {
+    //     return $this->hasMany(HouseHoldSourceWater::class, 'house_hold_id', 'id');
+    // }
 
     public function landOwnership() {
         return $this->hasMany(HouseHoldLandOwnership::class, 'house_hold_id', 'id');
