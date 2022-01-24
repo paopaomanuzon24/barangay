@@ -22,7 +22,7 @@ use App\Models\User as UserModel;
 class PersonalDataController extends Controller
 {
     public function store(Request $request) {
-        $validator = Validator::make($request->all(), [
+        $params = [
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'gender' => 'required',
@@ -33,7 +33,23 @@ class PersonalDataController extends Controller
             'birth_place' => 'required',
             'contact_no' => 'required|digits:10',
             'email' => 'required|string|email|confirmed',
-        ]);
+        ];
+
+        if (empty($request->user_id)) {
+            $params['email'] = 'required|string|email|unique:users';
+            $params['password'] = 'required|string';
+        } else {
+            $userData = UserModel::find($request->user_id);
+            $checkEmail = $userData->email != $request->email ? true : false;
+            if ($checkEmail) {
+                $emaiLData = UserModel::where("email", $request->email)->first();
+                if (!empty($emaiLData)) {
+                    $params['email'] = 'required|string|email|unique:users';
+                }
+            }
+        }
+
+        $validator = Validator::make($request->all(), $params);
 
         if ($validator->fails()) {
             return customResponse()
