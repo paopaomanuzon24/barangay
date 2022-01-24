@@ -21,7 +21,16 @@ class CreateCommunityTable extends Migration
 
         DB::table('community')->insert([
             [
-                'description' => 'Sample'
+                'description' => 'Lesbian'
+            ],
+            [
+                'description' => 'Gay',
+            ],
+            [
+                'description' => 'Bisexual',
+            ],
+            [
+                'description' => 'Trans'
             ]
         ]);
     }
