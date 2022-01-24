@@ -28,7 +28,9 @@ class PermitCategoryController extends Controller
                 ->generate();
         }
 
-        $checkData = PermitCategory::where("description",$request->description)->first();
+        $checkData = PermitCategory::where("description",$request->description)
+            ->where("barangay_id", $request->barangay_id)
+            ->first();
         if(!empty($checkData)){
             return customResponse()
                 ->data(null)
@@ -106,7 +108,9 @@ class PermitCategoryController extends Controller
                 ->failed()
                 ->generate();
         }
-        $categoryData = PermitCategory::where("description",$request->description)->first();
+        $categoryData = PermitCategory::where("description",$request->description)
+            ->where("barangay_id", $request->barangay_id)
+            ->first();
         if(!empty($categoryData)){
             return customResponse()
             ->data(null)
