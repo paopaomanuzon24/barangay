@@ -50,18 +50,16 @@ class UserManagementController extends Controller
             'address' => 'required|string'
         ];
         
-        if (!empty($request->email)) {
-            if (empty($request->user_id)) {
-                // $params['email'] = 'required|string|email|unique:users';
-                $params['password'] = 'required|string';
-            } else {
-                $userData = User::find($request->user_id);
-                $checkEmail = $userData->email != $request->email ? true : false;
-                if ($checkEmail) {
-                    $emaiLData = User::where("email", $request->email)->first();
-                    if (!empty($emaiLData)) {
-                        // $params['email'] = 'required|string|email|unique:users';
-                    }
+        if (empty($request->user_id)) {
+            // $params['email'] = 'required|string|email|unique:users';
+            $params['password'] = 'required|string';
+        } else {
+            $userData = User::find($request->user_id);
+            $checkEmail = $userData->email != $request->email ? true : false;
+            if ($checkEmail) {
+                $emaiLData = User::where("email", $request->email)->first();
+                if (!empty($emaiLData)) {
+                    // $params['email'] = 'required|string|email|unique:users';
                 }
             }
         }
