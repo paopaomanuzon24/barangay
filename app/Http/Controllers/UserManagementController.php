@@ -49,7 +49,7 @@ class UserManagementController extends Controller
             'birth_date' => 'string',
             'address' => 'required|string'
         ];
-
+        dd(!empty($request->email));
         if (!empty($request->email)) {
             if (empty($request->user_id)) {
                 $params['email'] = 'required|string|email|unique:users';
