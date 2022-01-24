@@ -50,7 +50,9 @@ class ClearanceTypeController extends Controller
                 ->generate();
         }
 
-        $clearanceData = ClearanceType::where("clearance_name",$request->clearance_name)->first();
+        $clearanceData = ClearanceType::where("clearance_name",$request->clearance_name)
+            ->where("barangay_id", $request->barangay_id)
+            ->first();
         if(!empty($clearanceData)){
             return customResponse()
                 ->data(null)
@@ -133,7 +135,9 @@ class ClearanceTypeController extends Controller
                 ->generate();
         }
 
-        $clearanceData = ClearanceType::where("clearance_name",$request->clearance_name)->first();
+        $clearanceData = ClearanceType::where("clearance_name",$request->clearance_name)
+            ->where("barangay_id", $request->barangay_id)
+            ->first();
         if(!empty($clearanceData)){
             return customResponse()
                 ->data(null)

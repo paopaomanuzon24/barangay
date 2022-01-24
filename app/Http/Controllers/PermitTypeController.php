@@ -35,7 +35,9 @@ class PermitTypeController extends Controller
                 ->generate();
         }
 
-        $permit = PermitType::where("permit_name",$request->permit_name)->first();
+        $permit = PermitType::where("permit_name",$request->permit_name)
+            ->where("barangay_id", $request->barangay_id)
+            ->first();
         if(!empty($permit)){
             return customResponse()
                 ->data(null)
