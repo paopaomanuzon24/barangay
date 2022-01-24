@@ -17,7 +17,7 @@ class HouseHoldSourceWater extends Model
      */
     protected $fillable = [
         'id',
-        'house_hold_id',
+        'user_id',
         'source_water_id',
         'drinking',
         'cooking',

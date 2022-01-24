@@ -69,7 +69,7 @@ class HouseHoldClass
                 $houseHoldData->lot_status_id = !empty($request->lot_status_id) ? $request->lot_status_id : 0;
                 $houseHoldData->garbage_disposal_id = !empty($request->garbage_disposal_id) ? $request->garbage_disposal_id : 0;
                 $houseHoldData->garbage_disposal_specify = !empty($request->garbage_disposal_specify) ? $request->garbage_disposal_specify : "";
-                $houseHoldData->toilet_facilty_id = !empty($request->toilet_facilty_id) ? $request->toilet_facilty_id : 0;
+                $houseHoldData->toilet_facility_id = !empty($request->toilet_facility_id) ? $request->toilet_facility_id : 0;
                 $houseHoldData->language = !empty($request->language) ? $request->language : "";
                 $houseHoldData->residence_type = !empty($request->residence_type) ? $request->residence_type : "";
                 $houseHoldData->save();
