@@ -39,7 +39,9 @@ class ClearanceCategoryController extends Controller
                 ->generate();
         }
 
-        $checkData = ClearanceCategory::where("description",$request->description)->first();
+        $checkData = ClearanceCategory::where("description",$request->description)
+            ->where("barangay_id", $request->barangay_id)
+            ->first();
         if(!empty($checkData)){
             return customResponse()
                 ->data(null)
@@ -124,7 +126,9 @@ class ClearanceCategoryController extends Controller
                 ->generate();
         }
 
-        $categoryData = ClearanceCategory::where("description",$request->description)->first();
+        $categoryData = ClearanceCategory::where("description",$request->description)
+            ->where("barangay_id", $request->barangay_id)
+            ->first();
         if(!empty($categoryData)){
             return customResponse()
             ->data(null)
