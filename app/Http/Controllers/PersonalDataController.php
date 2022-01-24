@@ -37,7 +37,6 @@ class PersonalDataController extends Controller
 
         if (empty($request->user_id)) {
             $params['email'] = 'required|string|email|unique:users';
-            $params['password'] = 'required|string';
         } else {
             $userData = UserModel::find($request->user_id);
             $checkEmail = $userData->email != $request->email ? true : false;
