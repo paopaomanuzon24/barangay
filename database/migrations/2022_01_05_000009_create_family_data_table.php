@@ -16,12 +16,12 @@ class CreateFamilyDataTable extends Migration
         Schema::create('family_data', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id")->nullable();
-            $table->unsignedBigInteger("family_user_id")->nullable();
+            $table->unsignedBigInteger("personal_data_id")->nullable();
             $table->unsignedBigInteger("relationship_type_id")->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('family_user_id')->references('id')->on('personal_data');
+            $table->foreign('personal_data_id')->references('id')->on('personal_data');
             $table->foreign('relationship_type_id')->references('id')->on('relationship_type');
         });
     }
