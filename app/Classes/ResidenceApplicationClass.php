@@ -43,5 +43,7 @@ class ResidenceApplicationClass
         $resident = 5;
         $user->user_type_id = $resident;
         $user->save();
+
+        
     }
 }
