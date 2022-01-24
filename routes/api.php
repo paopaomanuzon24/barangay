@@ -216,7 +216,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('clearance/request/deny', [ClearanceRequestController::class, 'denyRequest']);
     Route::get('clearance/payment/{id}', [ClearanceRequestController::class, 'getClearancePaymentData']);
     Route::post('clearance/request/approve', [ClearanceRequestController::class, 'approveRequest']);
-    Route::get('clearance/print', [ClearanceRequestController::class, 'printClearance']);
+    Route::post('clearance/print', [ClearanceRequestController::class, 'printClearance']);
 
 
     ##Announcement
@@ -225,6 +225,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('announement/{id}', [AnnouncementController::class, 'show']);
     Route::post('announement/store', [AnnouncementController::class, 'store']);
 });
+
 
 
 
