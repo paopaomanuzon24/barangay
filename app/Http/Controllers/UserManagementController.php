@@ -49,10 +49,10 @@ class UserManagementController extends Controller
             'birth_date' => 'string',
             'address' => 'required|string'
         ];
-        dd(!empty($request->email));
+        
         if (!empty($request->email)) {
             if (empty($request->user_id)) {
-                $params['email'] = 'required|string|email|unique:users';
+                // $params['email'] = 'required|string|email|unique:users';
                 $params['password'] = 'required|string';
             } else {
                 $userData = User::find($request->user_id);
@@ -60,7 +60,7 @@ class UserManagementController extends Controller
                 if ($checkEmail) {
                     $emaiLData = User::where("email", $request->email)->first();
                     if (!empty($emaiLData)) {
-                        $params['email'] = 'required|string|email|unique:users';
+                        // $params['email'] = 'required|string|email|unique:users';
                     }
                 }
             }
