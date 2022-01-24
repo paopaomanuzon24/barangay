@@ -185,7 +185,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('permit/request/layout/{id}/edit', [PermitLayoutController::class, 'editRequestLayout']);
 
 
-    Route::get('permit/request/print', [PermitRequestController::class, 'printPermit']);
+    Route::post('permit/request/print', [PermitRequestController::class, 'printPermit']);
 
     #Clearance Category
     Route::post('clearance/category', [ClearanceCategoryController::class, 'store']);
