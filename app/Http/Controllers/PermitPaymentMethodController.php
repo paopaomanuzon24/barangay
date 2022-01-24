@@ -21,7 +21,8 @@ class PermitPaymentMethodController extends Controller
     public function list(Request $request){
 
 
-        $paymentMethodData = PermitPaymentMethod::all();
+     #   $paymentMethodData = PermitPaymentMethod::all();
+        $paymentMethodData = PermitPaymentMethod::where("id",1)->get();
 
 
 
