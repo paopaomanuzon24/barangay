@@ -561,7 +561,7 @@ class ClearanceRequestController extends Controller
         #dd(URL::to(''));
         $pdf = PDF::loadView('report.clearance.clearance1', $data);
        # $pdf->output(['isRemoteEnabled' => true]);
-        return $pdf->download('clearance.pdf');
+       # return $pdf->download('clearance.pdf');
         return $pdf->download('clearance.pdf')->getOriginalContent();
 
     }
