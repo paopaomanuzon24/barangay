@@ -18,6 +18,7 @@ use App\Models\ClearanceSequence;
 use App\Models\ClearanceStatus;
 use App\Models\ClearanceType;
 use App\Models\User;
+use PDF;
 
 class ClearanceRequestController extends Controller
 {
@@ -517,6 +518,18 @@ class ClearanceRequestController extends Controller
         return $contents;
 
 
+    }
+
+    public function printClearancePDF(Request $request){
+
+       # $pdf = PDF::loadView('myPDF', $data);
+        $data = array(
+            'title' => "pao",
+            "date" => "date"
+        );
+       # return $pdf->download('itsolutionstuff.pdf');
+        $pdf = PDF::loadView('report.clearance.clearance', $data);
+        return $pdf->stream();
     }
 
     /* public function edit(Request $request,$id){
