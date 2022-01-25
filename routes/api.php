@@ -227,9 +227,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('announement/display', [AnnouncementController::class, 'display']);
     Route::get('announement/{id}', [AnnouncementController::class, 'show']);
     Route::post('announement/store', [AnnouncementController::class, 'store']);
+    Route::post('clearance/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
 });
 
-Route::post('clearance/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
 
 
 
