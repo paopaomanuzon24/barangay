@@ -529,6 +529,7 @@ class ClearanceRequestController extends Controller
         );
        # return $pdf->download('itsolutionstuff.pdf');
         $pdf = PDF::loadView('report.clearance.clearance', $data);
+        #$pdf->download('clearance.pdf');
         return $pdf->stream();
     }
 
