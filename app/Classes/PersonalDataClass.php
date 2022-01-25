@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Models\ResidenceApplication;
 
 use App\Classes\ResidenceApplicationClass;
+use App\Models\BarangayIDSequence;
 
 class PersonalDataClass
 {
