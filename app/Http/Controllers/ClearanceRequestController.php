@@ -279,7 +279,8 @@ class ClearanceRequestController extends Controller
                 'status' => $row->status->description,
                 'release_date' => $row->release_date,
                 'application_id' => $row->application_id,
-                'request_date' => $row->created_at
+                'request_date' => $row->created_at,
+                'user_id' => $row->user_id
 
             );
 

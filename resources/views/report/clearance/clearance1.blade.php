@@ -71,7 +71,7 @@
         <br><br><br><br><br>
 
         <div class="toWhomStyle"><b>TO WHOM IT MAY CONCERN</b></div>
-        <p><b>
+        <p style="line-height:1.5"><b>
             This is to certify that Mr ./Ms. /Mrs. <u>{{ $name }}</u> whose signature appears below, legal age, married/single Filipino and a bonafide resident of <u>{{ $address }}</u> is known to me personally to be a person of good moral character, peaceful, and law-abiding citizen and that he/she has no derogatory records as fas as this barangay is concerned.
         </b>
         </p>
