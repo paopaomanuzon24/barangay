@@ -32,6 +32,13 @@ class HouseKeeperController extends Controller
             $houseKeeperArray[] = $row->house_keeper_type_id;
         }
 
+        $removeUserTypeArray = [
+            UserModel::SUPER_ADMIN,
+            UserModel::ADMIN,
+            UserModel::TREASURY,
+            UserModel::SECRETARY
+        ];
+
         $userList = UserModel::select(
             'users.id',
             'first_name',
@@ -64,6 +71,8 @@ class HouseKeeperController extends Controller
         if (count($houseKeeperArray) > 0) {
             $userList = $userList->whereNotIn("users.id", $houseKeeperArray);
         }
+
+        $userList = $userList->whereNotIn("users.user_type_id", $removeUserTypeArray);
 
         $userList = $userList->paginate(
             (int) $request->get('per_page', 10),

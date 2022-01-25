@@ -50,6 +50,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    const SUPER_ADMIN = 1;
+    const ADMIN = 2;
+    const TREASURY = 3;
+    const SECRETARY = 4;
+
     public function sessionToken() {
         return $this->hasOne(SessionToken::class, 'user_id', 'id');
     }

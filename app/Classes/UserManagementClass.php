@@ -16,7 +16,7 @@ class UserManagementClass
             $userData = new User;
         }
 
-        $userData->user_type_id = $request->user_type_id;
+        $userData->user_type_id = !empty($request->user_type_id) ? $request->user_type_id : 7;
         $userData->last_name = $request->last_name;
         $userData->first_name = $request->first_name;
         $userData->email = $request->email;

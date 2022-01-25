@@ -30,6 +30,13 @@ class FamilyDataController extends Controller
             $familyDataArray[] = $row->family_user_id;
         }
 
+        $removeUserTypeArray = [
+            UserModel::SUPER_ADMIN,
+            UserModel::ADMIN,
+            UserModel::TREASURY,
+            UserModel::SECRETARY
+        ];
+
         $userList = UserModel::select(
             'users.id',
             'first_name',
@@ -62,6 +69,8 @@ class FamilyDataController extends Controller
         if (count($familyDataArray) > 0) {
             $userList = $userList->whereNotIn("users.id", $familyDataArray);
         }
+
+        $userList = $userList->whereNotIn("users.user_type_id", $removeUserTypeArray);
 
         $userList = $userList->paginate(
             (int) $request->get('per_page', 10),
