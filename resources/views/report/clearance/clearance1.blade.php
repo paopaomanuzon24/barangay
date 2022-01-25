@@ -12,6 +12,10 @@
     }
     .barangayStyle{
         font-size : large;
+
+    }
+    .barangayHeaderStyle{
+        font-size : large;
         color : #6F4581;
     }
     .officeStyle{
@@ -63,7 +67,7 @@
         <div class="center officeStyle" ><b>Office of the Punong Barangay</b></div>
         <br>
         <br>
-        <div class="center barangayStyle" ><b>BARANGAY CERTIFICATION</b></div>
+        <div class="center barangayHeaderStyle" ><b>BARANGAY CERTIFICATION</b></div>
         <br><br><br><br><br>
 
         <div class="toWhomStyle"><b>TO WHOM IT MAY CONCERN</b></div>
