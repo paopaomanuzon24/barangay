@@ -46,6 +46,7 @@
     .toWhomStyle{
         font-size : medium;
     }
+    @page { margin: 1px; }
 
 </style>
 
