@@ -522,32 +522,47 @@ class ClearanceRequestController extends Controller
 
     public function printClearancePDF(Request $request){
 
-       # $pdf = PDF::loadView('myPDF', $data);
+        $validator = Validator::make($request->all(),[
+            'user_id' => 'required|integer|min:1',
+        ]);
+        if($validator->fails()){
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+        }
+
+        $userData = User::find($request->user_id);
+        if(empty($userData)){
+            return customResponse()
+            ->data(null)
+            ->message("User not found.")
+            ->failed()
+            ->generate();
+        }
+
+        $name = $userData->first_name.' '.$userData->middle_name.' '.$userData->last_name;
+        $address = $userData->address;
         $data = array(
             'title' => "pao",
-            "date" => "date"
+            "date" => "date",
+            "name" => $name,
+            "address" => $address,
+            "day" => date('d'),
+            "month" => date('F Y'),
         );
-       # return $pdf->download('itsolutionstuff.pdf');
-        $pdf = PDF::loadView('report.clearance.clearance', $data);
-       # $path = 'public/images/clearance';
-       # $fileName = "clearance.pdf";
-        #$pdf->save(Storage::url($path . '/' . $fileName));
+
+
+
+
+        #dd(public_path("images\Cedula.jpg"));
+        #dd(URL::to(''));
+        $pdf = PDF::loadView('report.clearance.clearance1', $data);
+       # $pdf->output(['isRemoteEnabled' => true]);
+        return $pdf->download('clearance.pdf');
         return $pdf->download('clearance.pdf')->getOriginalContent();
-        #return $pdf->stream();
 
-     /*  #  $path = public_path('clearance.pdf');
-        $path = Storage::url($path.'/'.$fileName);
-
-        $fsize = filesize($path);
-
-        $handle = fopen($path, "rb");
-        $contents = fread($handle, $fsize);
-        fclose($handle);
-
-        header('content-type: application/vnd.msword');
-        header('Content-Length: ' . $fsize);
-
-        return $contents; */
     }
 
     /* public function edit(Request $request,$id){
