@@ -220,7 +220,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('clearance/request/approve', [ClearanceRequestController::class, 'approveRequest']);
     Route::post('clearance/print', [ClearanceRequestController::class, 'printClearance']);
 
-
+    Route::post('clearance/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
 
     ##Announcement
     Route::get('announement/list', [AnnouncementController::class, 'index']);
@@ -229,7 +229,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('announement/store', [AnnouncementController::class, 'store']);
 });
 
-Route::post('clearance/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
+
 
 
 
