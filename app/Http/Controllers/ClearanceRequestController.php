@@ -529,8 +529,25 @@ class ClearanceRequestController extends Controller
         );
        # return $pdf->download('itsolutionstuff.pdf');
         $pdf = PDF::loadView('report.clearance.clearance', $data);
-        #$pdf->download('clearance.pdf');
-        return $pdf->stream();
+       # $path = 'public/images/clearance';
+       # $fileName = "clearance.pdf";
+        #$pdf->save(Storage::url($path . '/' . $fileName));
+        return $pdf->download('clearance.pdf')->getOriginalContent();
+        #return $pdf->stream();
+
+     /*  #  $path = public_path('clearance.pdf');
+        $path = Storage::url($path.'/'.$fileName);
+
+        $fsize = filesize($path);
+
+        $handle = fopen($path, "rb");
+        $contents = fread($handle, $fsize);
+        fclose($handle);
+
+        header('content-type: application/vnd.msword');
+        header('Content-Length: ' . $fsize);
+
+        return $contents; */
     }
 
     /* public function edit(Request $request,$id){
