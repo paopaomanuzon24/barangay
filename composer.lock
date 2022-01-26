@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "966eef0a75e59b734d0f786423fab2ea",
+    "content-hash": "0bd51d3629b1a8568f92f049c8c7c4ec",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -57,6 +57,55 @@
                 "stack"
             ],
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "bacon/bacon-qr-code",
+            "version": "2.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Bacon/BaconQrCode.git",
+                "reference": "f73543ac4e1def05f1a70bcd1525c8a157a1ad09"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/f73543ac4e1def05f1a70bcd1525c8a157a1ad09",
+                "reference": "f73543ac4e1def05f1a70bcd1525c8a157a1ad09",
+                "shasum": ""
+            },
+            "require": {
+                "dasprid/enum": "^1.0.3",
+                "ext-iconv": "*",
+                "php": "^7.1 || ^8.0"
+            },
+            "require-dev": {
+                "phly/keep-a-changelog": "^1.4",
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "suggest": {
+                "ext-imagick": "to generate QR code images"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "BaconQrCode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "BaconQrCode is a QR code generator for PHP.",
+            "homepage": "https://github.com/Bacon/BaconQrCode",
+            "time": "2021-06-18T13:26:35+00:00"
         },
         {
             "name": "barryvdh/laravel-dompdf",
@@ -214,6 +263,49 @@
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
             "time": "2021-09-13T08:41:34+00:00"
+        },
+        {
+            "name": "dasprid/enum",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DASPRiD/Enum.git",
+                "reference": "5abf82f213618696dda8e3bf6f64dd042d8542b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DASPRiD/Enum/zipball/5abf82f213618696dda8e3bf6f64dd042d8542b2",
+                "reference": "5abf82f213618696dda8e3bf6f64dd042d8542b2",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7 | ^8 | ^9",
+                "squizlabs/php_codesniffer": "^3.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DASPRiD\\Enum\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-2-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Ben Scholzen 'DASPRiD'",
+                    "email": "mail@dasprids.de",
+                    "homepage": "https://dasprids.de/",
+                    "role": "Developer"
+                }
+            ],
+            "description": "PHP 7.1 enum implementation",
+            "keywords": [
+                "enum",
+                "map"
+            ],
+            "time": "2020-10-02T16:03:48+00:00"
         },
         {
             "name": "defuse/php-encryption",
@@ -4018,6 +4110,70 @@
             "time": "2021-12-11T13:40:54+00:00"
         },
         {
+            "name": "simplesoftwareio/simple-qrcode",
+            "version": "4.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SimpleSoftwareIO/simple-qrcode.git",
+                "reference": "916db7948ca6772d54bb617259c768c9cdc8d537"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SimpleSoftwareIO/simple-qrcode/zipball/916db7948ca6772d54bb617259c768c9cdc8d537",
+                "reference": "916db7948ca6772d54bb617259c768c9cdc8d537",
+                "shasum": ""
+            },
+            "require": {
+                "bacon/bacon-qr-code": "^2.0",
+                "ext-gd": "*",
+                "php": ">=7.2|^8.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~1",
+                "phpunit/phpunit": "~9"
+            },
+            "suggest": {
+                "ext-imagick": "Allows the generation of PNG QrCodes.",
+                "illuminate/support": "Allows for use within Laravel."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "SimpleSoftwareIO\\QrCode\\QrCodeServiceProvider"
+                    ],
+                    "aliases": {
+                        "QrCode": "SimpleSoftwareIO\\QrCode\\Facades\\QrCode"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "SimpleSoftwareIO\\QrCode\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Simple Software LLC",
+                    "email": "support@simplesoftware.io"
+                }
+            ],
+            "description": "Simple QrCode is a QR code generator made for Laravel.",
+            "homepage": "https://www.simplesoftware.io/#/docs/simple-qrcode",
+            "keywords": [
+                "Simple",
+                "generator",
+                "laravel",
+                "qrcode",
+                "wrapper"
+            ],
+            "time": "2021-02-08T20:43:55+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.3.0",
             "source": {
@@ -6095,6 +6251,94 @@
                 "validate"
             ],
             "time": "2021-03-09T10:59:23+00:00"
+        },
+        {
+            "name": "werneckbh/laravel-qr-code",
+            "version": "0.1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/werneckbh/laravel-qr-code.git",
+                "reference": "df3875022158d0f8355f54219955e32f9a9ba080"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/werneckbh/laravel-qr-code/zipball/df3875022158d0f8355f54219955e32f9a9ba080",
+                "reference": "df3875022158d0f8355f54219955e32f9a9ba080",
+                "shasum": ""
+            },
+            "require": {
+                "werneckbh/qr-code": "^2.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "LaravelQRCode\\Providers\\QRCodeServiceProvider"
+                    ],
+                    "aliases": {
+                        "QRCode": "LaravelQRCode\\Facades\\QRCode"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "LaravelQRCode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bruno Werneck",
+                    "email": "brunovaulawerneck@gmail.com"
+                }
+            ],
+            "description": "QR Code Generator for PHP wrapper for Laravel",
+            "time": "2018-02-12T20:01:20+00:00"
+        },
+        {
+            "name": "werneckbh/qr-code",
+            "version": "2.1.15",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/werneckbh/qr-code.git",
+                "reference": "ec66df0ebd5a3e1ea895bb5fba82ab9c3b9ff8f0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/werneckbh/qr-code/zipball/ec66df0ebd5a3e1ea895bb5fba82ab9c3b9ff8f0",
+                "reference": "ec66df0ebd5a3e1ea895bb5fba82ab9c3b9ff8f0",
+                "shasum": ""
+            },
+            "require-dev": {
+                "khanamiryan/qrcode-detector-decoder": "^1.0",
+                "phpunit/phpunit": "^6.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers/constants.php",
+                    "src/helpers/functions.php"
+                ],
+                "psr-4": {
+                    "QR_Code\\": "src/QR_Code/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bruno Vaula Werneck",
+                    "email": "brunovaulawerneck@gmail.com"
+                }
+            ],
+            "description": "QR Code Generator for PHP",
+            "abandoned": true,
+            "time": "2018-02-04T20:29:27+00:00"
         }
     ],
     "packages-dev": [
