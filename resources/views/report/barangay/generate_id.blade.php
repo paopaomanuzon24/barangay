@@ -180,7 +180,7 @@
         <div class="idPicturePosition">
             <div>
                 <center>
-                    <img src="{{ url('/') }}/images/sample-picture.png" alt="" height="400px" width="400px">
+                    <img src="{{ url('/') }}/images/sample-picture.PNG" alt="" height="400px" width="400px">
                 </center>
             </div>
             <div style="background: #fff; border-radius: 50%;">
