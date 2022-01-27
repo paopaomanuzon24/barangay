@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use App\Models\PersonalData;
 use App\Models\User;
 
+use App\Classes\PersonalDataClass;
+
 class UserManagementClass
 {
     public function saveUser($request) {
@@ -31,6 +33,17 @@ class UserManagementClass
         $userData->save();
 
         $this->updateEmail($request, $userData);
+
+        if (!empty($userData->barangay_id)) {
+            if (empty($request->user_id)) {
+                $request->user_id = $userData->id;
+                $request->status_id = 1;
+                if ($userData->user_type_id==5) {
+                    $personalDataClass = new PersonalDataClass;
+                    $personalDataClass->savePersonalData($request);
+                }
+            }
+        }
     }
 
     public function updateEmail($request, $userData) {

@@ -243,12 +243,8 @@ class HelperClass
             ],
             [
                 'id' => 2,
-                'description' => 'with Dual Citizenship'
-            ],
-            [
-                'id' => 3,
-                'description' => 'No'
-            ],
+                'description' => 'Filipino with Dual Citizenship'
+            ]
         );
 
         return $array;
