@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bd51d3629b1a8568f92f049c8c7c4ec",
+    "content-hash": "f0de6c91c4db13f579cea6e0d7797252",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -6339,6 +6339,46 @@
             "description": "QR Code Generator for PHP",
             "abandoned": true,
             "time": "2018-02-04T20:29:27+00:00"
+        },
+        {
+            "name": "wisdom-diala/countrypkg-laravel",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wisdom-diala/countrypkg-laravel.git",
+                "reference": "03dbb8e09e323a8718c63ea5a9c140874dd3afc2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wisdom-diala/countrypkg-laravel/zipball/03dbb8e09e323a8718c63ea5a9c140874dd3afc2",
+                "reference": "03dbb8e09e323a8718c63ea5a9c140874dd3afc2",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "WisdomDiala\\Countrypkg\\CountrypkgServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "WisdomDiala\\Countrypkg\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Wisdom Diala",
+                    "email": "dialawisdom@gmail.com"
+                }
+            ],
+            "description": "package to fetch all countries and states around the world and store in the database",
+            "time": "2021-04-10T12:29:25+00:00"
         }
     ],
     "packages-dev": [
