@@ -219,7 +219,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('clearance/payment/{id}', [ClearanceRequestController::class, 'getClearancePaymentData']);
     Route::post('clearance/request/approve', [ClearanceRequestController::class, 'approveRequest']);
     Route::post('clearance/print', [ClearanceRequestController::class, 'printClearance']);
-    Route::post('clearance/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
+
 
 
 
@@ -232,6 +232,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
 
 
+Route::post('clearance/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
 
 
 

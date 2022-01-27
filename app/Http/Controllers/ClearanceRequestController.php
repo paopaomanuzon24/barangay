@@ -555,14 +555,10 @@ class ClearanceRequestController extends Controller
         );
 
 
-
-
-        #dd(public_path("images\Cedula.jpg"));
-        #dd(URL::to(''));
         $pdf = PDF::loadView('report.clearance.clearance1', $data);
-       # $pdf->output(['isRemoteEnabled' => true]);
-       # return $pdf->download('clearance.pdf');
-        return $pdf->download('clearance.pdf')->getOriginalContent();
+
+        return $pdf->download('clearance.pdf');
+      #  return $pdf->download('clearance.pdf')->getOriginalContent();
 
     }
 
