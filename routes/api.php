@@ -262,6 +262,9 @@ Route::get('marital-status/list', [PersonalDataController::class, 'getMaritalSta
 Route::get('religious/list', [PersonalDataController::class, 'getReligiousList']);
 Route::get('citizenship/list', [PersonalDataController::class, 'getCitizenshipList']);
 Route::get('residence-status/list', [PersonalDataController::class, 'getResidenceStatusList']);
+Route::get('country/list', [PersonalDataController::class, 'getCountryList']);
+Route::get('province/list', [PersonalDataController::class, 'getProvinceList']);
+Route::get('municipality/list', [PersonalDataController::class, 'getMunicipalityList']);
 
 Route::get('ethnicity/list', [OtherDataController::class, 'getEthnicityList']);
 Route::get('language/list', [OtherDataController::class, 'getLanguageList']);

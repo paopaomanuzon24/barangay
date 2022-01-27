@@ -18,6 +18,9 @@ use App\Models\Religious;
 use App\Models\Citizenship;
 use App\Models\ResidenceStatus;
 use App\Models\User as UserModel;
+use App\Models\Country;
+use App\Models\Province;
+use App\Models\Municipality;
 
 class PersonalDataController extends Controller
 {
@@ -182,6 +185,48 @@ class PersonalDataController extends Controller
         return customResponse()
             ->message("List of residence status.")
             ->data($statusList)
+            ->success()
+            ->generate();
+    }
+    
+    public function getCountryList(Request $request) {
+        $list = Country::select(
+            'id',
+            'name'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of country.")
+            ->data($list)
+            ->success()
+            ->generate();
+    }
+
+    public function getProvinceList(Request $request) {
+        $list = Province::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of province.")
+            ->data($list)
+            ->success()
+            ->generate();
+    }
+
+    public function getMunicipalityList(Request $request) {
+        $list = Municipality::select(
+            'id',
+            'description'
+        )
+        ->get();
+
+        return customResponse()
+            ->message("List of municipality.")
+            ->data($list)
             ->success()
             ->generate();
     }

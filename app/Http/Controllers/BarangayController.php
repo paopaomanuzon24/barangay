@@ -67,6 +67,15 @@ class BarangayController extends Controller
         $generateQRCode = QrCode::size(300)->generate($detailFormat);
         $qrCode = base64_encode($generateQRCode);
 
+        $idPicture = "";
+        $signature = "";
+        if ($request->hasFile('id_picture')) {
+            $idPicture = base64_encode(file_get_contents($request->file('id_picture')));
+        }
+        if ($request->hasFile('signature_picture')) {
+            $signature = base64_encode(file_get_contents($request->file('signature_picture')));
+        }
+
         $data = array(
             'user_id' => $request->user_id,
             'title' => $title,
@@ -77,14 +86,26 @@ class BarangayController extends Controller
             "contact" => $contact,
             "residentID" => $residentID,
             "birthDate" => date("F d, Y", strtotime($birthDate)),
-            "qrCode" => $qrCode
+            "qrCode" => $qrCode,
+            "ice_first_name" => $request->ice_first_name,
+            "ice_last_name" => $request->ice_last_name,
+            "ice_middle_name" => $request->ice_middle_name,
+            "ice_address" => $request->ice_address,
+            "ice_contact_no" => $request->ice_contact_no,
+            "id_picture" => $idPicture,
+            "signature_picture" => $signature
         );
 
         BarangayIDGenerated::insert([
-            'user_id' => $data['user_id'],
-            'date_created' => $data['dateCreated'],
-            'date_expiration' => $data['dateExpiration'],
-            'qrCode' => $data['qrCode']
+            "user_id" => $data['user_id'],
+            "date_created" => $data['dateCreated'],
+            "date_expiration" => $data['dateExpiration'],
+            "qrCode" => $data['qrCode'],
+            "ice_first_name" => $request->ice_first_name,
+            "ice_last_name" => $request->ice_last_name,
+            "ice_middle_name" => $request->ice_middle_name,
+            "ice_address" => $request->ice_address,
+            "ice_contact_no" => $request->ice_contact_no,
         ]);
 
         $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('a4','landscape');

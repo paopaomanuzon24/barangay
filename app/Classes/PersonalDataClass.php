@@ -97,6 +97,9 @@ class PersonalDataClass
         $personalData->email = $request->email;
         $personalData->additional_contact_no = $request->additional_contact_no;
         $personalData->emergency_contact_no = $request->emergency_contact_no;
+        $personalData->country_id = $request->country_id;
+        $personalData->province_id = $request->province_id;
+        $personalData->municipality_id = $request->municipality_id;
         $personalData->save();
 
         if (empty($personalData->application_id)) {
