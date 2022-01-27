@@ -219,7 +219,7 @@
             <div>
                 <center>
                     <h2 class="font1">
-                        <img style="position: absolute !important; top: -2.5cm; right: 5cm;" src="{{ url('/') }}/images/sample-signature.PNG" alt="" height="150px" width="150px"><br>
+                        <img style="position: absolute !important; top: -2.5cm; right: 5cm;" src="{{ url('/') }}/images/sample-signature.png" alt="" height="150px" width="150px"><br>
                         Barangay Chairman Name <br>
                         Barangay Chairman
                     </h2>
