@@ -148,7 +148,8 @@ class ClearanceRequestController extends Controller
             'file_path' => $path,
             'reference_number' => $request['reference_number'],
             'is_waive' => !empty($request['is_waive']) ? 1:  0 ,
-            'waive_reason' => $request['reason_for_waving']
+            'waive_reason' => $request['reason_for_waving'],
+            'fee' => $clearanceTypeData->fee
         ];
         ClearanceHistory::create($data);
 
@@ -557,8 +558,8 @@ class ClearanceRequestController extends Controller
 
         $pdf = PDF::loadView('report.clearance.clearance1', $data);
 
-        return $pdf->download('clearance.pdf');
-      #  return $pdf->download('clearance.pdf')->getOriginalContent();
+        #return $pdf->download('clearance.pdf');
+        return $pdf->download('clearance.pdf')->getOriginalContent();
 
     }
 

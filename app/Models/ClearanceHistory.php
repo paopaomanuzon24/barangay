@@ -14,7 +14,7 @@ class ClearanceHistory extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'clearance_type_id','category_id','barangay_id','template_id','control_number','user_id','payment_method_id','status_id','release_date','file_name','file_path','reference_number','is_waive','waive_reason','application_id','feedback'
+        'clearance_type_id','category_id','barangay_id','template_id','control_number','user_id','payment_method_id','status_id','release_date','file_name','file_path','reference_number','is_waive','waive_reason','application_id','feedback','fee'
     ];
     protected $primaryKey = 'id';
 
