@@ -110,7 +110,7 @@ class BarangayController extends Controller
 
         $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('a4','landscape');
         // $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('catalog #10 1/2 envelope','landscape');
-        return $pdf->download($residentID . '.pdf');
-        // return $pdf->download($residentID . '.pdf')->getOriginalContent();
+        // return $pdf->download($residentID . '.pdf');
+        return $pdf->download($residentID . '.pdf')->getOriginalContent();
     }
 }
