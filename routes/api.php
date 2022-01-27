@@ -40,6 +40,7 @@ use App\Http\Controllers\ClearanceRequestController;
 
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\BarangayController;
 
 /*
 |--------------------------------------------------------------------------
@@ -228,6 +229,9 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('announement/display', [AnnouncementController::class, 'display']);
     Route::get('announement/{id}', [AnnouncementController::class, 'show']);
     Route::post('announement/store', [AnnouncementController::class, 'store']);
+
+    ##Barangay
+    Route::post('barangay/print/id', [BarangayController::class, 'printBarangayID']);
 });
 
 
