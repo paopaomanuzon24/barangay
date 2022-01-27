@@ -180,8 +180,11 @@
         <div class="idPicturePosition">
             <div>
                 <center>
-                    {{-- <img src="{{ url('/') }}/images/sample-picture.PNG" alt="" height="400px" width="400px"> --}}
-                    <img src="data:image/png;base64, '{{ $id_picture }}'" alt="" height="400px" width="400px">
+                    @if (!empty($id_picture))
+                        <img src="data:image/png;base64, '{{ $id_picture }}'" alt="" height="400px" width="400px">
+                    @else
+                        <img src="{{ url('/') }}/images/sample-picture.PNG" alt="" height="400px" width="400px">
+                    @endif
                 </center>
             </div>
             <div style="background: #fff; border-radius: 50%;">
