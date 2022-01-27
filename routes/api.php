@@ -41,6 +41,7 @@ use App\Http\Controllers\ClearanceRequestController;
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BarangayController;
+use App\Http\Controllers\IncidentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -234,6 +235,14 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
     ##Barangay
     Route::post('barangay/print/id', [BarangayController::class, 'printBarangayID']);
+
+    Route::get('incident/admin/list', [IncidentController::class, 'incidentList']);
+    Route::get('incident/count', [IncidentController::class, 'countIncident']);
+    Route::get('incident/list/{id}', [IncidentController::class, 'list']);
+    Route::post('incident/store', [IncidentController::class, 'store']);
+    Route::post('incident/mark-as-read/{id}', [IncidentController::class, 'markAsRead']);
+    Route::get('incident/show/{id}', [IncidentController::class, 'show']);
+    Route::post('incident/destroy/{id}', [IncidentController::class, 'destroy']);
 });
 
 
@@ -325,5 +334,5 @@ Route::post('permit/template', [PermitTemplateController::class, 'store']);
 Route::get('permit/template/{id}', [PermitTemplateController::class, 'show']);
 Route::post('permit/template/delete', [PermitTemplateController::class, 'delete']);
 
-
+Route::get('incident/type/list', [IncidentController::class, 'getIncidentTypeList']);
 
