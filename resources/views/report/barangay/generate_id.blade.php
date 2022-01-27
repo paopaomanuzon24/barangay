@@ -180,7 +180,8 @@
         <div class="idPicturePosition">
             <div>
                 <center>
-                    <img src="{{ url('/') }}/images/sample-picture.PNG" alt="" height="400px" width="400px">
+                    {{-- <img src="{{ url('/') }}/images/sample-picture.PNG" alt="" height="400px" width="400px"> --}}
+                    <img src="data:image/png;base64, '{{ $id_picture }}'" alt="" height="400px" width="400px">
                 </center>
             </div>
             <div style="background: #fff; border-radius: 50%;">
@@ -275,6 +276,9 @@
         <div class="font1">
             <br><br><br><br>
             <br><br><br><br>
+            @if (!empty($signature_picture))
+                <img style="position: absolute; top: 14cm; left: 12.8cm;" src="data:image/png;base64, '{{ $signature_picture }}'" alt="" height="150px" width="150px"><br>
+            @endif
             <center>
                 <h2 class="backSecondTitleSize">Signature</h2>
             </center>
