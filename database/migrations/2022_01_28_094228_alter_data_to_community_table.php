@@ -21,7 +21,7 @@ class AlterDataToCommunityTable extends Migration
         DB::table('community')->where("id", 2)->update(['description'=>'Gay']);
         DB::table('community')->where("id", 3)->update(['description'=>'Bisexual']);
         DB::table('community')->where("id", 4)->update(['description'=>'Transgender']);
-        DB::table('religious')->insert([
+        DB::table('community')->insert([
             [
                 'description' => 'Queer'
             ],

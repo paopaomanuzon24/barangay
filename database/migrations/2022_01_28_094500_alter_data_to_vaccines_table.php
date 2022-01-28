@@ -21,7 +21,7 @@ class AlterDataToVaccinesTable extends Migration
         DB::table('vaccines')->where("id", 2)->update(['description'=>'Flu Vaccine']);
         DB::table('vaccines')->where("id", 3)->update(['description'=>'Diphtheria-Tetanus-Pertussis Vaccine']);
         DB::table('vaccines')->where("id", 4)->update(['description'=>'Hepatitis B Vaccine']);
-        DB::table('religious')->insert([
+        DB::table('vaccines')->insert([
             [
                 'description' => 'Hepatitis A Vaccine'
             ],
