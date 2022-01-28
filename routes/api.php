@@ -303,6 +303,8 @@ Route::get('alcohol-status/list', [MedicalHistoryController::class, 'getAlcoholS
 Route::get('vaccine/list', [MedicalHistoryController::class, 'getVaccineList']);
 Route::get('blood-type/list', [MedicalHistoryController::class, 'getBloodTypeList']);
 Route::get('disease/list', [MedicalHistoryController::class, 'getDiseaseList']);
+Route::get('height-type/list', [MedicalHistoryController::class, 'getHeightTypeList']);
+Route::get('weight-type/list', [MedicalHistoryController::class, 'getWeightTypeList']);
 
 Route::get('water-source/list', [HouseHoldController::class, 'getWaterSourceList']);
 Route::get('land-ownership/list', [HouseHoldController::class, 'getLandOwnershipList']);

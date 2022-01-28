@@ -18,13 +18,17 @@ use App\Models\User as UserModel;
 use App\Models\BloodType;
 use App\Models\Vaccine;
 use App\Models\Disease;
+use App\Models\HeightType;
+use App\Models\WeightType;
 
 class MedicalHistoryController extends Controller
 {
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'height' => 'required',
+            'height_type_id' => 'required',
             'weight' => 'required',
+            'weight_type_id' => 'required',
             'blood_type' => 'required'
         ]);
 
@@ -184,6 +188,7 @@ class MedicalHistoryController extends Controller
             ->success()
             ->generate();
     }
+    
 
     public function getDiseaseList(Request $request) {
         $list = Disease::select(
@@ -198,4 +203,35 @@ class MedicalHistoryController extends Controller
             ->success()
             ->generate();
     }
+
+    public function getHeightTypeList(Request $request) {
+        $list = HeightType::select(
+            'id',
+            'code',
+            'description'
+        )
+        ->get();
+        
+        return customResponse()
+            ->message("List of height type.")
+            ->data($list)
+            ->success()
+            ->generate();
+    }
+
+    public function getWeightTypeList(Request $request) {
+        $list = WeightType::select(
+            'id',
+            'code',
+            'description'
+        )
+        ->get();
+        
+        return customResponse()
+            ->message("List of weight type.")
+            ->data($list)
+            ->success()
+            ->generate();
+    }
+
 }
