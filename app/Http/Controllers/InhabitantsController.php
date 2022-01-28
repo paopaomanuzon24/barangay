@@ -68,6 +68,7 @@ class InhabitantsController extends Controller
             'personal_data.id',
             'personal_data.user_id',
             'personal_data.application_id',
+            'personal_data.resident_id',
             'personal_data.first_name',
             'personal_data.middle_name',
             'personal_data.last_name',

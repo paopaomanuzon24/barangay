@@ -182,6 +182,8 @@
                 <center>
                     @if (!empty($id_picture))
                         <img src="data:image/png;base64, '{{ $id_picture }}'" alt="" height="400px" width="400px">
+                    @elseif (!empty($profile))
+                        <img src="{{ url('/').$profile }}" alt="" height="400px" width="400px">
                     @else
                         <img src="{{ url('/') }}/images/sample-picture.PNG" alt="" height="400px" width="400px">
                     @endif

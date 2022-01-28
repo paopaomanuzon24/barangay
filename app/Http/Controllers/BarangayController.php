@@ -53,6 +53,7 @@ class BarangayController extends Controller
 
         $residentID = $userData->personalData->resident_id;
         $barangay = $userData->barangayData->description;
+        $profile = !empty($userData->profilePicture) ? "/storage/".$userData->profilePicture->profile_path : "";
 
         $name = ucfirst($userData->first_name) .' '. ucfirst($userData->last_name);
         if (!empty($userData->middle_name)) {
@@ -93,7 +94,8 @@ class BarangayController extends Controller
             "ice_address" => $request->ice_address,
             "ice_contact_no" => $request->ice_contact_no,
             "id_picture" => $idPicture,
-            "signature_picture" => $signature
+            "signature_picture" => $signature,
+            "profile" => $profile
         );
 
         BarangayIDGenerated::insert([
@@ -110,7 +112,7 @@ class BarangayController extends Controller
 
         $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('a4','landscape');
         // $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('catalog #10 1/2 envelope','landscape');
-        // return $pdf->download($residentID . '.pdf');
-        return $pdf->download($residentID . '.pdf')->getOriginalContent();
+        return $pdf->download($residentID . '.pdf');
+        // return $pdf->download($residentID . '.pdf')->getOriginalContent();
     }
 }
