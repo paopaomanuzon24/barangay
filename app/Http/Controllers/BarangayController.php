@@ -114,6 +114,9 @@ class BarangayController extends Controller
             "status" => 1,
         ]);
 
+        $userData->personalData->emergency_contact_no = !empty($request->ice_contact_no) ? $request->ice_contact_no : (!empty($userData->personalData->emergency_contact_no) ? $userData->personalData->emergency_contact_no : "");
+        $userData->personalData->save();
+
         $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('a4','landscape');
         // $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('catalog #10 1/2 envelope','landscape');
         // return $pdf->download($residentID . '.pdf');

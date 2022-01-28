@@ -72,6 +72,7 @@ class InhabitantsController extends Controller
             'personal_data.first_name',
             'personal_data.middle_name',
             'personal_data.last_name',
+            'personal_data.emergency_contact_no',
             'users.barangay_id',
             'barangays.description as barangay_desc',
             'personal_data.birth_date',
