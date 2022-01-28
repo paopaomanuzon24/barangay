@@ -102,7 +102,7 @@ class BarangayController extends Controller
         );
 
         $barangayPrintedData = BarangayIDGenerated::where("user_id", $data['user_id'])->first();
-        if (!empty($barangayPrintedData)) {
+        if (empty($barangayPrintedData)) {
             $barangayPrintedData = new BarangayIDGenerated;
             $barangayPrintedData->user_id = $data['user_id'];
             $barangayPrintedData->date_printed = $data['date_printed'];
