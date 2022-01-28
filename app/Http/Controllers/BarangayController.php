@@ -22,9 +22,9 @@ class BarangayController extends Controller
     public function printBarangayID(Request $request){
         $validator = Validator::make($request->all(),[
             'user_id' => 'required',
-            'ice_first_name' => 'required',
-            'ice_last_name' => 'required',
-            'ice_contact_no' => 'required',
+            // 'ice_first_name' => 'required',
+            // 'ice_last_name' => 'required',
+            // 'ice_contact_no' => 'required',
         ]);
         if($validator->fails()){
             return customResponse()
