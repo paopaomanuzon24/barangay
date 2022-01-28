@@ -22,6 +22,9 @@ class BarangayController extends Controller
     public function printBarangayID(Request $request){
         $validator = Validator::make($request->all(),[
             'user_id' => 'required',
+            'ice_first_name' => 'required',
+            'ice_last_name' => 'required',
+            'ice_contact_no' => 'required',
         ]);
         if($validator->fails()){
             return customResponse()
@@ -100,19 +103,20 @@ class BarangayController extends Controller
 
         BarangayIDGenerated::insert([
             "user_id" => $data['user_id'],
-            "date_created" => $data['dateCreated'],
+            "date_printed" => $data['dateCreated'],
             "date_expiration" => $data['dateExpiration'],
             "qrCode" => $data['qrCode'],
-            "ice_first_name" => $request->ice_first_name,
-            "ice_last_name" => $request->ice_last_name,
-            "ice_middle_name" => $request->ice_middle_name,
-            "ice_address" => $request->ice_address,
-            "ice_contact_no" => $request->ice_contact_no,
+            "ice_first_name" => !empty($request->ice_first_name) ? $request->ice_first_name : "",
+            "ice_last_name" => !empty($request->ice_last_name) ? $request->ice_last_name : "",
+            "ice_middle_name" => !empty($request->ice_middle_name) ? $request->ice_middle_name : "",
+            "ice_address" => !empty($request->ice_address) ? $request->ice_address : "",
+            "ice_contact_no" => !empty($request->ice_contact_no) ? $request->ice_contact_no : "",
+            "status" => 1,
         ]);
 
         $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('a4','landscape');
         // $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('catalog #10 1/2 envelope','landscape');
-        return $pdf->download($residentID . '.pdf');
-        // return $pdf->download($residentID . '.pdf')->getOriginalContent();
+        // return $pdf->download($residentID . '.pdf');
+        return $pdf->download($residentID . '.pdf')->getOriginalContent();
     }
 }
