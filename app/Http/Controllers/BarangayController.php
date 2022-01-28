@@ -83,7 +83,7 @@ class BarangayController extends Controller
         $data = array(
             'user_id' => $request->user_id,
             'title' => $title,
-            "dateCreated" => date('Y-m-d'),
+            "datePrinted" => date('Y-m-d'),
             "dateExpiration" => date('Y-m-d', strtotime(date('Y-m-d'). ' + 1 year')),
             "name" => $name,
             "address" => $address,
@@ -105,8 +105,8 @@ class BarangayController extends Controller
         if (empty($barangayPrintedData)) {
             $barangayPrintedData = new BarangayIDGenerated;
             $barangayPrintedData->user_id = $data['user_id'];
-            $barangayPrintedData->date_printed = $data['date_printed'];
-            $barangayPrintedData->date_expiration = $data['date_expiration'];
+            $barangayPrintedData->date_printed = $data['datePrinted'];
+            $barangayPrintedData->date_expiration = $data['dateExpiration'];
             $barangayPrintedData->status = 1;
         }
         $barangayPrintedData->qrCode = $data['qrCode'];
