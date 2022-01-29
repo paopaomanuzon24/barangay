@@ -22,6 +22,9 @@ class BarangayController extends Controller
     public function printBarangayID(Request $request){
         $validator = Validator::make($request->all(),[
             'user_id' => 'required',
+            // 'ice_first_name' => 'required',
+            // 'ice_last_name' => 'required',
+            // 'ice_contact_no' => 'required',
         ]);
         if($validator->fails()){
             return customResponse()
@@ -53,6 +56,7 @@ class BarangayController extends Controller
 
         $residentID = $userData->personalData->resident_id;
         $barangay = $userData->barangayData->description;
+        $profile = !empty($userData->profilePicture) ? "/storage/".$userData->profilePicture->profile_path : "";
 
         $name = ucfirst($userData->first_name) .' '. ucfirst($userData->last_name);
         if (!empty($userData->middle_name)) {
@@ -79,7 +83,7 @@ class BarangayController extends Controller
         $data = array(
             'user_id' => $request->user_id,
             'title' => $title,
-            "dateCreated" => date('Y-m-d'),
+            "datePrinted" => date('Y-m-d'),
             "dateExpiration" => date('Y-m-d', strtotime(date('Y-m-d'). ' + 1 year')),
             "name" => $name,
             "address" => $address,
@@ -93,20 +97,41 @@ class BarangayController extends Controller
             "ice_address" => $request->ice_address,
             "ice_contact_no" => $request->ice_contact_no,
             "id_picture" => $idPicture,
-            "signature_picture" => $signature
+            "signature_picture" => $signature,
+            "profile" => $profile
         );
 
-        BarangayIDGenerated::insert([
-            "user_id" => $data['user_id'],
-            "date_created" => $data['dateCreated'],
-            "date_expiration" => $data['dateExpiration'],
-            "qrCode" => $data['qrCode'],
-            "ice_first_name" => $request->ice_first_name,
-            "ice_last_name" => $request->ice_last_name,
-            "ice_middle_name" => $request->ice_middle_name,
-            "ice_address" => $request->ice_address,
-            "ice_contact_no" => $request->ice_contact_no,
-        ]);
+        $barangayPrintedData = BarangayIDGenerated::where("user_id", $data['user_id'])->first();
+        if (empty($barangayPrintedData)) {
+            $barangayPrintedData = new BarangayIDGenerated;
+            $barangayPrintedData->user_id = $data['user_id'];
+            $barangayPrintedData->date_printed = $data['datePrinted'];
+            $barangayPrintedData->date_expiration = $data['dateExpiration'];
+            $barangayPrintedData->status = 1;
+        }
+        $barangayPrintedData->qrCode = $data['qrCode'];
+        $barangayPrintedData->ice_first_name = !empty($request->ice_first_name) ? $request->ice_first_name : "";
+        $barangayPrintedData->ice_last_name = !empty($request->ice_last_name) ? $request->ice_last_name : "";
+        $barangayPrintedData->ice_middle_name = !empty($request->ice_middle_name) ? $request->ice_middle_name : "";
+        $barangayPrintedData->ice_address = !empty($request->ice_address) ? $request->ice_address : "";
+        $barangayPrintedData->ice_contact_no = !empty($request->ice_contact_no) ? $request->ice_contact_no : "";
+        $barangayPrintedData->save();
+
+        // BarangayIDGenerated::insert([
+        //     "user_id" => $data['user_id'],
+        //     "date_printed" => $data['dateCreated'],
+        //     "date_expiration" => $data['dateExpiration'],
+        //     "qrCode" => $data['qrCode'],
+        //     "ice_first_name" => !empty($request->ice_first_name) ? $request->ice_first_name : "",
+        //     "ice_last_name" => !empty($request->ice_last_name) ? $request->ice_last_name : "",
+        //     "ice_middle_name" => !empty($request->ice_middle_name) ? $request->ice_middle_name : "",
+        //     "ice_address" => !empty($request->ice_address) ? $request->ice_address : "",
+        //     "ice_contact_no" => !empty($request->ice_contact_no) ? $request->ice_contact_no : "",
+        //     "status" => 1,
+        // ]);
+
+        $userData->personalData->emergency_contact_no = !empty($request->ice_contact_no) ? $request->ice_contact_no : (!empty($userData->personalData->emergency_contact_no) ? $userData->personalData->emergency_contact_no : "");
+        $userData->personalData->save();
 
         $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('a4','landscape');
         // $pdf = PDF::loadView('report.barangay.generate_id', $data)->setPaper('catalog #10 1/2 envelope','landscape');

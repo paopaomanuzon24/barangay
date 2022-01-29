@@ -25,7 +25,9 @@ class MedicalHistoryClass
         }
 
         $medicalHistoryData->height = !empty($request->height) ? $request->height : "";
+        $medicalHistoryData->height_type_id = !empty($request->height_type_id) ? $request->height_type_id : "";
         $medicalHistoryData->weight = !empty($request->weight) ? $request->weight : "";
+        $medicalHistoryData->weight_type_id = !empty($request->weight_type_id) ? $request->weight_type_id : "";
         $medicalHistoryData->blood_type = $request->blood_type;
         $medicalHistoryData->smoke_no = !empty($request->smoke_no) ? $request->smoke_no : "";
         $medicalHistoryData->smoke_status = !empty($request->smoke_status) ? $request->smoke_status : 0;

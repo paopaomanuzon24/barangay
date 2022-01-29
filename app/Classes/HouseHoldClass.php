@@ -47,6 +47,7 @@ class HouseHoldClass
                 $houseHoldData->lighting_id = !empty($request->lighting_id) ? $request->lighting_id : 0;
                 $houseHoldData->cooking_id = !empty($request->cooking_id) ? $request->cooking_id : 0;
                 $houseHoldData->other_source_water = !empty($request->other_source_water) ? $request->other_source_water : "";
+                $houseHoldData->is_voter = !empty($request->is_voter) ? $request->is_voter : (!empty($houseHoldData->is_voter) ? $houseHoldData->is_voter : 0);
                 $houseHoldData->save();
 
                 // $this->saveWaterSource($request, $houseHoldData);
@@ -72,6 +73,7 @@ class HouseHoldClass
                 $houseHoldData->toilet_facility_id = !empty($request->toilet_facility_id) ? $request->toilet_facility_id : 0;
                 $houseHoldData->language = !empty($request->language) ? $request->language : "";
                 $houseHoldData->residence_type = !empty($request->residence_type) ? $request->residence_type : "";
+                $houseHoldData->is_voter = !empty($request->is_voter) ? $request->is_voter : (!empty($houseHoldData->is_voter) ? $houseHoldData->is_voter : 0);
                 $houseHoldData->save();
 
                 $this->saveLandOwnership($request, $houseHoldData);
@@ -92,6 +94,7 @@ class HouseHoldClass
                 $houseHoldData->garage_parking = !empty($request->garage_parking) ? $request->garage_parking : "";
                 $houseHoldData->septic_tank = !empty($request->septic_tank) ? $request->septic_tank : "";
                 $houseHoldData->septic_tank_specify = !empty($request->septic_tank_specify) ? $request->septic_tank_specify : "";
+                $houseHoldData->is_voter = !empty($request->is_voter) ? $request->is_voter : (!empty($houseHoldData->is_voter) ? $houseHoldData->is_voter : 0);
                 if ($request->hasFile('house_photo')) {
                     $file = $request->file("house_photo");
                     

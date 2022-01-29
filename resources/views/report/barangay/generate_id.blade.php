@@ -107,7 +107,7 @@
         position: absolute !important;
         width: 50%;
         right: 0.5cm;
-        top: 18cm;
+        top: 17cm;
     }
     
     .frontTitle {
@@ -153,6 +153,7 @@
     }
 
     @page { margin: 1px; }
+    /* @page { margin: 1px; size: 7.50cm 12cm landscape; } */
 </style>
 
 {{-- ID FRONT --}}
@@ -180,8 +181,13 @@
         <div class="idPicturePosition">
             <div>
                 <center>
-                    {{-- <img src="{{ url('/') }}/images/sample-picture.PNG" alt="" height="400px" width="400px"> --}}
-                    <img src="data:image/png;base64, '{{ $id_picture }}'" alt="" height="400px" width="400px">
+                    @if (!empty($id_picture))
+                        <img src="data:image/png;base64, '{{ $id_picture }}'" alt="" height="400px" width="400px">
+                    @elseif (!empty($profile))
+                        <img src="{{ url('/').$profile }}" alt="" height="400px" width="400px">
+                    @else
+                        <img src="{{ url('/') }}/images/sample-picture.PNG" alt="" height="400px" width="400px">
+                    @endif
                 </center>
             </div>
             <div style="background: #fff; border-radius: 50%;">
@@ -216,6 +222,7 @@
             <div>
                 <center>
                     <h2 class="font1">
+                        <img style="position: absolute !important; top: -2.5cm; right: 5cm;" src="{{ url('/') }}/images/sample-signature.png" alt="" height="150px" width="150px"><br>
                         Barangay Chairman Name <br>
                         Barangay Chairman
                     </h2>
