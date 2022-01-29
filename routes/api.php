@@ -126,13 +126,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('inhabitants/house-keeper/store', [HouseKeeperController::class, 'store']);
     Route::post('inhabitants/house-keeper/destroy/{id}', [HouseKeeperController::class, 'destroy']);
 
-    ##Permit
-    Route::post('barangay/officials', [BarangayOfficialController::class, 'store']);
-    Route::get('barangay/officials/{id}', [BarangayOfficialController::class, 'show']);
-    Route::get('barangay/officials/{id}/edit', [BarangayOfficialController::class, 'edit']);
-    Route::post('barangay/officials/update', [BarangayOfficialController::class, 'update']);
-    Route::post('barangay/officials/delete', [BarangayOfficialController::class, 'delete']);
-    Route::get('barangay/officials', [BarangayOfficialController::class, 'list']);
+
 
 
 
@@ -160,6 +154,14 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('permit/fees/delete', [PermitFeesController::class,'delete']);
     Route::get('permit/fees', [PermitFeesController::class,'list']);
  */
+
+     ##Barangay Officials
+    Route::post('barangay/official', [BarangayOfficialController::class, 'store']);
+    Route::get('barangay/official/{id}', [BarangayOfficialController::class, 'show']);
+    Route::get('barangay/official/{id}/edit', [BarangayOfficialController::class, 'edit']);
+    Route::post('barangay/official/update', [BarangayOfficialController::class, 'update']);
+    Route::post('barangay/official/delete', [BarangayOfficialController::class, 'delete']);
+    Route::get('barangay/officials', [BarangayOfficialController::class, 'list']);
 
 
 
@@ -224,7 +226,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
 
     #Report
-    #Route::get('report/dashboard/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
+    Route::get('report/dashboard/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
 
     ##Announcement
     Route::get('announement/list', [AnnouncementController::class, 'index']);
@@ -235,8 +237,6 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     ##Barangay
     Route::post('barangay/print/id', [BarangayController::class, 'printBarangayID']);
 });
-
-
 
 
 

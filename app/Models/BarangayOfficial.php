@@ -14,7 +14,7 @@ class BarangayOfficial extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'first_name','middle_name','last_name','position_id','photo_file_name','photo_path'
+        'first_name','middle_name','last_name','position_id','file_name','file_path','contact_no','address'
     ];
     protected $primaryKey = 'id';
 
@@ -24,5 +24,14 @@ class BarangayOfficial extends Model
     public function scopeProfileByName($query, $firstName,$middleName,$lastName)
     {
         return $query->where('first_name', $firstName)->where("middle_name",$middleName)->where("last_name",$lastName);
+    }
+
+    public function barangay(){
+        return $this->belongsTo(Barangay::class,'barangay_id','id');
+    }
+
+    public function position()
+    {
+        return $this->belongsTo(BarangayPosition::class, 'position_id', 'id');
     }
 }
