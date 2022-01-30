@@ -27,6 +27,9 @@ class OtherDataClass
         $otherData->disability_id = $request->disability_id;
         $otherData->community = $request->community;
         $otherData->community_id = $request->community_id;
+        $otherData->is_voter = $request->is_voter;
+        $otherData->voter_city_id = $request->voter_city_id;
+        $otherData->is_single_parent = $request->is_single_parent;
         $otherData->save();
 
         $this->saveOtherDataLanguage($request->language, $otherData);

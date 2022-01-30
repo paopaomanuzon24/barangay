@@ -34,24 +34,34 @@ class IncidentController extends Controller
         $incidentList = IncidentData::select(
             'incident_data.id',
             'incident_data.user_id',
+            'incident_data.barangay_id',
+            'barangays.description as barangay_desc',
             'users.first_name',
             'users.last_name',
+            'users.address',
+            'users.contact_no',
             'incident_data.incident_type_id',
             'incident_type.description as incident_type_desc',
             'incident_data.incident_message',
             'incident_data.incident_address',
             'incident_data.incident_latitude',
             'incident_data.incident_longitude',
-            'incident_data.created_at as incident_date',
+            'incident_data.created_at as incident_date_reported',
+            'incident_data.incident_status_id',
+            'incident_status.description as incident_status_desc',
+            'incident_data.incident_no',
+            'incident_data.incident_date_resolved',
             'incident_data.mark_as_read'
         )
         ->join('users', 'users.id', 'incident_data.user_id')
-        ->join('incident_type', 'incident_type.id', 'incident_data.incident_type_id')
-        ->orderBy("incident_data.created_at", "desc");
+        ->join('barangays', 'barangays.id', 'incident_data.barangay_id')
+        ->join('incident_status', 'incident_status.id', 'incident_data.incident_status_id')
+        ->join('incident_type', 'incident_type.id', 'incident_data.incident_type_id');
 
         if ($request->search) {
             $incidentList = $incidentList->where(function($q) use($request){
                 $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("incident_data.incident_no LIKE ?","%".$request->search."%");
             });
         }
 
@@ -81,21 +91,40 @@ class IncidentController extends Controller
         $incidentList = IncidentData::select(
             'incident_data.id',
             'incident_data.user_id',
+            'incident_data.barangay_id',
+            'barangays.description as barangay_desc',
             'users.first_name',
             'users.last_name',
+            'users.address',
+            'users.contact_no',
             'incident_data.incident_type_id',
             'incident_type.description as incident_type_desc',
             'incident_data.incident_message',
             'incident_data.incident_address',
             'incident_data.incident_latitude',
             'incident_data.incident_longitude',
-            'incident_data.created_at as incident_date',
+            'incident_data.created_at as incident_date_reported',
+            'incident_data.incident_status_id',
+            'incident_status.description as incident_status_desc',
+            'incident_data.incident_no',
+            'incident_data.incident_date_resolved',
             'incident_data.mark_as_read'
         )
         ->join('users', 'users.id', 'incident_data.user_id')
+        ->join('barangays', 'barangays.id', 'incident_data.barangay_id')
+        ->join('incident_status', 'incident_status.id', 'incident_data.incident_status_id')
         ->join('incident_type', 'incident_type.id', 'incident_data.incident_type_id')
-        ->where("incident_data.user_id", $id)
-        ->orderBy("incident_data.created_at", "desc");
+        ->where("incident_data.user_id", $id);
+
+        if ($request->search) {
+            $incidentList = $incidentList->where(function($q) use($request){
+                $q->orWhereRaw("incident_data.incident_no LIKE ?","%".$request->search."%");
+            });
+        }
+
+        if ($request->barangay_id) {
+            $incidentList = $incidentList->where("users.barangay_id", $request->barangay_id);
+        }
 
         if ($request->incident_type_id) {
             $userList = $userList->where("incident_data.incident_type_id", $request->incident_type_id);
@@ -117,6 +146,7 @@ class IncidentController extends Controller
 
     public function store(Request $request) {
         $validator = Validator::make($request->all(),[
+            'barangay_id' => 'required',
             'incident_type_id' => 'required',
             'incident_message' => 'required'
         ]);
@@ -140,12 +170,24 @@ class IncidentController extends Controller
         }
 
         $incidentData->user_id = $userData->id;
+        $incidentData->barangay_id = $request->barangay_id;
         $incidentData->incident_type_id = $request->incident_type_id;
         $incidentData->incident_message = $request->incident_message;
         $incidentData->incident_address = $request->incident_address;
         $incidentData->incident_latitude = $request->incident_latitude;
         $incidentData->incident_longitude = $request->incident_longitude;
+        $incidentData->incident_status_id = !empty($request->incident_status_id) ? $request->incident_status_id : 2;
+        $incidentData->incident_date_resolved = !empty($request->incident_date_resolved) ? date("Y-m-d", strtotime($request->incident_date_resolved)) : null;
         $incidentData->save();
+
+        if (empty($request->incident_id)) {
+            $defSeq = "00000000";
+            $sequence = substr($defSeq, strlen($incidentData->id)) . $incidentData->id;
+            $incidentNo = "#INCDT" . date("Y") . $sequence;
+
+            $incidentData->incident_no = $incidentNo;
+            $incidentData->save();
+        }
 
         return customResponse()
             ->data(null)
@@ -160,7 +202,7 @@ class IncidentController extends Controller
             return customResponse()
                 ->message("No data.")
                 ->data(null)
-                ->success()
+                ->failed()
                 ->generate();
         }
 
@@ -178,18 +220,28 @@ class IncidentController extends Controller
         $incidentData = IncidentData::select(
             'incident_data.id',
             'incident_data.user_id',
+            'incident_data.barangay_id',
+            'barangays.description as barangay_desc',
             'users.first_name',
             'users.last_name',
+            'users.address',
+            'users.contact_no',
             'incident_data.incident_type_id',
             'incident_type.description as incident_type_desc',
             'incident_data.incident_message',
             'incident_data.incident_address',
             'incident_data.incident_latitude',
             'incident_data.incident_longitude',
-            'incident_data.created_at as incident_date',
+            'incident_data.created_at as incident_date_reported',
+            'incident_data.incident_status_id',
+            'incident_status.description as incident_status_desc',
+            'incident_data.incident_no',
+            'incident_data.incident_date_resolved',
             'incident_data.mark_as_read'
         )
         ->join('users', 'users.id', 'incident_data.user_id')
+        ->join('barangays', 'barangays.id', 'incident_data.barangay_id')
+        ->join('incident_status', 'incident_status.id', 'incident_data.incident_status_id')
         ->join('incident_type', 'incident_type.id', 'incident_data.incident_type_id')
         ->find($id);
 
@@ -197,7 +249,7 @@ class IncidentController extends Controller
             return customResponse()
                 ->message("No data.")
                 ->data(null)
-                ->success()
+                ->failed()
                 ->generate();
         }
 
@@ -214,7 +266,7 @@ class IncidentController extends Controller
             return customResponse()
                 ->message("No data.")
                 ->data(null)
-                ->success()
+                ->failed()
                 ->generate();
         }
 
@@ -236,6 +288,16 @@ class IncidentController extends Controller
 
         return customResponse()
             ->message("List of incident report type.")
+            ->data($list)
+            ->success()
+            ->generate();
+    }
+
+    public function getIncidentStatusList(Request $request) {
+        $list = Helpers::getIncidentStatusList();
+
+        return customResponse()
+            ->message("List of incident status.")
             ->data($list)
             ->success()
             ->generate();

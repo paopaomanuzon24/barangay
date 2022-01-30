@@ -42,6 +42,7 @@ use App\Http\Controllers\ClearanceRequestController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\BlotterAndComplainController;
 
 /*
 |--------------------------------------------------------------------------
@@ -245,6 +246,12 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('incident/mark-as-read/{id}', [IncidentController::class, 'markAsRead']);
     Route::get('incident/show/{id}', [IncidentController::class, 'show']);
     Route::post('incident/destroy/{id}', [IncidentController::class, 'destroy']);
+
+    Route::get('blotter/admin/list', [BlotterAndComplainController::class, 'blotterList']);
+    Route::get('blotter/list/{id}', [BlotterAndComplainController::class, 'list']);
+    Route::get('blotter/show/{id}', [BlotterAndComplainController::class, 'show']);
+    Route::post('blotter/store', [BlotterAndComplainController::class, 'store']);
+    Route::post('blotter/destroy/{id}', [BlotterAndComplainController::class, 'destroy']);
 });
 
 
@@ -279,6 +286,8 @@ Route::get('ethnicity/list', [OtherDataController::class, 'getEthnicityList']);
 Route::get('language/list', [OtherDataController::class, 'getLanguageList']);
 Route::get('disability/list', [OtherDataController::class, 'getDisabilityList']);
 Route::get('community/list', [OtherDataController::class, 'getCommunityList']);
+Route::get('city/list', [OtherDataController::class, 'getCityList']);
+Route::get('radio/voter-choices/list', [OtherDataController::class, 'getRadioVoterChoices']);
 
 Route::get('radio/address-type/list', [AddressDataController::class, 'getRadioAddressType']);
 Route::get('radio/temporary-type/list', [AddressDataController::class, 'getRadioTemporaryType']);
@@ -337,4 +346,8 @@ Route::get('permit/template/{id}', [PermitTemplateController::class, 'show']);
 Route::post('permit/template/delete', [PermitTemplateController::class, 'delete']);
 
 Route::get('incident/type/list', [IncidentController::class, 'getIncidentTypeList']);
+Route::get('incident/status/list', [IncidentController::class, 'getIncidentStatusList']);
+
+Route::get('blotter/type/list', [BlotterAndComplainController::class, 'getBlotterTypeList']);
+Route::get('blotter/status/list', [BlotterAndComplainController::class, 'getBlotterStatusList']);
 

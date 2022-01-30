@@ -208,6 +208,7 @@ class PersonalDataController extends Controller
             'id',
             'description'
         )
+        ->orderBy("description", "asc")
         ->get();
 
         return customResponse()
@@ -222,6 +223,7 @@ class PersonalDataController extends Controller
             'id',
             'description'
         )
+        ->orderBy("description", "asc")
         ->get();
 
         return customResponse()

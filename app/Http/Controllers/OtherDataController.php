@@ -17,6 +17,7 @@ use App\Models\Ethnicity;
 use App\Models\Language;
 use App\Models\Disability;
 use App\Models\Community;
+use App\Models\City;
 use App\Models\User as UserModel;
 
 class OtherDataController extends Controller
@@ -109,6 +110,31 @@ class OtherDataController extends Controller
         return customResponse()
             ->message("List of disability.")
             ->data($communityList)
+            ->success()
+            ->generate();
+    }
+
+    public function getRadioVoterChoices(Request $request) {
+        $list = Helpers::getRadioVoterChoices();
+
+        return customResponse()
+            ->message("Radio list for voter choices.")
+            ->data($list)
+            ->success()
+            ->generate();
+    }
+
+    public function getCityList(Request $request) {
+        $list = City::select(
+            'id',
+            'description'
+        )
+        ->orderBy("description", "asc")
+        ->get();
+
+        return customResponse()
+            ->message("City List.")
+            ->data($list)
             ->success()
             ->generate();
     }
