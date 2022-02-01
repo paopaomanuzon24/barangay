@@ -24,6 +24,7 @@ use App\Http\Controllers\PermitTypeController;
 use App\Http\Controllers\PermitTemplateController;
 use App\Http\Controllers\PermitFeesController;
 use App\Http\Controllers\BarangayOfficialController;
+use App\Http\Controllers\BarangayPositionController;
 use App\Http\Controllers\PermitCategoryController;
 use App\Http\Controllers\PermitRequestController;
 use App\Http\Controllers\PermitPaymentMethodController;
@@ -164,6 +165,10 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('barangay/official/delete', [BarangayOfficialController::class, 'delete']);
     Route::get('barangay/officials', [BarangayOfficialController::class, 'list']);
 
+    ##Barangay Position
+    Route::get('barangay/positions', [BarangayPositionController::class, 'list']);
+
+
 
 
 
@@ -245,17 +250,17 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('incident/mark-as-read/{id}', [IncidentController::class, 'markAsRead']);
     Route::get('incident/show/{id}', [IncidentController::class, 'show']);
     Route::post('incident/destroy/{id}', [IncidentController::class, 'destroy']);
+
 });
 
 
-
+#Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);
 
 
 
 #Route::get('permit/request/{id}/edit', [PermitRequestController::class, 'edit']);
 
 #Route::post('permit/request/update', [PermitRequestController::class, 'permitPayment']);
-
 
 
 

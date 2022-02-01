@@ -28,7 +28,8 @@ class User extends Authenticatable
         'address',
         'barangay_id',
         'password',
-        'user_type_id'
+        'user_type_id',
+        'is_barangay_system'
     ];
 
     /**
@@ -117,5 +118,9 @@ class User extends Authenticatable
 
     public function houseKeeper() {
         return $this->hasMany(HouseKeeper::class, 'user_id', 'id');
+    }
+
+    public function scopefromBarangaySystem($query){
+        return $this->where("users.is_barangay_system",1);
     }
 }

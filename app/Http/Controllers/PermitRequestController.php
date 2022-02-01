@@ -19,6 +19,7 @@ use App\Models\Barangay;
 use App\Models\PermitSequence;
 use Illuminate\Http\Response;
 use App\Classes\Permit\PermitRequestClass;
+use App\Classes\Permit\BusinessPermitClass;
 
 class PermitRequestController extends Controller
 {
@@ -584,4 +585,109 @@ class PermitRequestController extends Controller
         }
 
     } */
+
+    public function requestPermitFromBusinessPermitSystem(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'first_name' => 'required|string',
+            'middle_name' => 'required|string',
+            'last_name' => 'required|string',
+            'barangay' =>'required|string',
+            'permit_category' => 'required|string',
+            'permit_type' => 'required|string',
+            # 'permit_category' => 'required|string',
+        ]);
+
+        if($validator->fails()){
+            return customResponse()
+            ->data(null)
+            ->message($validator->errors()->all()[0])
+            ->failed()
+            ->generate();
+        }
+
+        $businessPermit = new BusinessPermitClass;
+
+        #$permitTypeId = $businessPermit->getPermitTypeId($request->permit_type);
+
+        $barangayId = $businessPermit->getBarangayId($request->barangay);
+        $permitCategoryId = $businessPermit->getPermitCategoryId($request->permit_category,$barangayId);
+        $permitTypeId = $businessPermit->getPermitTypeId($request->permit_type,$permitCategoryId,$request->fee,$barangayId);
+
+        $statusId = $businessPermit->getStatusId($request->status);
+        $userId = $businessPermit->getUserId($request->first_name,$request->middle_name,$request->last_name,$barangayId);
+
+
+    #    dd($userId,$statusId);
+
+        $controlNumber = "";
+
+        $barangayData = Barangay::find($barangayId);
+
+        if(!empty($barangayData)){
+            $permitClass = new PermitRequestClass;
+            $controlNumber = $permitClass->getPermitControlNumber($barangayId);
+
+        }else{
+            return customResponse()
+            ->data(null)
+            ->message("Barangay not found.")
+            ->failed()
+            ->generate();
+        }
+
+        $data = [
+            # 'template_id' => $request->template_id,
+            'permit_type_id' => $permitTypeId,
+            'category_id' => $permitCategoryId,
+            'barangay_id' => $barangayId,
+            'application_id' => $controlNumber,
+
+            'status_id' => $statusId,
+            'user_id' => $userId,
+            'payment_method_id' => "",
+            'is_barangay_system' => 0,
+
+           #  'reference_number' => $request['reference_number'],
+           #  'is_waive' => !empty($request['is_waive']) ? 1:  0 ,
+             #'waive_reason' => $request['reason_for_waving']
+         ];
+         PermitHistory::create($data);
+
+         return customResponse()
+             ->data(null)
+             ->message("Permit generated.")
+             ->success()
+             ->generate();
+    /*
+
+
+        $data = [
+            # 'template_id' => $request->template_id,
+             'permit_type_id' => $request->permit_type_id,
+             'category_id' => $request->category_id,
+             'barangay_id' => $request->barangay_id,
+             'application_id' => $controlNumber,
+
+             'status_id' => $status,
+             'user_id' => $request->user_id,
+             'payment_method_id' => $request->payment_method_id,
+
+             'reference_number' => $request['reference_number'],
+             'is_waive' => !empty($request['is_waive']) ? 1:  0 ,
+             'waive_reason' => $request['reason_for_waving']
+         ];
+         PermitHistory::create($data);
+
+         return customResponse()
+             ->data(null)
+             ->message("Permit generated.")
+             ->success()
+             ->generate();
+ */
+
+
+    }
+
+
 }
