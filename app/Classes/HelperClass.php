@@ -433,4 +433,38 @@ class HelperClass
         return $statusArray;
     }
 
+    public function getIncidentStatusList() {
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'Solved'
+            ],
+            [
+                'id' => 2,
+                'description' => 'On going'
+            ]
+        );
+
+        return $array;
+    }
+
+    public function getRadioVoterChoices() {
+        $array = array(
+            [
+                'id' => 1,
+                'description' => 'No'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Yes'
+            ],
+            [
+                'id' => 2,
+                'description' => 'Yes, but outside Malabon'
+            ]
+        );
+
+        return $array;
+    }
+
 }
