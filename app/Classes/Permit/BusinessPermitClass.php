@@ -61,6 +61,7 @@ class BusinessPermitClass
             $categoryData = new PermitCategory;
             $categoryData->description = ucfirst($permitCategory);
             $categoryData->barangay_id = $barangayId;
+            $categoryData->is_barangay_system = 0;
             $categoryData->save();
 
             $return = $categoryData->id;

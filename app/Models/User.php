@@ -121,6 +121,6 @@ class User extends Authenticatable
     }
 
     public function scopefromBarangaySystem($query){
-        return $this->where("users.is_barangay_system",1);
+        return $query->where("users.is_barangay_system",1);
     }
 }

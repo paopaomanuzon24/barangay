@@ -164,14 +164,27 @@ class PermitCategoryController extends Controller
     public function list(Request $request){
 
 
-        $categoryData = PermitCategory::where("description","!=","");
+        $categoryData = PermitCategory::fromBarangaySystem();
         if(!empty($request['barangay_id'])){
             $categoryData = $categoryData->where("barangay_id",$request->barangay_id);
         }
 
-
         $categoryData = $categoryData->get();
-        if(empty($categoryData)){
+        if(!empty($categoryData)){
+            $return = array();
+            foreach($categoryData as $row){
+                $return[] = array(
+                    'id' => $row->id,
+                    'description' => $row->description,
+                    'barangay_id' => $row->barangay_id,
+                );
+            }
+            return customResponse()
+            ->data($return)
+            ->message("Permit category list.")
+            ->success()
+            ->generate();
+        }else{
             return customResponse()
             ->data(null)
             ->message("No permit category found")
@@ -180,11 +193,8 @@ class PermitCategoryController extends Controller
         }
 
 
-        return customResponse()
-            ->data($categoryData)
-            ->message("Permit category list.")
-            ->success()
-            ->generate();
+
+
 
         #return response()->json($return);
     }
