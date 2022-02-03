@@ -20,11 +20,11 @@ class BlotterAndComplainController extends Controller
 {
     public function blotterList(Request $request) {
         $blotterList = BlotterAndComplain::select(
+            'blotter_and_complain_data.barangay_id',
+            'barangays.description as barangay_desc',
             'blotter_and_complain_data.id as blotter_id',
             'blotter_and_complain_data.blotter_no',
             // 'blotter_and_complain_data.user_id',
-            'blotter_and_complain_data.barangay_id',
-            'barangays.description as barangay_desc',
             // 'users.first_name',
             // 'users.last_name',
             // 'users.address',
@@ -40,10 +40,12 @@ class BlotterAndComplainController extends Controller
             'blotter_and_complain_data.blotter_status_id',
             'blotter_status.description as blotter_status_desc',
             'blotter_and_complain_data.blotter_agreement_content',
+            'blotter_and_complain_data.blotter_amount',
             'blotter_and_complain_data.blotter_payment_method_id',
             'permit_payment_method.description as blotter_payment_method_desc',
             'blotter_and_complain_data.blotter_receipt_file_path',
             'blotter_and_complain_data.blotter_receipt_file_name',
+            'blotter_and_complain_data.is_waived',
             'blotter_and_complain_data.blotter_waive_reason',
             'blotter_and_complain_data.blotter_date_resolved'
         )
@@ -86,17 +88,17 @@ class BlotterAndComplainController extends Controller
 
     public function list(Request $request, $id) {
         $blotterList = BlotterAndComplain::select(
-            'blotter_and_complain_data.id as blotter_id',
-            'blotter_and_complain_data.blotter_no',
-            'blotter_and_complain_data.user_id',
             'blotter_and_complain_data.barangay_id',
             'barangays.description as barangay_desc',
-            'users.first_name',
-            'users.last_name',
-            'users.address',
-            'users.contact_no',
-            'blotter_and_complain_data.blotter_type_id',
-            'blotter_type.description as blotter_type_desc',
+            'blotter_and_complain_data.id as blotter_id',
+            'blotter_and_complain_data.blotter_no',
+            // 'blotter_and_complain_data.user_id',
+            // 'users.first_name',
+            // 'users.last_name',
+            // 'users.address',
+            // 'users.contact_no',
+            // 'blotter_and_complain_data.blotter_type_id',
+            // 'blotter_type.description as blotter_type_desc',
             'blotter_and_complain_data.blotter_complainant',
             'blotter_and_complain_data.blotter_complainee',
             'blotter_and_complain_data.blotter_address',
@@ -106,14 +108,16 @@ class BlotterAndComplainController extends Controller
             'blotter_and_complain_data.blotter_status_id',
             'blotter_status.description as blotter_status_desc',
             'blotter_and_complain_data.blotter_agreement_content',
+            'blotter_and_complain_data.blotter_amount',
             'blotter_and_complain_data.blotter_payment_method_id',
             'permit_payment_method.description as blotter_payment_method_desc',
             'blotter_and_complain_data.blotter_receipt_file_path',
             'blotter_and_complain_data.blotter_receipt_file_name',
+            'blotter_and_complain_data.is_waived',
             'blotter_and_complain_data.blotter_waive_reason',
             'blotter_and_complain_data.blotter_date_resolved'
         )
-        ->leftJoin('users', 'users.id', 'blotter_and_complain_data.user_id')
+        // ->leftJoin('users', 'users.id', 'blotter_and_complain_data.user_id')
         ->leftJoin('barangays', 'barangays.id', 'blotter_and_complain_data.barangay_id')
         ->leftJoin('blotter_status', 'blotter_status.id', 'blotter_and_complain_data.blotter_status_id')
         ->leftJoin('blotter_type', 'blotter_type.id', 'blotter_and_complain_data.blotter_type_id')
@@ -152,11 +156,11 @@ class BlotterAndComplainController extends Controller
 
     public function show(Request $request, $id) {
         $blotterData = BlotterAndComplain::select(
+            'blotter_and_complain_data.barangay_id',
+            'barangays.description as barangay_desc',
             'blotter_and_complain_data.id as blotter_id',
             'blotter_and_complain_data.blotter_no',
             // 'blotter_and_complain_data.user_id',
-            'blotter_and_complain_data.barangay_id',
-            'barangays.description as barangay_desc',
             // 'users.first_name',
             // 'users.last_name',
             // 'users.address',
@@ -172,10 +176,12 @@ class BlotterAndComplainController extends Controller
             'blotter_and_complain_data.blotter_status_id',
             'blotter_status.description as blotter_status_desc',
             'blotter_and_complain_data.blotter_agreement_content',
+            'blotter_and_complain_data.blotter_amount',
             'blotter_and_complain_data.blotter_payment_method_id',
             'permit_payment_method.description as blotter_payment_method_desc',
             'blotter_and_complain_data.blotter_receipt_file_path',
             'blotter_and_complain_data.blotter_receipt_file_name',
+            'blotter_and_complain_data.is_waived',
             'blotter_and_complain_data.blotter_waive_reason',
             'blotter_and_complain_data.blotter_date_resolved'
         )
@@ -298,6 +304,9 @@ class BlotterAndComplainController extends Controller
             $blotterData->save();
         }
 
+        if (!empty($request->is_waived)) {
+            $blotterData->is_waived = $request->is_waived;
+        }
         $blotterData->blotter_waive_reason = $request->blotter_waive_reason;
         $blotterData->save();
 
