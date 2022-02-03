@@ -290,13 +290,17 @@ class PermitRequestController extends Controller
         foreach($historyData as $row){
 
             $userFullName = $row->user->first_name.' '. $row->user->middle_name.' '. $row->user->last_name;
+            $paymentMethod = "";
+            if(!empty($row->paymentMethod)){
+                $paymentMethod = $row->paymentMethod->description;
+            }
             $return[] = array(
                 'id' => $row->id,
                 'category' => $row->category->description,
                 'barangay' => $row->barangay->description,
                 'permit_type' => $row->permitType->permit_name,
                 'user' => $userFullName,
-                'payment_method' => $row->paymentMethod->description,
+                'payment_method' => $paymentMethod,
                 'status' => $row->status->description,
                 'release_date' => $row->release_date,
                 'application_id' => $row->application_id,
@@ -595,6 +599,7 @@ class PermitRequestController extends Controller
             'barangay' =>'required|string',
             'permit_category' => 'required|string',
             'permit_type' => 'required|string',
+            'status' => 'required|string'
             # 'permit_category' => 'required|string',
         ]);
 
@@ -615,7 +620,7 @@ class PermitRequestController extends Controller
         $permitTypeId = $businessPermit->getPermitTypeId($request->permit_type,$permitCategoryId,$request->fee,$barangayId);
 
         $statusId = $businessPermit->getStatusId($request->status);
-        $userId = $businessPermit->getUserId($request->first_name,$request->middle_name,$request->last_name,$barangayId);
+        $userId = $businessPermit->getUserId($request->first_name,$request->middle_name,$request->last_name,$request['bdate'],$request['email'],$barangayId);
 
 
     #    dd($userId,$statusId);
@@ -645,8 +650,9 @@ class PermitRequestController extends Controller
 
             'status_id' => $statusId,
             'user_id' => $userId,
-            'payment_method_id' => "",
+            'payment_method_id' => 0,
             'is_barangay_system' => 0,
+            'fee' => $request['fee']
 
            #  'reference_number' => $request['reference_number'],
            #  'is_waive' => !empty($request['is_waive']) ? 1:  0 ,

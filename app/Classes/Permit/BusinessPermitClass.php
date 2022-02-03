@@ -33,6 +33,7 @@ class BusinessPermitClass
             $barangayData = new Barangay;
             $barangayData->description = ucfirst($barangay);
             $barangayData->code = "";
+            $barangayData->is_barangay_system = 0;
             $barangayData->save();
 
             $return = $barangayData->id;
@@ -92,6 +93,7 @@ class BusinessPermitClass
             $typeData->category_id = $categoryId;
             $typeData->barangay_id = $barangayId;
             $typeData->fee = !empty($fee) ? $fee  : 0;
+            $typeData->is_barangay_system = 0;
             $typeData->save();
 
             $return = $typeData->id;
@@ -118,6 +120,7 @@ class BusinessPermitClass
         if(!$isStatusExist){
             $statusData = new PermitStatus;
             $statusData->description = ucfirst($status);
+            $statusData->is_barangay_system = 0;
             $statusData->save();
 
             $return = $statusData->id;
@@ -125,7 +128,7 @@ class BusinessPermitClass
         return $return;
     }
 
-    public function getUserId($first_name,$middle_name,$last_name,$barangayId){
+    public function getUserId($first_name,$middle_name,$last_name,$bdate,$gmail,$barangayId){
         $tempFirstName = trim(strtolower($first_name));
         $tempMiddleName = trim(strtolower($middle_name));
         $tempLastName = trim(strtolower($last_name));
@@ -141,13 +144,13 @@ class BusinessPermitClass
            $return = $userData->id;
         }else{
             $userData = new User;
-            $userData->first_name = $first_name;
-            $userData->middle_name = $middle_name;
-            $userData->last_name = $last_name;
-            $userData->email = "";
+            $userData->first_name = ucfirst($first_name);
+            $userData->middle_name = ucfirst($middle_name);
+            $userData->last_name = ucfirst($last_name);
+            $userData->email = !empty($email) ? $email : "";
             $userData->contact_no = "";
             $userData->gender = "";
-            $userData->birth_date = date('Y')."-01"."-01";
+            $userData->birth_date = !empty($bdate) ? date('Y-m-d',strtotime($bdate)) :  date('Y')."-01"."-01";
             $userData->address = "";
             $userData->barangay_id = $barangayId;
             $userData->password = "";

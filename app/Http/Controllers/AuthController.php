@@ -103,7 +103,7 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
-        
+
 
         $tokenResult = $user->createToken('Personal Access Token');
         $eventType = UserActivityLogClass::EVENT_LOGIN;
@@ -227,7 +227,7 @@ class AuthController extends Controller
         $barangayList = Barangay::select(
             "id",
             "description"
-        )->get();
+        )->fromBarangaySystem()->get();
 
         return customResponse()
             ->message("List of barangay.")
@@ -242,7 +242,7 @@ class AuthController extends Controller
             "name",
             "level"
         )->get();
-        
+
         return customResponse()
             ->message("List of user type.")
             ->data($userTypeList)
