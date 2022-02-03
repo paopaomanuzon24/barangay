@@ -165,7 +165,7 @@ class BarangayOfficialController extends Controller
             'contact_no'=>'required',
             'position_id' => 'required|integer|min:1',
             'barangay_id' => 'required|integer|min:1',
-            'photo' => 'mimes:jpg,bmp,png'
+       #     'photo' => 'mimes:jpg,bmp,png'
         ]);
 
 
@@ -198,7 +198,10 @@ class BarangayOfficialController extends Controller
 
         $officialData = BarangayOfficial::find($request->id);
         if(!empty($officialData)){
-            Storage::delete($officialData->file_path.'/'.$officialData->file_name);
+            if(!empty($officialData->file_path) && !empty($officialData->file_name)){
+                Storage::delete($officialData->file_path.'/'.$officialData->file_name);
+            }
+
         }
         if($request->hasFile('photo')){
 
@@ -232,9 +235,15 @@ class BarangayOfficialController extends Controller
             $officialData->barangay_id = $request->barangay_id;
             $officialData->contact_no = $request->contact_no;
             $officialData->address = $request->address;
-            $officialData->file_name = $imageName;
-            $officialData->file_path = $path;
-            $barangayData->save();
+            if(!empty($imageName)){
+                $officialData->file_name = $imageName;
+            }
+
+            if(!empty($path)){
+                $officialData->file_path = $path;
+            }
+
+            $officialData->save();
 
             return customResponse()
             ->data(null)

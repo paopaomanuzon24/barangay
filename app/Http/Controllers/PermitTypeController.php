@@ -178,7 +178,7 @@ class PermitTypeController extends Controller
 
     public function list(Request $request){
 
-        $permitData = PermitType::where("permit_name","!=","");
+        $permitData = PermitType::fromBarangaySystem();
         if(!empty($request['barangay_id'])){
             $permitData = $permitData->where("barangay_id",$request['barangay_id']);
         }
@@ -188,16 +188,30 @@ class PermitTypeController extends Controller
 
         $permitData = $permitData->get();
 
-        $return = array();
-        foreach($permitData as $row){
-            $return[$row->id] = $row->getOriginal();
+        if(!empty($permitData)){
+            $return = array();
+            foreach($permitData as $row){
+                $return[] = array(
+                    'id' => $row->id,
+                    'permit_name' => $row->permit_name,
+                    'barangay_id' => $row->barangay_id,
+                    'fee' => $row->fee
+                );
+            }
+
+            return customResponse()
+                ->data($return)
+                ->message("Permit type list.")
+                ->success()
+                ->generate();
+        }else{
+            return customResponse()
+                ->data(null)
+                ->message("Permit type not found.")
+                ->success()
+                ->generate();
         }
 
-        return customResponse()
-            ->data($permitData)
-            ->message("Permit type list.")
-            ->success()
-            ->generate();
     }
 
     public function show(Request $request, $id){

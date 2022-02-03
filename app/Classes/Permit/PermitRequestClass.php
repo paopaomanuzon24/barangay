@@ -3,7 +3,7 @@
 namespace App\Classes\Permit;
 
 
-
+use App\Models\PermitSequence;
 class PermitRequestClass
 {
 
@@ -63,4 +63,29 @@ class PermitRequestClass
     }
 
 
+    public function getPermitControlNumber($barangayId){
+        $sequenceData = PermitSequence::where("barangay_id",$barangayId)->first();
+        if(!empty($sequenceData)){
+            $sequence = $sequenceData->sequence + 1;
+            $sequenceData->sequence = $sequenceData->sequence + 1;
+
+        }else{
+            $sequenceData = new PermitSequence;
+            $sequenceData->barangay_id = $barangayId;
+            $sequenceData->sequence = 1;
+            $sequence = 1;
+
+        }
+
+        $sequence = str_pad($sequence, 5, '0', STR_PAD_LEFT);
+        $year = substr(date('Y'),2,2);
+        $day = date('d');
+        $controlNumber = $barangayId.''.$year.$day.$sequence;
+
+        $sequenceData->save();
+
+
+
+        return $controlNumber;
+    }
 }

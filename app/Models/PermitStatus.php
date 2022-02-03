@@ -14,7 +14,7 @@ class PermitStatus extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'description'
+        'description','is_barangay_system'
     ];
     protected $primaryKey = 'id';
 

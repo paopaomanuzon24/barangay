@@ -16,6 +16,10 @@ class Barangay extends Model
      * @var array
      */
     protected $fillable = [
-        'id','description'
+        'id','description','is_barangay_system'
     ];
+
+    public function scopefromBarangaySystem($query){
+        return $query->where("barangays.is_barangay_system",1);
+    }
 }
