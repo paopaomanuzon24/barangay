@@ -21,9 +21,9 @@ class BlotterAndComplain extends Model
         'barangay_id',
         'blotter_type_id',
         'blotter_status_id',
-        'blotter_message',
+        'blotter_complaint_content',
         'blotter_date_resolved',
         'blotter_no',
-        'blotter_fee'
+        'blotter_amount'
     ];
 }
