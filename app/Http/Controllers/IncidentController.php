@@ -221,8 +221,6 @@ class IncidentController extends Controller
         $incidentData->incident_latitude = $request->incident_latitude;
         $incidentData->incident_longitude = $request->incident_longitude;
         $incidentData->incident_status_id = 2;
-        // $incidentData->incident_status_id = !empty($request->incident_status_id) ? $request->incident_status_id : 2;
-        // $incidentData->incident_date_resolved = !empty($request->incident_date_resolved) ? date("Y-m-d", strtotime($request->incident_date_resolved)) : null;
         $incidentData->save();
 
         if (empty($request->incident_id)) {
