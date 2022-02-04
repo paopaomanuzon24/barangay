@@ -247,6 +247,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('incident/count', [IncidentController::class, 'countIncident']);
     Route::get('incident/list/{id}', [IncidentController::class, 'list']);
     Route::post('incident/store', [IncidentController::class, 'store']);
+    Route::post('incident/take-action/{id}', [IncidentController::class, 'takeAction']);
     Route::post('incident/mark-as-read/{id}', [IncidentController::class, 'markAsRead']);
     Route::get('incident/show/{id}', [IncidentController::class, 'show']);
     Route::post('incident/destroy/{id}', [IncidentController::class, 'destroy']);

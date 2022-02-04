@@ -30,6 +30,26 @@ class IncidentController extends Controller
             ->generate();
     }
 
+    public function markAsRead(Request $request, $id) {
+        $incidentData = IncidentData::find($id);
+        if (empty($incidentData)) {
+            return customResponse()
+                ->message("No data.")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+
+        $incidentData->mark_as_read = 1;
+        $incidentData->save();
+
+        return customResponse()
+            ->message("Record has been updated.")
+            ->data(null)
+            ->success()
+            ->generate();
+    }
+
     public function incidentList(Request $request) {
         $incidentList = IncidentData::select(
             'incident_data.id',
@@ -176,8 +196,9 @@ class IncidentController extends Controller
         $incidentData->incident_address = $request->incident_address;
         $incidentData->incident_latitude = $request->incident_latitude;
         $incidentData->incident_longitude = $request->incident_longitude;
-        $incidentData->incident_status_id = !empty($request->incident_status_id) ? $request->incident_status_id : 2;
-        $incidentData->incident_date_resolved = !empty($request->incident_date_resolved) ? date("Y-m-d", strtotime($request->incident_date_resolved)) : null;
+        $incidentData->incident_status_id = 2;
+        // $incidentData->incident_status_id = !empty($request->incident_status_id) ? $request->incident_status_id : 2;
+        // $incidentData->incident_date_resolved = !empty($request->incident_date_resolved) ? date("Y-m-d", strtotime($request->incident_date_resolved)) : null;
         $incidentData->save();
 
         if (empty($request->incident_id)) {
@@ -196,24 +217,25 @@ class IncidentController extends Controller
             ->generate(); 
     }
 
-    public function markAsRead(Request $request, $id) {
+    public function takeAction(Request $request, $id) {
         $incidentData = IncidentData::find($id);
         if (empty($incidentData)) {
             return customResponse()
-                ->message("No data.")
                 ->data(null)
+                ->message("No data.")
                 ->failed()
                 ->generate();
         }
 
-        $incidentData->mark_as_read = 1;
+        $incidentData->incident_status_id = 1;
+        $incidentData->incident_date_resolved = date("Y-m-d H:i:s");
         $incidentData->save();
 
         return customResponse()
-            ->message("Record has been updated.")
             ->data(null)
+            ->message('Record has been saved.')
             ->success()
-            ->generate();
+            ->generate(); 
     }
 
     public function show(Request $request, $id) {
