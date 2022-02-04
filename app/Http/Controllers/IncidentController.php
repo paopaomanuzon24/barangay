@@ -30,26 +30,6 @@ class IncidentController extends Controller
             ->generate();
     }
 
-    public function markAsRead(Request $request, $id) {
-        $incidentData = IncidentData::find($id);
-        if (empty($incidentData)) {
-            return customResponse()
-                ->message("No data.")
-                ->data(null)
-                ->failed()
-                ->generate();
-        }
-
-        $incidentData->mark_as_read = 1;
-        $incidentData->save();
-
-        return customResponse()
-            ->message("Record has been updated.")
-            ->data(null)
-            ->success()
-            ->generate();
-    }
-
     public function incidentList(Request $request) {
         $incidentList = IncidentData::select(
             'incident_data.id',
@@ -164,6 +144,50 @@ class IncidentController extends Controller
             ->generate();
     }
 
+    public function show(Request $request, $id) {
+        $incidentData = IncidentData::select(
+            'incident_data.id',
+            'incident_data.user_id',
+            'incident_data.barangay_id',
+            'barangays.description as barangay_desc',
+            'users.first_name',
+            'users.last_name',
+            'users.address',
+            'users.contact_no',
+            'incident_data.incident_type_id',
+            'incident_type.description as incident_type_desc',
+            'incident_data.incident_message',
+            'incident_data.incident_address',
+            'incident_data.incident_latitude',
+            'incident_data.incident_longitude',
+            'incident_data.created_at as incident_date_reported',
+            'incident_data.incident_status_id',
+            'incident_status.description as incident_status_desc',
+            'incident_data.incident_no',
+            'incident_data.incident_date_resolved',
+            'incident_data.mark_as_read'
+        )
+        ->join('users', 'users.id', 'incident_data.user_id')
+        ->join('barangays', 'barangays.id', 'incident_data.barangay_id')
+        ->join('incident_status', 'incident_status.id', 'incident_data.incident_status_id')
+        ->join('incident_type', 'incident_type.id', 'incident_data.incident_type_id')
+        ->find($id);
+
+        if (empty($incidentData)) {
+            return customResponse()
+                ->message("No data.")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+
+        return customResponse()
+            ->message("Incident data.")
+            ->data($incidentData)
+            ->success()
+            ->generate();
+    }
+
     public function store(Request $request) {
         $validator = Validator::make($request->all(),[
             'barangay_id' => 'required',
@@ -227,6 +251,7 @@ class IncidentController extends Controller
                 ->generate();
         }
 
+        $incidentData->mark_as_read = 1;
         $incidentData->incident_status_id = 1;
         $incidentData->incident_date_resolved = date("Y-m-d H:i:s");
         $incidentData->save();
@@ -238,35 +263,8 @@ class IncidentController extends Controller
             ->generate(); 
     }
 
-    public function show(Request $request, $id) {
-        $incidentData = IncidentData::select(
-            'incident_data.id',
-            'incident_data.user_id',
-            'incident_data.barangay_id',
-            'barangays.description as barangay_desc',
-            'users.first_name',
-            'users.last_name',
-            'users.address',
-            'users.contact_no',
-            'incident_data.incident_type_id',
-            'incident_type.description as incident_type_desc',
-            'incident_data.incident_message',
-            'incident_data.incident_address',
-            'incident_data.incident_latitude',
-            'incident_data.incident_longitude',
-            'incident_data.created_at as incident_date_reported',
-            'incident_data.incident_status_id',
-            'incident_status.description as incident_status_desc',
-            'incident_data.incident_no',
-            'incident_data.incident_date_resolved',
-            'incident_data.mark_as_read'
-        )
-        ->join('users', 'users.id', 'incident_data.user_id')
-        ->join('barangays', 'barangays.id', 'incident_data.barangay_id')
-        ->join('incident_status', 'incident_status.id', 'incident_data.incident_status_id')
-        ->join('incident_type', 'incident_type.id', 'incident_data.incident_type_id')
-        ->find($id);
-
+    public function markAsRead(Request $request, $id) {
+        $incidentData = IncidentData::find($id);
         if (empty($incidentData)) {
             return customResponse()
                 ->message("No data.")
@@ -275,9 +273,12 @@ class IncidentController extends Controller
                 ->generate();
         }
 
+        $incidentData->mark_as_read = 1;
+        $incidentData->save();
+
         return customResponse()
-            ->message("Incident data.")
-            ->data($incidentData)
+            ->message("Record has been updated.")
+            ->data(null)
             ->success()
             ->generate();
     }
