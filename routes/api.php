@@ -69,6 +69,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     ##User Management
     Route::get('user-management/{id}', [UserManagementController::class, 'show']);
     Route::post('user-management/store', [UserManagementController::class, 'store']);
+    Route::post('user-management/deactivate/{id}', [UserManagementController::class, 'deactivate']);
 
     ##Inhabitants
     Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);

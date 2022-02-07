@@ -44,10 +44,10 @@ class UserManagementController extends Controller
             'last_name' => 'required|string',
             'first_name' => 'required|string',
             'email' => 'required|email|string',
-            'contact_no' => 'required|digits:10',
-            'gender' => 'required',
-            'birth_date' => 'string',
-            'address' => 'required|string'
+            // 'contact_no' => 'required|digits:10',
+            // 'gender' => 'required',
+            // 'birth_date' => 'string',
+            // 'address' => 'required|string'
         ];
 
         if (empty($request->user_id)) {
@@ -83,4 +83,25 @@ class UserManagementController extends Controller
             ->success()
             ->generate();
     }
+
+    public function deactivate(Request $request, $id) {
+        $userData = User::find($id);
+        if (empty($userData)) {
+            return customResponse()
+                ->data(null)
+                ->message("No user found.")
+                ->failed()
+                ->generate();
+        }
+
+        $userData->is_active = 0;
+        $userData->save();
+
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate();
+    }
+
 }

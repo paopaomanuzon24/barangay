@@ -15,6 +15,7 @@ class AddBarangaySystemToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->tinyInteger('is_barangay_system')->default('1');
+            $table->tinyInteger('is_active')->default('1');
         });
     }
 
