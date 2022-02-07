@@ -117,18 +117,18 @@ class BarangayController extends Controller
         $barangayPrintedData->ice_contact_no = !empty($request->ice_contact_no) ? $request->ice_contact_no : "";
         $barangayPrintedData->save();
 
-        // BarangayIDGenerated::insert([
-        //     "user_id" => $data['user_id'],
-        //     "date_printed" => $data['dateCreated'],
-        //     "date_expiration" => $data['dateExpiration'],
-        //     "qrCode" => $data['qrCode'],
-        //     "ice_first_name" => !empty($request->ice_first_name) ? $request->ice_first_name : "",
-        //     "ice_last_name" => !empty($request->ice_last_name) ? $request->ice_last_name : "",
-        //     "ice_middle_name" => !empty($request->ice_middle_name) ? $request->ice_middle_name : "",
-        //     "ice_address" => !empty($request->ice_address) ? $request->ice_address : "",
-        //     "ice_contact_no" => !empty($request->ice_contact_no) ? $request->ice_contact_no : "",
-        //     "status" => 1,
-        // ]);
+        BarangayIDGenerated::insert([
+            "user_id" => $data['user_id'],
+            "date_printed" => $data['dateCreated'],
+            "date_expiration" => $data['dateExpiration'],
+            "qrCode" => $data['qrCode'],
+            "ice_first_name" => !empty($request->ice_first_name) ? $request->ice_first_name : "",
+            "ice_last_name" => !empty($request->ice_last_name) ? $request->ice_last_name : "",
+            "ice_middle_name" => !empty($request->ice_middle_name) ? $request->ice_middle_name : "",
+            "ice_address" => !empty($request->ice_address) ? $request->ice_address : "",
+            "ice_contact_no" => !empty($request->ice_contact_no) ? $request->ice_contact_no : "",
+            "status" => 1,
+        ]);
 
         $userData->personalData->emergency_contact_no = !empty($request->ice_contact_no) ? $request->ice_contact_no : (!empty($userData->personalData->emergency_contact_no) ? $userData->personalData->emergency_contact_no : "");
         $userData->personalData->save();
