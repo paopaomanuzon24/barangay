@@ -152,8 +152,8 @@
         width: 50%;
     }
 
-    /* @page { margin: 1px; } */
-    @page { margin: 1px; size: 7.50cm 12cm landscape; }
+    @page { margin: 1px; }
+    /* @page { margin: 1px; size: 7.50cm 12cm landscape; } */
 </style>
 
 {{-- ID FRONT --}}

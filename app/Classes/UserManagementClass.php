@@ -27,6 +27,7 @@ class UserManagementClass
         $userData->birth_date = date("Y-m-d", strtotime($request->birth_date));
         $userData->address = $request->address;
         $userData->barangay_id = $request->barangay_id;
+        $userData->is_active = !empty($request->is_active) ? $request->is_active : 0;
         if (!empty($request->password)) {
             $userData->password = Hash::make($request->password);
         }

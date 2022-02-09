@@ -71,6 +71,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     ##User Management
     Route::get('user-management/{id}', [UserManagementController::class, 'show']);
     Route::post('user-management/store', [UserManagementController::class, 'store']);
+    Route::post('user-management/deactivate/{id}', [UserManagementController::class, 'deactivate']);
 
     ##Inhabitants
     Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);
@@ -249,6 +250,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('incident/count', [IncidentController::class, 'countIncident']);
     Route::get('incident/list/{id}', [IncidentController::class, 'list']);
     Route::post('incident/store', [IncidentController::class, 'store']);
+    Route::post('incident/take-action/{id}', [IncidentController::class, 'takeAction']);
     Route::post('incident/mark-as-read/{id}', [IncidentController::class, 'markAsRead']);
     Route::get('incident/show/{id}', [IncidentController::class, 'show']);
     Route::post('incident/destroy/{id}', [IncidentController::class, 'destroy']);
@@ -257,6 +259,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('blotter/list/{id}', [BlotterAndComplainController::class, 'list']);
     Route::get('blotter/show/{id}', [BlotterAndComplainController::class, 'show']);
     Route::post('blotter/store', [BlotterAndComplainController::class, 'store']);
+    Route::post('blotter/resolution', [BlotterAndComplainController::class, 'resolution']);
     Route::post('blotter/destroy/{id}', [BlotterAndComplainController::class, 'destroy']);
 
 

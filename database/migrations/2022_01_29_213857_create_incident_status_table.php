@@ -20,10 +20,10 @@ class CreateIncidentStatusTable extends Migration
         });
 
         DB::table('incident_status')->insert([
-            'description' => 'Solved'
+            'description' => 'Action taken'
         ]);
         DB::table('incident_status')->insert([
-            'description' => 'On going'
+            'description' => 'Pending'
         ]);
     }
 

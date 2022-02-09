@@ -15,7 +15,7 @@ class AlterFieldsToIncidentDataTable extends Migration
     {
         Schema::table('incident_data', function (Blueprint $table) {
             $table->unsignedBigInteger('barangay_id')->nullable();
-            $table->date('incident_date_resolved')->nullable();
+            $table->dateTime('incident_date_resolved', $precision = 0)->nullable();
             $table->string('incident_no')->nullable();
             $table->longText('incident_message')->nullable()->change();
 

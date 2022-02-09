@@ -144,78 +144,6 @@ class IncidentController extends Controller
             ->generate();
     }
 
-    public function store(Request $request) {
-        $validator = Validator::make($request->all(),[
-            'barangay_id' => 'required',
-            'incident_type_id' => 'required',
-            'incident_message' => 'required'
-        ]);
-
-        if($validator->fails()){
-            return customResponse()
-                ->data(null)
-                ->message($validator->errors()->all()[0])
-                ->failed()
-                ->generate();
-        }
-
-        $userData = $request->user();
-        if (!empty($request->user_id)) {
-            $userData = UserModel::find($request->user_id);
-        }
-
-        $incidentData = IncidentData::find($request->incident_id);
-        if (empty($incidentData)) {
-            $incidentData = new IncidentData;
-        }
-
-        $incidentData->user_id = $userData->id;
-        $incidentData->barangay_id = $request->barangay_id;
-        $incidentData->incident_type_id = $request->incident_type_id;
-        $incidentData->incident_message = $request->incident_message;
-        $incidentData->incident_address = $request->incident_address;
-        $incidentData->incident_latitude = $request->incident_latitude;
-        $incidentData->incident_longitude = $request->incident_longitude;
-        $incidentData->incident_status_id = !empty($request->incident_status_id) ? $request->incident_status_id : 2;
-        $incidentData->incident_date_resolved = !empty($request->incident_date_resolved) ? date("Y-m-d", strtotime($request->incident_date_resolved)) : null;
-        $incidentData->save();
-
-        if (empty($request->incident_id)) {
-            $defSeq = "00000000";
-            $sequence = substr($defSeq, strlen($incidentData->id)) . $incidentData->id;
-            $incidentNo = "#INCDT" . date("Y") . $sequence;
-
-            $incidentData->incident_no = $incidentNo;
-            $incidentData->save();
-        }
-
-        return customResponse()
-            ->data(null)
-            ->message('Record has been saved.')
-            ->success()
-            ->generate(); 
-    }
-
-    public function markAsRead(Request $request, $id) {
-        $incidentData = IncidentData::find($id);
-        if (empty($incidentData)) {
-            return customResponse()
-                ->message("No data.")
-                ->data(null)
-                ->failed()
-                ->generate();
-        }
-
-        $incidentData->mark_as_read = 1;
-        $incidentData->save();
-
-        return customResponse()
-            ->message("Record has been updated.")
-            ->data(null)
-            ->success()
-            ->generate();
-    }
-
     public function show(Request $request, $id) {
         $incidentData = IncidentData::select(
             'incident_data.id',
@@ -256,6 +184,99 @@ class IncidentController extends Controller
         return customResponse()
             ->message("Incident data.")
             ->data($incidentData)
+            ->success()
+            ->generate();
+    }
+
+    public function store(Request $request) {
+        $validator = Validator::make($request->all(),[
+            'barangay_id' => 'required',
+            'incident_type_id' => 'required',
+            'incident_message' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
+        }
+
+        $userData = $request->user();
+        if (!empty($request->user_id)) {
+            $userData = UserModel::find($request->user_id);
+        }
+
+        $incidentData = IncidentData::find($request->incident_id);
+        if (empty($incidentData)) {
+            $incidentData = new IncidentData;
+        }
+
+        $incidentData->user_id = $userData->id;
+        $incidentData->barangay_id = $request->barangay_id;
+        $incidentData->incident_type_id = $request->incident_type_id;
+        $incidentData->incident_message = $request->incident_message;
+        $incidentData->incident_address = $request->incident_address;
+        $incidentData->incident_latitude = $request->incident_latitude;
+        $incidentData->incident_longitude = $request->incident_longitude;
+        $incidentData->incident_status_id = 2;
+        $incidentData->save();
+
+        if (empty($request->incident_id)) {
+            $defSeq = "00000000";
+            $sequence = substr($defSeq, strlen($incidentData->id)) . $incidentData->id;
+            $incidentNo = "#INCDT" . date("Y") . $sequence;
+
+            $incidentData->incident_no = $incidentNo;
+            $incidentData->save();
+        }
+
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
+    }
+
+    public function takeAction(Request $request, $id) {
+        $incidentData = IncidentData::find($id);
+        if (empty($incidentData)) {
+            return customResponse()
+                ->data(null)
+                ->message("No data.")
+                ->failed()
+                ->generate();
+        }
+
+        $incidentData->mark_as_read = 1;
+        $incidentData->incident_status_id = 1;
+        $incidentData->incident_date_resolved = date("Y-m-d H:i:s");
+        $incidentData->save();
+
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
+    }
+
+    public function markAsRead(Request $request, $id) {
+        $incidentData = IncidentData::find($id);
+        if (empty($incidentData)) {
+            return customResponse()
+                ->message("No data.")
+                ->data(null)
+                ->failed()
+                ->generate();
+        }
+
+        $incidentData->mark_as_read = 1;
+        $incidentData->save();
+
+        return customResponse()
+            ->message("Record has been updated.")
+            ->data(null)
             ->success()
             ->generate();
     }
