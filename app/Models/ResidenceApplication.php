@@ -21,4 +21,20 @@ class ResidenceApplication extends Model
         'status_id',
         'remarks'
     ];
+
+    public function scopeApprovedResidence($query){
+        return $query->where("status_id",1);
+    }
+
+    public function user(){
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+    public function personalData() {
+        return $this->hasOne(PersonalData::class, 'user_id', 'user_id');
+    }
+
+    public function otherData() {
+        return $this->hasOne(OtherData::class, 'user_id', 'user_id');
+    }
 }

@@ -35,6 +35,8 @@ use App\Http\Controllers\ClearancePaymentMethodController;
 use App\Http\Controllers\ClearanceCategoryController;
 use App\Http\Controllers\ClearanceRequestController;
 
+use App\Http\Controllers\InhabitantsReportController;
+
 
 
 
@@ -256,6 +258,10 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::get('blotter/show/{id}', [BlotterAndComplainController::class, 'show']);
     Route::post('blotter/store', [BlotterAndComplainController::class, 'store']);
     Route::post('blotter/destroy/{id}', [BlotterAndComplainController::class, 'destroy']);
+
+
+    ####Report
+    Route::get('report/inhabitants', [InhabitantsReportController::class, 'getInhabitantsReport']);
 });
 
 
@@ -263,12 +269,6 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
 Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);
 
-
-
-
-#Route::get('permit/request/{id}/edit', [PermitRequestController::class, 'edit']);
-
-#Route::post('permit/request/update', [PermitRequestController::class, 'permitPayment']);
 
 
 
