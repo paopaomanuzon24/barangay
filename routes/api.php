@@ -256,6 +256,7 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('incident/destroy/{id}', [IncidentController::class, 'destroy']);
 
     Route::get('blotter/admin/list', [BlotterAndComplainController::class, 'blotterList']);
+    Route::get('blotter/user/list', [BlotterAndComplainController::class, 'userList']);
     Route::get('blotter/list/{id}', [BlotterAndComplainController::class, 'list']);
     Route::get('blotter/show/{id}', [BlotterAndComplainController::class, 'show']);
     Route::post('blotter/store', [BlotterAndComplainController::class, 'store']);
