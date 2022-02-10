@@ -21,6 +21,8 @@ use App\Models\User as UserModel;
 use App\Models\Country;
 use App\Models\Province;
 use App\Models\Municipality;
+use App\Models\RefProvince;
+use App\Models\RefCity;
 
 class PersonalDataController extends Controller
 {
@@ -204,12 +206,7 @@ class PersonalDataController extends Controller
     }
 
     public function getProvinceList(Request $request) {
-        $list = Province::select(
-            'id',
-            'description'
-        )
-        ->orderBy("description", "asc")
-        ->get();
+        $list = RefProvince::orderBy("prov_name", "asc")->get();
 
         return customResponse()
             ->message("List of province.")
@@ -219,15 +216,14 @@ class PersonalDataController extends Controller
     }
 
     public function getMunicipalityList(Request $request) {
-        $list = Municipality::select(
-            'id',
-            'description'
-        )
-        ->orderBy("description", "asc")
-        ->get();
+        $list = RefCity::orderBy("city_name", "asc");
+        if (!empty($request->prov_code)) {
+            $list = $list->where("prov_code", $request->prov_code);
+        }
+        $list = $list->get();
 
         return customResponse()
-            ->message("List of municipality.")
+            ->message("List of city/municipality.")
             ->data($list)
             ->success()
             ->generate();
