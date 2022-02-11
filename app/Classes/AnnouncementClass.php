@@ -2,6 +2,7 @@
 
 namespace App\Classes;
 
+use Helpers;
 use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
@@ -14,18 +15,23 @@ class AnnouncementClass
     public function announcementList($request) {
         $announcementList = Announcement::select(
             'announcements.id',
+            'announcements.barangay_id',
+            'announcements.barangay_desc',
+            'announcements.tag',
+            // 'announcements.pinned',
             'announcements.title',
             'announcements.content',
-            'announcements.date_from',
-            'announcements.date_to',
-            'announcements.barangay_id',
-            'barangays.description as barangay_desc',
+            'announcements.img_path',
+            'announcements.img_name',
+            // 'announcements.date_from',
+            // 'announcements.date_to',
+            // 'barangays.description as barangay_desc',
             DB::raw(
                 'CONCAT(users.first_name, " ", users.last_name) AS created_by'
             )
         )
-        ->join("users", "users.id", "announcements.created_by")
-        ->leftJoin("barangays", "barangays.id", "announcements.barangay_id");
+        ->join("users", "users.id", "announcements.created_by");
+        // ->leftJoin("barangays", "barangays.id", "announcements.barangay_id");
 
         if ($request->search) {
             $announcementList = $announcementList->where(function($q) use($request){
@@ -36,7 +42,7 @@ class AnnouncementClass
         }
 
         if ($request->barangay_id) {
-            $announcementList = $announcementList->where("announcements.barangay_id", $request->barangay_id);
+            $announcementList = $announcementList->whereRaw('FIND_IN_SET(?,announcements.barangay_id)', [$request->barangay_id]);
         }
 
         $announcementList = $announcementList->paginate(
@@ -54,28 +60,30 @@ class AnnouncementClass
 
         $announcementList = Announcement::select(
             'announcements.id',
-            'announcements.pinned',
+            'announcements.barangay_id',
+            'announcements.barangay_desc',
+            'announcements.tag',
+            // 'announcements.pinned',
             'announcements.title',
             'announcements.content',
             'announcements.img_path',
             'announcements.img_name',
-            'announcements.date_from',
-            'announcements.date_to',
-            'announcements.barangay_id',
-            'barangays.description as barangay_desc',
+            // 'announcements.date_from',
+            // 'announcements.date_to',
+            // 'barangays.description as barangay_desc',
             DB::raw(
                 'CONCAT(users.first_name, " ", users.last_name) AS created_by'
             )
         )
         ->join("users", "users.id", "announcements.created_by")
-        ->leftJoin("barangays", "barangays.id", "announcements.barangay_id")
+        // ->leftJoin("barangays", "barangays.id", "announcements.barangay_id")
         ->orderBy("announcements.pinned", "desc")
         ->orderBy("announcements.id", "desc");
 
         if (!empty($userData->barangay_id)) {
             $announcementList = $announcementList->where(function($query) use($userData){
                 $query->whereNull("announcements.barangay_id");
-                $query->orWhere("announcements.barangay_id", $userData->barangay_id);
+                $query->orWhereRaw('FIND_IN_SET(?,announcements.barangay_id)', [$userData->barangay_id]);
             });
         }
 
@@ -92,6 +100,22 @@ class AnnouncementClass
     public function saveAnnouncement($request) {
         $userData = $request->user();
 
+        $barangayArray = array_filter($request->barangay_id);
+        $barangayDescArray = [];
+        if (!empty($barangayArray)) {
+            if (count($barangayArray) > 0) {
+                $barangayList = Helpers::getBarangayList();
+                foreach ($barangayArray as $brgyID) {
+                    $barangayDescArray[] = $barangayList[$brgyID];
+                }
+            }
+        }
+        $tagArray = array_filter($request->tag);
+
+        $barangaySelected = implode($barangayArray, ",");
+        $barangayDescSelected = implode($barangayDescArray, ",");
+        $tagSelected = implode($tagArray, ",");
+
         $announcementData = Announcement::find($request->announcement_id);
         if (empty($announcementData)) {
             $announcementData = new Announcement;
@@ -101,7 +125,9 @@ class AnnouncementClass
         //     $this->removePinned();
         // }
 
-        $announcementData->barangay_id = $request->barangay_id;
+        $announcementData->barangay_id = $barangaySelected;
+        $announcementData->barangay_desc = $barangayDescSelected;
+        $announcementData->tag = $tagSelected;
         $announcementData->title = $request->title;
         $announcementData->content = $request->content;
 

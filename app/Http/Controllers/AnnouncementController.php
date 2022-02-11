@@ -60,7 +60,8 @@ class AnnouncementController extends Controller
 
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-            'title' => 'required',
+            // 'title' => 'required',
+            'tag' => 'required',
             'content' => 'required',
             'img_file' => 'mimes:jpg,bmp,png,jpeg'
         ]);

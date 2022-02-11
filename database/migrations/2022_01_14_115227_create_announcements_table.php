@@ -15,7 +15,9 @@ class CreateAnnouncementsTable extends Migration
     {
         Schema::create('announcements', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("barangay_id")->nullable();
+            $table->string("barangay_id")->nullable();
+            $table->longText("barangay_desc")->nullable();
+            $table->longText("tag")->nullable();
             $table->string("title")->nullable();
             $table->longText("content")->nullable();
             $table->date("date_from")->nullable();
@@ -27,7 +29,7 @@ class CreateAnnouncementsTable extends Migration
             $table->timestamps();
 
             $table->foreign('created_by')->references('id')->on('users');
-            $table->foreign('barangay_id')->references('id')->on('barangays');
+            // $table->foreign('barangay_id')->references('id')->on('barangays');
         });
     }
 

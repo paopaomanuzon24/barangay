@@ -18,21 +18,67 @@ use App\Models\User as UserModel;
 
 class BlotterAndComplainController extends Controller
 {
+    public function userList(Request $request) {
+        $removeUserTypeArray = [
+            UserModel::SUPER_ADMIN,
+            UserModel::ADMIN,
+            UserModel::TREASURY,
+            UserModel::SECRETARY
+        ];
+
+        $userList = UserModel::select(
+            'users.id',
+            'first_name',
+            'middle_name',
+            'last_name',
+            'barangay_id',
+            'barangays.description as barangay_desc',
+            'user_type_id',
+            'user_type.name as user_type_desc',
+            'contact_no',
+            'address'
+        )
+        ->leftJoin("barangays", "barangays.id", "users.barangay_id")
+        ->leftJoin("user_type", "user_type.id", "users.user_type_id");
+
+        if ($request->search) {
+            $userList = $userList->where(function($q) use($request){
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+            });
+        }
+
+        if ($request->barangay_id) {
+            $userList = $userList->where("users.barangay_id", $request->barangay_id);
+        }
+
+        if ($request->user_type) {
+            $userList = $userList->where("users.user_type_id", $request->user_type);
+        }
+
+        $userList = $userList->whereNotIn("users.user_type_id", $removeUserTypeArray);
+
+        $userList = $userList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
+        
+        return customResponse()
+            ->message("List of users.")
+            ->data($userList)
+            ->success()
+            ->generate();
+    }
+
     public function blotterList(Request $request) {
         $blotterList = BlotterAndComplain::select(
             'blotter_and_complain_data.barangay_id',
             'barangays.description as barangay_desc',
             'blotter_and_complain_data.id as blotter_id',
             'blotter_and_complain_data.blotter_no',
-            // 'blotter_and_complain_data.user_id',
-            // 'users.first_name',
-            // 'users.last_name',
-            // 'users.address',
-            // 'users.contact_no',
-            // 'blotter_and_complain_data.blotter_type_id',
-            // 'blotter_type.description as blotter_type_desc',
-            'blotter_and_complain_data.blotter_complainant',
-            'blotter_and_complain_data.blotter_complainee',
+            'blotter_and_complain_data.blotter_complainant_id',
+            'blotter_and_complain_data.blotter_complainee_id',
             'blotter_and_complain_data.blotter_address',
             'blotter_and_complain_data.blotter_subject',
             'blotter_and_complain_data.blotter_complaint_content',
@@ -49,18 +95,16 @@ class BlotterAndComplainController extends Controller
             'blotter_and_complain_data.blotter_waive_reason',
             'blotter_and_complain_data.blotter_date_resolved'
         )
-        // ->leftJoin('users', 'users.id', 'blotter_and_complain_data.user_id')
         ->leftJoin('barangays', 'barangays.id', 'blotter_and_complain_data.barangay_id')
         ->leftJoin('blotter_status', 'blotter_status.id', 'blotter_and_complain_data.blotter_status_id')
         ->leftJoin('blotter_type', 'blotter_type.id', 'blotter_and_complain_data.blotter_type_id')
-        ->leftJoin('permit_payment_method', 'permit_payment_method.id', 'blotter_and_complain_data.blotter_payment_method_id');
+        ->leftJoin('permit_payment_method', 'permit_payment_method.id', 'blotter_and_complain_data.blotter_payment_method_id')
+        ->with(['complainantData', 'complaineeData']);
 
         if ($request->search) {
             $blotterList = $blotterList->where(function($q) use($request){
-                // $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
+                $q->orWhereRaw("CONCAT_WS(' ',CONCAT(last_name,','),first_name,first_name) LIKE ?","%".$request->search."%");
                 $q->orWhereRaw("blotter_and_complain_data.blotter_no LIKE ?","%".$request->search."%");
-                $q->orWhereRaw("blotter_and_complain_data.blotter_complainant LIKE ?","%".$request->search."%");
-                $q->orWhereRaw("blotter_and_complain_data.blotter_complainee LIKE ?","%".$request->search."%");
             });
         }
 
@@ -99,8 +143,8 @@ class BlotterAndComplainController extends Controller
             // 'users.contact_no',
             // 'blotter_and_complain_data.blotter_type_id',
             // 'blotter_type.description as blotter_type_desc',
-            'blotter_and_complain_data.blotter_complainant',
-            'blotter_and_complain_data.blotter_complainee',
+            'blotter_and_complain_data.blotter_complainant_id',
+            'blotter_and_complain_data.blotter_complainee_id',
             'blotter_and_complain_data.blotter_address',
             'blotter_and_complain_data.blotter_subject',
             'blotter_and_complain_data.blotter_complaint_content',
@@ -127,8 +171,8 @@ class BlotterAndComplainController extends Controller
         if ($request->search) {
             $blotterList = $blotterList->where(function($q) use($request){
                 $q->orWhereRaw("blotter_and_complain_data.blotter_no LIKE ?","%".$request->search."%");
-                $q->orWhereRaw("blotter_and_complain_data.blotter_complainant LIKE ?","%".$request->search."%");
-                $q->orWhereRaw("blotter_and_complain_data.blotter_complainee LIKE ?","%".$request->search."%");
+                // $q->orWhereRaw("blotter_and_complain_data.blotter_complainant_id LIKE ?","%".$request->search."%");
+                // $q->orWhereRaw("blotter_and_complain_data.blotter_complainee_id LIKE ?","%".$request->search."%");
             });
         }
 
@@ -160,15 +204,8 @@ class BlotterAndComplainController extends Controller
             'barangays.description as barangay_desc',
             'blotter_and_complain_data.id as blotter_id',
             'blotter_and_complain_data.blotter_no',
-            // 'blotter_and_complain_data.user_id',
-            // 'users.first_name',
-            // 'users.last_name',
-            // 'users.address',
-            // 'users.contact_no',
-            // 'blotter_and_complain_data.blotter_type_id',
-            // 'blotter_type.description as blotter_type_desc',
-            'blotter_and_complain_data.blotter_complainant',
-            'blotter_and_complain_data.blotter_complainee',
+            'blotter_and_complain_data.blotter_complainant_id',
+            'blotter_and_complain_data.blotter_complainee_id',
             'blotter_and_complain_data.blotter_address',
             'blotter_and_complain_data.blotter_subject',
             'blotter_and_complain_data.blotter_complaint_content',
@@ -185,11 +222,11 @@ class BlotterAndComplainController extends Controller
             'blotter_and_complain_data.blotter_waive_reason',
             'blotter_and_complain_data.blotter_date_resolved'
         )
-        // ->leftJoin('users', 'users.id', 'blotter_and_complain_data.user_id')
         ->leftJoin('barangays', 'barangays.id', 'blotter_and_complain_data.barangay_id')
         ->leftJoin('blotter_status', 'blotter_status.id', 'blotter_and_complain_data.blotter_status_id')
         ->leftJoin('blotter_type', 'blotter_type.id', 'blotter_and_complain_data.blotter_type_id')
         ->leftJoin('permit_payment_method', 'permit_payment_method.id', 'blotter_and_complain_data.blotter_payment_method_id')
+        ->with(['complainantData', 'complaineeData'])
         ->find($id);
 
         if (empty($blotterData)) {
@@ -210,6 +247,8 @@ class BlotterAndComplainController extends Controller
     public function store(Request $request) {
         $validator = Validator::make($request->all(),[
             'barangay_id' => 'required',
+            'blotter_complainant_id' => 'required',
+            'blotter_complainee_id' => 'required',
             // 'blotter_type_id' => 'required',
             'blotter_complaint_content' => 'required'
         ]);
@@ -234,8 +273,8 @@ class BlotterAndComplainController extends Controller
 
         $blotterData->barangay_id = $request->barangay_id;
         // $blotterData->user_id = $userData->id;
-        $blotterData->blotter_complainant = $request->blotter_complainant;
-        $blotterData->blotter_complainee = $request->blotter_complainee;
+        $blotterData->blotter_complainant_id = $request->blotter_complainant_id;
+        $blotterData->blotter_complainee_id = $request->blotter_complainee_id;
         $blotterData->blotter_address = $request->blotter_address;
         $blotterData->blotter_subject = $request->blotter_subject;
         // $blotterData->blotter_type_id = $request->blotter_type_id;

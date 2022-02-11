@@ -26,4 +26,12 @@ class BlotterAndComplain extends Model
         'blotter_no',
         'blotter_amount'
     ];
+
+    public function complainantData() {
+        return $this->hasOne('App\Models\User', 'id', 'blotter_complainant_id');
+    }
+
+    public function complaineeData() {
+        return $this->hasOne('App\Models\User', 'id', 'blotter_complainee_id');
+    }
 }
