@@ -49,7 +49,17 @@ class InhabitantsReportController extends Controller
 
 
         );
+        $return = "eirra";
 
         return $return;
     }
+
+
+
+
+
+
+
+
+
 }
