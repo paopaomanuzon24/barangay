@@ -238,6 +238,17 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     #Report
     Route::get('report/dashboard/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
 
+    #Medicine Inventory
+    Route::post('health/medicine', [MedicineInventoryController::class, 'store']);
+    Route::get('health/medicine/{id}', [MedicineInventoryController::class, 'show']);
+    Route::get('health/medicine/{id}/edit', [MedicineInventoryController::class, 'edit']);
+    Route::post('health/medicine/update', [MedicineInventoryController::class, 'update']);
+    Route::post('health/medicine/delete', [MedicineInventoryController::class, 'delete']);
+    Route::get('health/medicines', [MedicineInventoryController::class, 'list']);
+
+    Route::get('health/status/list', [MedicineInventoryController::class, 'statusList']);
+
+
     ##Announcement
     Route::get('announement/list', [AnnouncementController::class, 'index']);
     Route::get('announement/display', [AnnouncementController::class, 'display']);
@@ -265,19 +276,13 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
 
 
     ####Report
+    Route::get('report/inhabitants', [InhabitantsReportController::class, 'getInhabitantsReport']);
 
 });
 
-Route::get('report/inhabitants', [InhabitantsReportController::class, 'getInhabitantsReport']);
 
 
-#Medicine Inventory
-Route::post('health/medicine', [MedicineInventoryController::class, 'store']);
-Route::get('health/medicine/{id}', [MedicineInventoryController::class, 'show']);
-Route::get('health/medicine/{id}/edit', [MedicineInventoryController::class, 'edit']);
-Route::post('health/medicine/update', [MedicineInventoryController::class, 'update']);
-Route::post('health/medicine/delete', [MedicineInventoryController::class, 'delete']);
-Route::get('health/medicines', [MedicineInventoryController::class, 'list']);
+
 
 Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);
 

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\MedicineInventory;
+use App\Models\MedicineInventoryStatus;
 
 
 class MedicineInventoryController extends Controller
@@ -200,6 +201,30 @@ class MedicineInventoryController extends Controller
         return customResponse()
             ->data($medicine)
             ->message("Medicine list.")
+            ->success()
+            ->generate();
+
+        #return response()->json($return);
+    }
+
+    public function statusList(Request $request){
+
+
+        $medicineStatus = MedicineInventoryStatus::all();
+
+
+        if(empty($medicineStatus)){
+            return customResponse()
+            ->data(null)
+            ->message("No medicine status found")
+            ->success()
+            ->generate();
+        }
+
+
+        return customResponse()
+            ->data($medicineStatus)
+            ->message("Medicine status list.")
             ->success()
             ->generate();
 
