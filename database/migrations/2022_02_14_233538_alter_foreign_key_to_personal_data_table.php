@@ -14,8 +14,16 @@ class AlterForeignKeyToPersonalDataTable extends Migration
     public function up()
     {
         Schema::table('personal_data', function (Blueprint $table) {
-            $table->foreign('province_id')->references('id')->on('ref_provinces');
-            $table->foreign('municipality_id')->references('id')->on('ref_cities');
+            $table->dropForeign('personal_data_province_id_foreign');
+            $table->dropForeign('personal_data_municipality_id_foreign');
+            $table->foreign('province_id')
+                ->references('id')
+                ->on('ref_provinces')
+                ->change();
+            $table->foreign('municipality_id')
+                ->references('id')
+                ->on('ref_cities')
+                ->change();
         });
     }
 

@@ -23,8 +23,8 @@ class AlterFieldsToOtherDataTable extends Migration
 
         Schema::table('personal_data', function (Blueprint $table) {
             $table->foreign('country_id')->references('id')->on('countries');
-            // $table->foreign('province_id')->references('id')->on('provinces');
-            // $table->foreign('municipality_id')->references('id')->on('municipalities');
+            $table->foreign('province_id')->references('id')->on('provinces');
+            $table->foreign('municipality_id')->references('id')->on('municipalities');
         });
     }
 
