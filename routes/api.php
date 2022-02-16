@@ -266,6 +266,8 @@ Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function
     Route::post('incident/mark-as-read/{id}', [IncidentController::class, 'markAsRead']);
     Route::get('incident/show/{id}', [IncidentController::class, 'show']);
     Route::post('incident/destroy/{id}', [IncidentController::class, 'destroy']);
+    Route::get('incident/export-excel', [IncidentController::class, 'exportIntoExcel']);
+    Route::get('incident/export-csv', [IncidentController::class, 'exportIntoCSV']);
 
     Route::get('blotter/admin/list', [BlotterAndComplainController::class, 'blotterList']);
     Route::get('blotter/user/list', [BlotterAndComplainController::class, 'userList']);
@@ -374,7 +376,4 @@ Route::get('incident/status/list', [IncidentController::class, 'getIncidentStatu
 
 Route::get('blotter/type/list', [BlotterAndComplainController::class, 'getBlotterTypeList']);
 Route::get('blotter/status/list', [BlotterAndComplainController::class, 'getBlotterStatusList']);
-
-Route::get('export-excel', [IncidentController::class, 'exportIntoExcel']);
-Route::get('export-csv', [IncidentController::class, 'exportIntoCSV']);
 
