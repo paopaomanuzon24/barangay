@@ -163,6 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Laravel\Passport\PassportServiceProvider::class,
         App\Providers\HelpersServiceProvider::class,
+        \Maatwebsite\Excel\ExcelServiceProvider::class,
 
 
         /*
@@ -238,7 +239,7 @@ return [
         'PDF' => Barryvdh\DomPDF\Facade::class,
         'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
         // 'QRCode' => LaravelQRCode\Facades\QrCode::class,
-
+        'Excel' => \Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

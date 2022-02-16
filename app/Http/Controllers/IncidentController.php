@@ -15,6 +15,9 @@ use App\Models\IncidentData;
 use App\Models\IncidentType;
 use App\Models\User as UserModel;
 
+use App\Exports\IncidentExport;
+use Excel;
+
 class IncidentController extends Controller
 {
     public function countIncident(Request $request) {
@@ -322,6 +325,16 @@ class IncidentController extends Controller
             ->data($list)
             ->success()
             ->generate();
+    }
+
+    public function exportIntoExcel(Request $request) {
+        $params = $request->input();
+        return Excel::download(new IncidentExport($params), 'incident-report.xlsx');
+    }
+
+    public function exportIntoCSV(Request $request) {
+        $params = $request->input();
+        return Excel::download(new IncidentExport($params), 'incident-report.csv');
     }
 
 }

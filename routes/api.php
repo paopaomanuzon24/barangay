@@ -375,3 +375,6 @@ Route::get('incident/status/list', [IncidentController::class, 'getIncidentStatu
 Route::get('blotter/type/list', [BlotterAndComplainController::class, 'getBlotterTypeList']);
 Route::get('blotter/status/list', [BlotterAndComplainController::class, 'getBlotterStatusList']);
 
+Route::get('export-excel', [IncidentController::class, 'exportIntoExcel']);
+Route::get('export-csv', [IncidentController::class, 'exportIntoCSV']);
+
