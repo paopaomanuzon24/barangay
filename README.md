@@ -1,4 +1,4 @@
-# Enrollment Management
+# Barangay Management System
 
 The Barangay Management Information System (BMIS) facilitates identification of barangay needs vital for nutrition and development planning, project implementation, monitoring and evaluation, and promote capacity development of Barangay Development Councils (BDCs) in e-governance.
 
