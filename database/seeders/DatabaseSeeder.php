@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RefProvinceSeeder::class,
             RefCitySeeder::class,
+            RefLanguage::class,
         ]);
     }
 }

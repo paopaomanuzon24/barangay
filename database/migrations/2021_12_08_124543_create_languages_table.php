@@ -19,23 +19,23 @@ class CreateLanguagesTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('languages')->insert([
-            [
-                'description' => 'English'
-            ],
-            [
-                'description' => 'Tagalog'
-            ],
-            [
-                'description' => 'Bisaya'
-            ],
-            [
-                'description' => 'Waray'
-            ],
-            [
-                'description' => 'Ilocano'
-            ]
-        ]);
+        // DB::table('languages')->insert([
+        //     [
+        //         'description' => 'English'
+        //     ],
+        //     [
+        //         'description' => 'Tagalog'
+        //     ],
+        //     [
+        //         'description' => 'Bisaya'
+        //     ],
+        //     [
+        //         'description' => 'Waray'
+        //     ],
+        //     [
+        //         'description' => 'Ilocano'
+        //     ]
+        // ]);
     }
 
     /**

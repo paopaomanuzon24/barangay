@@ -19,20 +19,20 @@ class CreateDiseasesTable extends Migration
             $table->timestamps();
         });
 
-        DB::table('diseases')->insert([
-            [
-                'description' => 'Diabetes'
-            ],
-            [
-                'description' => 'TB'
-            ],
-            [
-                'description' => 'Hypertension'
-            ],
-            [
-                'description' => 'Stroke'
-            ]
-        ]);
+        // DB::table('diseases')->insert([
+        //     [
+        //         'description' => 'Diabetes'
+        //     ],
+        //     [
+        //         'description' => 'Tuberculosis'
+        //     ],
+        //     [
+        //         'description' => 'Hypertension'
+        //     ],
+        //     [
+        //         'description' => 'Stroke'
+        //     ]
+        // ]);
     }
 
     /**
