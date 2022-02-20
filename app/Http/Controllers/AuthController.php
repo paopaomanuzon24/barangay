@@ -104,10 +104,16 @@ class AuthController extends Controller
 
         $user = $request->user();
 
-
         $tokenResult = $user->createToken('Personal Access Token');
-        $eventType = UserActivityLogClass::EVENT_LOGIN;
+        $token = $tokenResult->token;
 
+        if ($request->remember_me) {
+            $token->expires_at = Carbon::now()->addWeeks(1);
+        }
+            
+        $token->save();
+
+        $eventType = UserActivityLogClass::EVENT_LOGIN;
         $userActivityLog = new UserActivityLogClass;
         $userActivityLog->insert(Auth::user()->id, $eventType);
 
@@ -119,28 +125,42 @@ class AuthController extends Controller
         //     'token' => $tokenResult->plainTextToken
         // );
 
-        SessionToken::updateOrCreate(
-            [
-                'user_id' => Auth::user()->id
-            ],
-            [
-                'user_id' => Auth::user()->id,
-                'session_id' => Session::getId(),
-                'token' => $tokenResult->plainTextToken
-            ]
-        );
+        // SessionToken::updateOrCreate(
+        //     [
+        //         'user_id' => Auth::user()->id
+        //     ],
+        //     [
+        //         'user_id' => Auth::user()->id,
+        //         'session_id' => Session::getId(),
+        //         'token' => ''
+        //     ]
+        // );
+
+        // return customResponse()
+        //     ->data([
+        //         'barangay' => (!empty($user->barangayData->description) ? $user->barangayData->description : NULL),
+        //         'user' => $user,
+        //         'access_token' => $tokenResult->plainTextToken,
+        //         'token_type' => 'Bearer',
+        //         'expires_at' => Carbon::parse(
+        //             Carbon::now()->addDays(1)
+        //         )->toDateTimeString()
+        //     ])
+        //     ->message('You have successfully logged in.')
+        //     ->success()
+        //     ->generate();
 
         return customResponse()
+            ->message('You have successfully logged in.')
             ->data([
                 'barangay' => (!empty($user->barangayData->description) ? $user->barangayData->description : NULL),
                 'user' => $user,
-                'access_token' => $tokenResult->plainTextToken,
+                'access_token' => $tokenResult->accessToken,
                 'token_type' => 'Bearer',
                 'expires_at' => Carbon::parse(
-                    Carbon::now()->addDays(1)
+                    $tokenResult->token->expires_at
                 )->toDateTimeString()
             ])
-            ->message('You have successfully logged in.')
             ->success()
             ->generate();
     }

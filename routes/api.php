@@ -62,7 +62,7 @@ use App\Http\Controllers\BlotterAndComplainController;
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 
-Route::group(['middleware' => ['auth:sanctum', 'usersession', 'cors']], function() {
+Route::group(['middleware' => ['auth:api']], function() {
     Route::get('logout', [AuthController::class, 'logout']);
     Route::get('user', [AuthController::class, 'user']);
     Route::get('user/list', [AuthController::class, 'list']);
