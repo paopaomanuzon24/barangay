@@ -276,7 +276,8 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::post('blotter/store', [BlotterAndComplainController::class, 'store']);
     Route::post('blotter/resolution', [BlotterAndComplainController::class, 'resolution']);
     Route::post('blotter/destroy/{id}', [BlotterAndComplainController::class, 'destroy']);
-    
+    Route::get('blotter/export-excel', [BlotterAndComplainController::class, 'exportIntoExcel']);
+    Route::get('blotter/export-csv', [BlotterAndComplainController::class, 'exportIntoCSV']);
 
 
     ####Report
@@ -287,8 +288,7 @@ Route::group(['middleware' => ['auth:api']], function() {
 });
 
 
-Route::get('blotter/export-excel', [BlotterAndComplainController::class, 'exportIntoExcel']);
-    Route::get('blotter/export-csv', [BlotterAndComplainController::class, 'exportIntoCSV']);
+
 
 
 Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);
