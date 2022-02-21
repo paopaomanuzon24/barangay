@@ -2,6 +2,7 @@
 
 namespace App\Exports;
 
+use Carbon\Carbon;
 use App\Models\IncidentData;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -56,6 +57,32 @@ class IncidentExport implements FromCollection, WithHeadings
             $incidentList = $incidentList->whereIn('incident_data.barangay_id', $barangayIDArray);
         }
 
+        if (!empty($params['last_week'])) {
+            $lastWeek = Carbon::now()->subDays(7);
+            $startOfLastweek = Carbon::now()->subDays(14);
+
+            $incidentList = $incidentList->whereDate('incident_data.created_at', ">=", $startOfLastweek)
+                ->whereDate('incident_data.created_at', "<=", $lastWeek);
+        }
+
+        if (!empty($params['last_month'])) {
+            $start = new Carbon('first day of last month');
+            $start->startOfMonth();
+            $end = new Carbon('last day of last month');
+            $end->endOfMonth();
+
+            $incidentList = $incidentList->whereDate('incident_data.created_at', ">=", $start)
+                ->whereDate('incident_data.created_at', "<=", $end);
+        }
+
+        if (!empty($params['date_from']) && !empty($params['date_to'])) {
+            $from = date('Y-m-d', strtotime($params['date_from']));
+            $to = date('Y-m-d', strtotime($params['date_to']));
+
+            $incidentList = $incidentList->whereDate('incident_data.created_at', ">=", $from)
+                ->whereDate('incident_data.created_at', "<=", $to);
+        }
+
         $incidentList = $incidentList->get();
 
         $incidentArray = [];
@@ -71,10 +98,11 @@ class IncidentExport implements FromCollection, WithHeadings
                 $row->incident_message,
                 $row->incident_address,
                 date('Y-m-d', strtotime($row->incident_date_reported)),
-                !empty($row->incident_date_resolved) ? date('F d, Y', strtotime($row->incident_date_resolved)) : "",
+                !empty($row->incident_date_resolved) ? date('Y-m-d', strtotime($row->incident_date_resolved)) : "",
                 $row->incident_status_desc
             );
         }
+
         return collect($incidentArray);
     }
 

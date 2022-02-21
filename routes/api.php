@@ -276,15 +276,19 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::post('blotter/store', [BlotterAndComplainController::class, 'store']);
     Route::post('blotter/resolution', [BlotterAndComplainController::class, 'resolution']);
     Route::post('blotter/destroy/{id}', [BlotterAndComplainController::class, 'destroy']);
+    
 
 
     ####Report
     Route::get('report/inhabitants', [InhabitantsReportController::class, 'getInhabitantsReport']);
+    Route::get('report/incidents', [IncidentController::class, 'getIncidentReport']);
+    Route::get('report/blotters', [BlotterAndComplainController::class, 'getBlotterReport']);
 
 });
 
 
-
+Route::get('blotter/export-excel', [BlotterAndComplainController::class, 'exportIntoExcel']);
+    Route::get('blotter/export-csv', [BlotterAndComplainController::class, 'exportIntoCSV']);
 
 
 Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);

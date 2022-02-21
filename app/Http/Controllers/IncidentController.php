@@ -20,6 +20,56 @@ use Excel;
 
 class IncidentController extends Controller
 {
+    public function getIncidentReport(Request $request) {
+        $incidents = IncidentType::select(
+                'id',
+                'description'
+            )
+            ->get();
+
+        $incidentReport = [];
+        foreach ($incidents as $row) {
+            // $incidentReport[$row->description] = IncidentData::where("incident_type_id", $row->id)->count();
+            $incidentReport[] = array(
+                'description' => $row->description,
+                'count' => IncidentData::where("incident_type_id", $row->id)->count()
+            );
+        }
+
+        $incidentReport[] = array(
+            'description' => 'Today',
+            'count' => IncidentData::whereDate("created_at", Carbon::now())->count()
+        );
+
+        $incidentReport[] = array(
+            'description' => 'Action Taken',
+            'count' => IncidentData::where("incident_status_id", "=", 1)->count()
+        );
+
+        $incidentReport[] = array(
+            'description' => 'Pending',
+            'count' => IncidentData::where("incident_status_id", "!=", 1)->count()
+        );
+
+        $incidentReport[] = array(
+            'description' => 'Total',
+            'count' => IncidentData::count()
+        );
+
+        // $totalIncidents = array_sum($incidentReport);
+
+        // $incidentReport['Total Incidents Today'] = IncidentData::whereDate("created_at", Carbon::now())->count();
+        // $incidentReport['Total Incidents Action Taken'] = IncidentData::where("incident_status_id", "=", 1)->count();
+        // $incidentReport['Total Incidents Pending'] = IncidentData::where("incident_status_id", "!=", 1)->count();
+        // $incidentReport['Total Incidents'] = $totalIncidents;
+
+        return customResponse()
+            ->message("Incidents Report.")
+            ->data($incidentReport)
+            ->success()
+            ->generate();
+    }
+    
     public function countIncident(Request $request) {
         $incidentCount = IncidentData::where("mark_as_read", "!=", 1)->count();
         $display = [

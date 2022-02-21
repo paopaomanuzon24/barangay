@@ -16,8 +16,42 @@ use App\Models\BlotterStatus;
 use App\Models\BlotterAndComplain;
 use App\Models\User as UserModel;
 
+use App\Exports\BlotterExport;
+use Excel;
+
 class BlotterAndComplainController extends Controller
 {
+    public function getBlotterReport(Request $request) {
+        $blotters = BlotterAndComplain::get();
+        $blotterReport = [];
+
+        $blotterReport[] = array(
+            'description' => 'Today',
+            'count' => BlotterAndComplain::whereDate("created_at", Carbon::now())->count()
+        );
+
+        $blotterReport[] = array(
+            'description' => 'Solved',
+            'count' => BlotterAndComplain::where("blotter_status_id", "=", 1)->count()
+        );
+
+        $blotterReport[] = array(
+            'description' => 'On Going',
+            'count' => BlotterAndComplain::where("blotter_status_id", "!=", 1)->count()
+        );
+
+        $blotterReport[] = array(
+            'description' => 'Total',
+            'count' => BlotterAndComplain::count()
+        );
+
+        return customResponse()
+            ->message("Blotter Report.")
+            ->data($blotterReport)
+            ->success()
+            ->generate();
+    }
+
     public function userList(Request $request) {
         $removeUserTypeArray = [
             UserModel::SUPER_ADMIN,
@@ -401,5 +435,15 @@ class BlotterAndComplainController extends Controller
             ->data($list)
             ->success()
             ->generate();
+    }
+
+    public function exportIntoExcel(Request $request) {
+        $params = $request->input();
+        return Excel::download(new BlotterExport($params), 'blotter-report.xlsx');
+    }
+
+    public function exportIntoCSV(Request $request) {
+        $params = $request->input();
+        return Excel::download(new BlotterExport($params), 'blotter-report.csv');
     }
 }
