@@ -25,24 +25,44 @@ class BlotterAndComplainController extends Controller
         $blotters = BlotterAndComplain::get();
         $blotterReport = [];
 
+        $countToday = BlotterAndComplain::whereDate("created_at", Carbon::now());
+            if (!empty($request->barangay_id)) {
+                $countToday = $countToday->where("barangay_id", $request->barangay_id);
+            }
+        $countToday = $countToday->count();
         $blotterReport[] = array(
             'description' => 'Today',
-            'count' => BlotterAndComplain::whereDate("created_at", Carbon::now())->count()
+            'count' => $countToday
         );
 
+        $countSolved = BlotterAndComplain::where("blotter_status_id", "=", 1);
+            if (!empty($request->barangay_id)) {
+                $countSolved = $countSolved->where("barangay_id", $request->barangay_id);
+            }
+        $countSolved = $countSolved->count();
         $blotterReport[] = array(
             'description' => 'Solved',
-            'count' => BlotterAndComplain::where("blotter_status_id", "=", 1)->count()
+            'count' => $countSolved
         );
 
+        $countOnGoing = BlotterAndComplain::where("blotter_status_id", "!=", 1);
+            if (!empty($request->barangay_id)) {
+                $countOnGoing = $countOnGoing->where("barangay_id", $request->barangay_id);
+            }
+        $countOnGoing = $countOnGoing->count();
         $blotterReport[] = array(
             'description' => 'On Going',
-            'count' => BlotterAndComplain::where("blotter_status_id", "!=", 1)->count()
+            'count' => $countOnGoing
         );
 
+        $countTotal = new BlotterAndComplain;
+            if (!empty($request->barangay_id)) {
+                $countTotal = $countTotal->where("barangay_id", $request->barangay_id);
+            }
+        $countTotal = $countTotal->count();
         $blotterReport[] = array(
             'description' => 'Total',
-            'count' => BlotterAndComplain::count()
+            'count' => $countTotal
         );
 
         return customResponse()
