@@ -34,6 +34,8 @@ use App\Http\Controllers\ClearanceTypeController;
 use App\Http\Controllers\ClearancePaymentMethodController;
 use App\Http\Controllers\ClearanceCategoryController;
 use App\Http\Controllers\ClearanceRequestController;
+use App\Http\Controllers\ClearancePurposeController;
+
 
 use App\Http\Controllers\InhabitantsReportController;
 use App\Http\Controllers\MedicineInventoryController;
@@ -292,6 +294,12 @@ Route::group(['middleware' => ['auth:api']], function() {
 
 
 Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);
+
+Route::post('clearance/purpose', [ClearancePurposeController::class, 'store']);
+Route::get('clearance/purpose/{id}/edit', [ClearancePurposeController::class, 'edit']);
+Route::post('clearance/purpose/update', [ClearancePurposeController::class, 'update']);
+Route::post('clearance/purpose/delete', [ClearancePurposeController::class, 'delete']);
+Route::get('clearance/purpose/{id}', [ClearancePurposeController::class, 'show']);
 
 
 
