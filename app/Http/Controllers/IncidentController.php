@@ -29,39 +29,56 @@ class IncidentController extends Controller
 
         $incidentReport = [];
         foreach ($incidents as $row) {
-            // $incidentReport[$row->description] = IncidentData::where("incident_type_id", $row->id)->count();
+            $count = IncidentData::where("incident_type_id", $row->id);
+            if (!empty($request->barangay_id)) {
+                $count = $count->where("barangay_id", $request->barangay_id);
+            }
+            $count = $count->count();
             $incidentReport[] = array(
                 'description' => $row->description,
-                'count' => IncidentData::where("incident_type_id", $row->id)->count()
+                'count' => $count
             );
         }
 
+        $countToday = IncidentData::whereDate("created_at", Carbon::now());
+            if (!empty($request->barangay_id)) {
+                $countToday = $countToday->where("barangay_id", $request->barangay_id);
+            }
+        $countToday = $countToday->count();
         $incidentReport[] = array(
             'description' => 'Today',
-            'count' => IncidentData::whereDate("created_at", Carbon::now())->count()
+            'count' => $countToday
         );
 
+        $countActionTaken = IncidentData::where("incident_status_id", "=", 1);
+            if (!empty($request->barangay_id)) {
+                $countActionTaken = $countActionTaken->where("barangay_id", $request->barangay_id);
+            }
+        $countActionTaken = $countActionTaken->count();
         $incidentReport[] = array(
             'description' => 'Action Taken',
-            'count' => IncidentData::where("incident_status_id", "=", 1)->count()
+            'count' => $countActionTaken
         );
 
+        $countPending = IncidentData::where("incident_status_id", "!=", 1);
+            if (!empty($request->barangay_id)) {
+                $countPending = $countPending->where("barangay_id", $request->barangay_id);
+            }
+        $countPending = $countPending->count();
         $incidentReport[] = array(
             'description' => 'Pending',
-            'count' => IncidentData::where("incident_status_id", "!=", 1)->count()
+            'count' => $countPending
         );
 
+        $countTotal = new IncidentData;
+            if (!empty($request->barangay_id)) {
+                $countTotal = $countTotal->where("barangay_id", $request->barangay_id);
+            }
+        $countTotal = $countTotal->count();
         $incidentReport[] = array(
             'description' => 'Total',
-            'count' => IncidentData::count()
+            'count' => $countTotal
         );
-
-        // $totalIncidents = array_sum($incidentReport);
-
-        // $incidentReport['Total Incidents Today'] = IncidentData::whereDate("created_at", Carbon::now())->count();
-        // $incidentReport['Total Incidents Action Taken'] = IncidentData::where("incident_status_id", "=", 1)->count();
-        // $incidentReport['Total Incidents Pending'] = IncidentData::where("incident_status_id", "!=", 1)->count();
-        // $incidentReport['Total Incidents'] = $totalIncidents;
 
         return customResponse()
             ->message("Incidents Report.")
