@@ -17,6 +17,7 @@ use App\Models\ClearanceHistory;
 use App\Models\ClearanceSequence;
 use App\Models\ClearanceStatus;
 use App\Models\ClearanceType;
+use App\Models\ClearancePurpose;
 use App\Models\User;
 use PDF;
 
@@ -526,6 +527,9 @@ class ClearanceRequestController extends Controller
 
         $validator = Validator::make($request->all(),[
             'user_id' => 'required|integer|min:1',
+            'clearance_category_id' => 'required|integer|min:1',
+            'clearance_type_id' => 'required|integer|min:1',
+            'barangay_id' => 'required|integer|min:1',
         ]);
         if($validator->fails()){
             return customResponse()
@@ -546,6 +550,16 @@ class ClearanceRequestController extends Controller
 
         $name = $userData->first_name.' '.$userData->middle_name.' '.$userData->last_name;
         $address = $userData->address;
+
+        $purpose = "This is to certify that Mr ./Ms. /Mrs. <u>". $name ."</u> whose signature appears below, legal age, married/single Filipino and a bonafide resident of <u>". $address ."</u> is known to me personally to be a person of good moral character, peaceful, and law-abiding citizen and that he/she has no derogatory records as fas as this barangay is concerned.";
+        $purposeData = ClearancePurpose::where("barangay_id",$request->barangay_id)->where("clearance_category_id",$request->clearance_category_id)->where("clearance_type_id",$request->clearance_type_id)->first();
+        if(!empty($purposeData)){
+            $purpose = $purposeData->purpose;
+            $purpose = str_replace("{name}","<u>".$name."</u>",$purpose);
+            $purpose = str_replace("{address}","<u>".$address."</u>",$purpose);
+        }
+
+
         $data = array(
             'title' => "pao",
             "date" => "date",
@@ -553,6 +567,7 @@ class ClearanceRequestController extends Controller
             "address" => $address,
             "day" => date('d'),
             "month" => date('F Y'),
+            'purpose' => $purpose
         );
 
 
