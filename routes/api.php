@@ -250,10 +250,10 @@ Route::group(['middleware' => ['auth:api']], function() {
 
 
     ##Announcement
-    Route::get('announement/list', [AnnouncementController::class, 'index']);
-    Route::get('announement/display', [AnnouncementController::class, 'display']);
-    Route::get('announement/{id}', [AnnouncementController::class, 'show']);
-    Route::post('announement/store', [AnnouncementController::class, 'store']);
+    Route::get('announcement/list', [AnnouncementController::class, 'index']);
+    Route::get('announcement/display', [AnnouncementController::class, 'display']);
+    Route::get('announcement/{id}', [AnnouncementController::class, 'show']);
+    Route::post('announcement/store', [AnnouncementController::class, 'store']);
 
     ##Barangay
     Route::post('barangay/print/id', [BarangayController::class, 'printBarangayID']);
