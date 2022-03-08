@@ -27,4 +27,12 @@ class Announcement extends Model
         'pinned',
         'created_by',
     ];
+
+    public function images() {
+        return $this->hasMany('App\Models\AnnouncementImage', 'announcement_id', 'id');
+    }
+
+    public function createdBy() {
+        return $this->hasMany('App\Models\User', 'id', 'created_by');
+    }
 }

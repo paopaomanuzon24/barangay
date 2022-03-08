@@ -18,6 +18,7 @@ class CreateAnnouncementsTable extends Migration
             $table->string("barangay_id")->nullable();
             $table->longText("barangay_desc")->nullable();
             $table->longText("tag")->nullable();
+            $table->longText("embedded")->nullable();
             $table->string("title")->nullable();
             $table->longText("content")->nullable();
             $table->date("date_from")->nullable();
@@ -25,6 +26,7 @@ class CreateAnnouncementsTable extends Migration
             $table->string("img_path")->nullable();
             $table->string("img_name")->nullable();
             $table->boolean("pinned")->nullable();
+            $table->boolean("is_city_hall")->nullable();
             $table->unsignedBigInteger("created_by")->nullable();
             $table->timestamps();
 

@@ -40,8 +40,36 @@ class AnnouncementController extends Controller
             ->generate(); 
     }
 
+    public function cityHall(Request $request) {
+        $class = new AnnouncementClass;
+        $announcementList = $class->displayCHAnnouncement($request);
+
+        return customResponse()
+            ->data($announcementList)
+            ->message('Display City Hall Announcement.')
+            ->success()
+            ->generate(); 
+    }
+
     public function show(Request $request, $id) {
-        $announcementData = Announcement::find($id);
+        $announcementData = Announcement::select(
+            'announcements.id',
+            'announcements.barangay_id',
+            'announcements.barangay_desc',
+            'announcements.tag',
+            'announcements.embedded',
+            'announcements.title',
+            'announcements.content',
+            'announcements.pinned',
+            'announcements.is_city_hall',
+            DB::raw(
+                'CONCAT(users.first_name, " ", users.last_name) AS created_by'
+            ),
+            'announcements.created_at'
+        )
+        ->join("users", "users.id", "announcements.created_by")
+        ->with(['images'])
+        ->find($id);
         
         if (empty($announcementData)) {
             return customResponse()
@@ -60,10 +88,10 @@ class AnnouncementController extends Controller
 
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-            // 'title' => 'required',
+            'title' => 'required',
             'tag' => 'required',
             'content' => 'required',
-            'img_file' => 'mimes:jpg,bmp,png,jpeg'
+            // 'img_file' => 'mimes:jpg,bmp,png,jpeg'
         ]);
 
         if ($validator->fails()) {
@@ -80,6 +108,25 @@ class AnnouncementController extends Controller
         return customResponse()
             ->data(null)
             ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
+    }
+
+    public function destroy(Request $request, $id) {
+        $announcement = Announcement::find($id);
+        if (empty($announcement)) {
+            return customResponse()
+                ->data(null)
+                ->message('No data.')
+                ->failed()
+                ->generate();
+        }
+
+        $announcement->delete();
+
+        return customResponse()
+            ->data(null)
+            ->message('Record has been deleted.')
             ->success()
             ->generate(); 
     }
