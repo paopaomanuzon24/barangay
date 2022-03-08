@@ -437,10 +437,14 @@ class HelperClass
         $array = array(
             [
                 'id' => 1,
-                'description' => 'Action Taken'
+                'description' => 'Solved'
             ],
             [
                 'id' => 2,
+                'description' => 'Action Taken'
+            ],
+            [
+                'id' => 3,
                 'description' => 'Pending'
             ]
         );

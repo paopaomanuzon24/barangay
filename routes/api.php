@@ -48,6 +48,7 @@ use App\Http\Controllers\MedicineInventoryController;
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\IncidentController;
+use App\Http\Controllers\IncidentTypeController;
 use App\Http\Controllers\BlotterAndComplainController;
 
 /*
@@ -265,11 +266,16 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::get('incident/list/{id}', [IncidentController::class, 'list']);
     Route::post('incident/store', [IncidentController::class, 'store']);
     Route::post('incident/take-action/{id}', [IncidentController::class, 'takeAction']);
+    Route::post('incident/resolution/{id}', [IncidentController::class, 'resolution']);
     Route::post('incident/mark-as-read/{id}', [IncidentController::class, 'markAsRead']);
     Route::get('incident/show/{id}', [IncidentController::class, 'show']);
     Route::post('incident/destroy/{id}', [IncidentController::class, 'destroy']);
     Route::get('incident/export-excel', [IncidentController::class, 'exportIntoExcel']);
     Route::get('incident/export-csv', [IncidentController::class, 'exportIntoCSV']);
+
+    Route::post('incident/type/store', [IncidentTypeController::class, 'store']);
+    Route::post('incident/type/update/{id}', [IncidentTypeController::class, 'update']);
+    Route::post('incident/type/destroy/{id}', [IncidentTypeController::class, 'destroy']);
 
     Route::get('blotter/admin/list', [BlotterAndComplainController::class, 'blotterList']);
     Route::get('blotter/user/list', [BlotterAndComplainController::class, 'userList']);

@@ -25,6 +25,12 @@ class CreateBlotterStatusTable extends Migration
         DB::table('blotter_status')->insert([
             'description' => 'On going'
         ]);
+        DB::table('blotter_status')->insert([
+            'description' => 'On court'
+        ]);
+        DB::table('blotter_status')->insert([
+            'description' => 'Hearing'
+        ]);
     }
 
     /**

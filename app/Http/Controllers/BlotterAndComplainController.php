@@ -45,7 +45,7 @@ class BlotterAndComplainController extends Controller
             'count' => $countSolved
         );
 
-        $countOnGoing = BlotterAndComplain::where("blotter_status_id", "!=", 1);
+        $countOnGoing = BlotterAndComplain::where("blotter_status_id", "=", 2);
             if (!empty($request->barangay_id)) {
                 $countOnGoing = $countOnGoing->where("barangay_id", $request->barangay_id);
             }
@@ -53,6 +53,26 @@ class BlotterAndComplainController extends Controller
         $blotterReport[] = array(
             'description' => 'On Going',
             'count' => $countOnGoing
+        );
+
+        $countOnCourt = BlotterAndComplain::where("blotter_status_id", "=", 3);
+            if (!empty($request->barangay_id)) {
+                $countOnCourt = $countOnCourt->where("barangay_id", $request->barangay_id);
+            }
+        $countOnCourt = $countOnCourt->count();
+        $blotterReport[] = array(
+            'description' => 'On Court',
+            'count' => $countOnCourt
+        );
+
+        $countForHearing = BlotterAndComplain::where("blotter_status_id", "=", 4);
+            if (!empty($request->barangay_id)) {
+                $countForHearing = $countForHearing->where("barangay_id", $request->barangay_id);
+            }
+        $countForHearing = $countForHearing->count();
+        $blotterReport[] = array(
+            'description' => 'Hearing',
+            'count' => $countForHearing
         );
 
         $countTotal = new BlotterAndComplain;
@@ -377,10 +397,12 @@ class BlotterAndComplainController extends Controller
                 ->generate();
         }
 
-        $blotterData->blotter_status_id = 1;
+        $blotterData->blotter_status_id = $request->blotter_status_id;
         $blotterData->blotter_agreement_content = $request->blotter_agreement_content;
         $blotterData->blotter_payment_method_id = $request->blotter_payment_method_id;
-        $blotterData->blotter_date_resolved = date("Y-m-d H:i:s");
+        if ($request->blotter_status_id==1) {
+            $blotterData->blotter_date_resolved = date("Y-m-d H:i:s");
+        }
         
         if ($request->hasFile('blotter_receipt_file')) {
             $file = $request->file("blotter_receipt_file");
