@@ -293,19 +293,21 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::get('report/incidents', [IncidentController::class, 'getIncidentReport']);
     Route::get('report/blotters', [BlotterAndComplainController::class, 'getBlotterReport']);
 
+    Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);
+
+    Route::post('clearance/purpose', [ClearancePurposeController::class, 'store']);
+    Route::get('clearance/purpose/{id}/edit', [ClearancePurposeController::class, 'edit']);
+    Route::post('clearance/purpose/update', [ClearancePurposeController::class, 'update']);
+    Route::post('clearance/purpose/delete', [ClearancePurposeController::class, 'delete']);
+    Route::get('clearance/purpose/{id}', [ClearancePurposeController::class, 'show']);
+
 });
 
 
 
 
 
-Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);
 
-Route::post('clearance/purpose', [ClearancePurposeController::class, 'store']);
-Route::get('clearance/purpose/{id}/edit', [ClearancePurposeController::class, 'edit']);
-Route::post('clearance/purpose/update', [ClearancePurposeController::class, 'update']);
-Route::post('clearance/purpose/delete', [ClearancePurposeController::class, 'delete']);
-Route::get('clearance/purpose/{id}', [ClearancePurposeController::class, 'show']);
 
 
 
