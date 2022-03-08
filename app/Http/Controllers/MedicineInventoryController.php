@@ -20,8 +20,8 @@ class MedicineInventoryController extends Controller
         $validator = Validator::make($request->all(),[
             'description' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'status_id' => 'required|integer|min:1'
-
+            'status_id' => 'required|integer|min:1',
+            'barangay_id' => 'required|integer|min:1'
         ]);
 
         if($validator->fails()){
@@ -32,14 +32,14 @@ class MedicineInventoryController extends Controller
                 ->generate();
         }
 
-        $barangayId = Auth::user()->barangay_id;
+
 
 
 
 
         $medicine = new MedicineInventory;
         $medicine->description = $request->description;
-        $medicine->barangay_id = $barangayId;
+        $medicine->barangay_id = $request->barangay_id;
         $medicine->expiration_date = $request->expiration_date;
         $medicine->status_id = $request->status_id;
         $medicine->quantity = $request->quantity;
@@ -67,7 +67,8 @@ class MedicineInventoryController extends Controller
                 'description' => $medicineData->description,
                 'quantity' => $medicineData->quantity,
                 'expiration_date' => $medicineData->expiration_date,
-                'status' => $medicineData->status->description,
+                'status' => $medicineData->status,
+                'barangay_id' => $medicineData->barangay_id,
             );
             return customResponse()
                 ->data($return)
@@ -104,7 +105,8 @@ class MedicineInventoryController extends Controller
         $validator = Validator::make($request->all(),[
             'description' => 'required|string',
             'quantity' => 'required|integer|min:1',
-            'status_id' => 'required|integer|min:1'
+            'status_id' => 'required|integer|min:1',
+            'barangay_id' => 'required|integer|min:1'
 
         ]);
 
@@ -122,7 +124,7 @@ class MedicineInventoryController extends Controller
         if(!empty($medicine)){
 
             $medicine->description = $request->description;
-        #    $medicine->barangay_id = $barangayId;
+            $medicine->barangay_id = $request->barangay_id;
             $medicine->expiration_date = $request->expiration_date;
             $medicine->status_id = $request->status_id;
             $medicine->quantity = $request->quantity;
@@ -187,6 +189,7 @@ class MedicineInventoryController extends Controller
                 'quantity' => $row->quantity,
                 'expiration_date' => $row->expiration_date,
                 'status' => $row->status->description,
+                'status' => $row->barangay->description
             );
         }
         if(empty($medicine)){

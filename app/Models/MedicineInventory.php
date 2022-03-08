@@ -24,4 +24,8 @@ class MedicineInventory extends Model
     public function status(){
         return $this->belongsTo(MedicineInventoryStatus::class,'status_id','id');
     }
+
+    public function barangay(){
+        return $this->belongsTo(Barangay::class,'barangay_id','id');
+    }
 }
