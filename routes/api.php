@@ -76,6 +76,8 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::get('user-management/{id}', [UserManagementController::class, 'show']);
     Route::post('user-management/store', [UserManagementController::class, 'store']);
     Route::post('user-management/deactivate/{id}', [UserManagementController::class, 'deactivate']);
+    Route::post('user-management/activate/{id}', [UserManagementController::class, 'activate']);
+    Route::get('user-management/status-history/{id}', [UserManagementController::class, 'statusHistory']);
 
     ##Inhabitants
     Route::get('inhabitants/list', [InhabitantsController::class, 'getInhabitantsList']);
