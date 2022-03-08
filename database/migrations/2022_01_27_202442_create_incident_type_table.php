@@ -20,16 +20,16 @@ class CreateIncidentTypeTable extends Migration
         });
 
         DB::table('incident_type')->insert([
-            'description' => 'Near Miss Reports'
+            'description' => 'Near Miss'
         ]);
         DB::table('incident_type')->insert([
-            'description' => 'Injury and Lost Time Incident Report'
+            'description' => 'Injury and Lost Time Incident'
         ]);
         DB::table('incident_type')->insert([
-            'description' => 'Exposure Incident Report'
+            'description' => 'Exposure Incident'
         ]);
         DB::table('incident_type')->insert([
-            'description' => 'Sentinel Event Report'
+            'description' => 'Sentinel Event'
         ]);
     }
 

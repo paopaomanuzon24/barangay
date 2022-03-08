@@ -16,6 +16,7 @@ class UserManagementClass
         $userData = User::find($request->user_id);
         if (empty($userData)) {
             $userData = new User;
+            $userData->password = Hash::make($request->last_name);
         }
 
         $userData->user_type_id = !empty($request->user_type_id) ? $request->user_type_id : 7;
@@ -28,9 +29,9 @@ class UserManagementClass
         $userData->address = $request->address;
         $userData->barangay_id = $request->barangay_id;
         $userData->is_active = !empty($request->is_active) ? $request->is_active : 0;
-        if (!empty($request->password)) {
-            $userData->password = Hash::make($request->password);
-        }
+        // if (!empty($request->password)) {
+        //     $userData->password = Hash::make($request->password);
+        // }
         $userData->save();
 
         $this->updateEmail($request, $userData);

@@ -215,6 +215,27 @@ class AuthController extends Controller
             ->generate();
     }
 
+    public function passwordValidation(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
+        }
+
+        return customResponse()
+            ->data(null)
+            ->message('Password has been changed.')
+            ->success()
+            ->generate();
+    }
+
     public function list(Request $request){
         $class = new UserClass;
         $userList = $class->getUserList($request);

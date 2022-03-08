@@ -22,7 +22,9 @@ class UserClass
             'address'
         )
         ->leftJoin("barangays", "barangays.id", "users.barangay_id")
-        ->leftJoin("user_type", "user_type.id", "users.user_type_id");
+        ->leftJoin("user_type", "user_type.id", "users.user_type_id")
+        ->orderBy("users.user_type_id", "ASC")
+        ->orderBy("users.id", "ASC");
 
         if ($request->search) {
             $userList = $userList->where(function($q) use($request){

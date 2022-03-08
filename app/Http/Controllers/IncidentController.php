@@ -50,7 +50,17 @@ class IncidentController extends Controller
             'count' => $countToday
         );
 
-        $countActionTaken = IncidentData::where("incident_status_id", "=", 1);
+        $countSolved = IncidentData::where("incident_status_id", "=", 1);
+            if (!empty($request->barangay_id)) {
+                $countSolved = $countSolved->where("barangay_id", $request->barangay_id);
+            }
+        $countSolved = $countSolved->count();
+        $incidentReport[] = array(
+            'description' => 'Solved',
+            'count' => $countSolved
+        );
+
+        $countActionTaken = IncidentData::where("incident_status_id", "=", 2);
             if (!empty($request->barangay_id)) {
                 $countActionTaken = $countActionTaken->where("barangay_id", $request->barangay_id);
             }
@@ -60,7 +70,7 @@ class IncidentController extends Controller
             'count' => $countActionTaken
         );
 
-        $countPending = IncidentData::where("incident_status_id", "!=", 1);
+        $countPending = IncidentData::where("incident_status_id", "=", 3);
             if (!empty($request->barangay_id)) {
                 $countPending = $countPending->where("barangay_id", $request->barangay_id);
             }
@@ -113,6 +123,7 @@ class IncidentController extends Controller
             'incident_data.incident_type_id',
             'incident_type.description as incident_type_desc',
             'incident_data.incident_message',
+            'incident_data.incident_resolution',
             'incident_data.incident_address',
             'incident_data.incident_latitude',
             'incident_data.incident_longitude',
@@ -121,7 +132,7 @@ class IncidentController extends Controller
             'incident_status.description as incident_status_desc',
             'incident_data.incident_no',
             'incident_data.incident_date_resolved',
-            'incident_data.mark_as_read'
+            'incident_data.incident_date_action_taken'
         )
         ->join('users', 'users.id', 'incident_data.user_id')
         ->join('barangays', 'barangays.id', 'incident_data.barangay_id')
@@ -170,6 +181,7 @@ class IncidentController extends Controller
             'incident_data.incident_type_id',
             'incident_type.description as incident_type_desc',
             'incident_data.incident_message',
+            'incident_data.incident_resolution',
             'incident_data.incident_address',
             'incident_data.incident_latitude',
             'incident_data.incident_longitude',
@@ -178,7 +190,7 @@ class IncidentController extends Controller
             'incident_status.description as incident_status_desc',
             'incident_data.incident_no',
             'incident_data.incident_date_resolved',
-            'incident_data.mark_as_read'
+            'incident_data.incident_date_action_taken'
         )
         ->join('users', 'users.id', 'incident_data.user_id')
         ->join('barangays', 'barangays.id', 'incident_data.barangay_id')
@@ -227,6 +239,7 @@ class IncidentController extends Controller
             'incident_data.incident_type_id',
             'incident_type.description as incident_type_desc',
             'incident_data.incident_message',
+            'incident_data.incident_resolution',
             'incident_data.incident_address',
             'incident_data.incident_latitude',
             'incident_data.incident_longitude',
@@ -235,7 +248,7 @@ class IncidentController extends Controller
             'incident_status.description as incident_status_desc',
             'incident_data.incident_no',
             'incident_data.incident_date_resolved',
-            'incident_data.mark_as_read'
+            'incident_data.incident_date_action_taken'
         )
         ->join('users', 'users.id', 'incident_data.user_id')
         ->join('barangays', 'barangays.id', 'incident_data.barangay_id')
@@ -290,7 +303,7 @@ class IncidentController extends Controller
         $incidentData->incident_address = $request->incident_address;
         $incidentData->incident_latitude = $request->incident_latitude;
         $incidentData->incident_longitude = $request->incident_longitude;
-        $incidentData->incident_status_id = 2;
+        $incidentData->incident_status_id = 3;
         $incidentData->save();
 
         if (empty($request->incident_id)) {
@@ -301,6 +314,47 @@ class IncidentController extends Controller
             $incidentData->incident_no = $incidentNo;
             $incidentData->save();
         }
+
+        return customResponse()
+            ->data(null)
+            ->message('Record has been saved.')
+            ->success()
+            ->generate(); 
+    }
+
+    public function resolution(Request $request, $id) {
+        $validator = Validator::make($request->all(),[
+            'incident_resolution' => 'required',
+            'incident_status_id' => 'required'
+        ]);
+
+        if($validator->fails()){
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
+        }
+
+        $incidentData = IncidentData::find($id);
+
+        if (empty($incidentData)) {
+            return customResponse()
+                ->data(null)
+                ->message("No data.")
+                ->failed()
+                ->generate();
+        }
+        $incidentData->mark_as_read = 1;
+        $incidentData->incident_resolution = $request->incident_resolution;
+        $incidentData->incident_status_id = $request->incident_status_id;
+        if ($request->incident_status_id==1) {
+            $incidentData->incident_date_resolved = date("Y-m-d H:i:s");
+        }
+        if ($request->incident_status_id==2) {
+            $incidentData->incident_date_action_taken = date("Y-m-d H:i:s");
+        }
+        $incidentData->save();
 
         return customResponse()
             ->data(null)

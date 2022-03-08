@@ -7,6 +7,7 @@ use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
 
+use App\Models\AnnouncementImage;
 use App\Models\Announcement;
 use App\Models\User;
 
@@ -18,20 +19,18 @@ class AnnouncementClass
             'announcements.barangay_id',
             'announcements.barangay_desc',
             'announcements.tag',
-            // 'announcements.pinned',
+            'announcements.embedded',
             'announcements.title',
             'announcements.content',
-            'announcements.img_path',
-            'announcements.img_name',
-            'announcements.created_at',
-            // 'announcements.date_from',
-            // 'announcements.date_to',
-            // 'barangays.description as barangay_desc',
+            'announcements.pinned',
+            'announcements.is_city_hall',
             DB::raw(
                 'CONCAT(users.first_name, " ", users.last_name) AS created_by'
-            )
+            ),
+            'announcements.created_at'
         )
-        ->join("users", "users.id", "announcements.created_by");
+        ->join("users", "users.id", "announcements.created_by")
+        ->with(['images']);
         // ->leftJoin("barangays", "barangays.id", "announcements.barangay_id");
 
         if ($request->search) {
@@ -64,21 +63,59 @@ class AnnouncementClass
             'announcements.barangay_id',
             'announcements.barangay_desc',
             'announcements.tag',
-            // 'announcements.pinned',
+            'announcements.embedded',
             'announcements.title',
             'announcements.content',
-            'announcements.img_path',
-            'announcements.img_name',
-            'announcements.created_at',
-            // 'announcements.date_from',
-            // 'announcements.date_to',
-            // 'barangays.description as barangay_desc',
+            'announcements.pinned',
+            'announcements.is_city_hall',
             DB::raw(
                 'CONCAT(users.first_name, " ", users.last_name) AS created_by'
-            )
+            ),
+            'announcements.created_at'
         )
         ->join("users", "users.id", "announcements.created_by")
-        // ->leftJoin("barangays", "barangays.id", "announcements.barangay_id")
+        ->with(['images'])
+        ->orderBy("announcements.pinned", "desc")
+        ->orderBy("announcements.id", "desc");
+
+        if (!empty($userData->barangay_id)) {
+            $announcementList = $announcementList->where(function($query) use($userData){
+                $query->whereNull("announcements.barangay_id");
+                $query->orWhereRaw('FIND_IN_SET(?,announcements.barangay_id)', [$userData->barangay_id]);
+            });
+        }
+
+        $announcementList = $announcementList->paginate(
+            (int) $request->get('per_page', 10),
+            ['*'],
+            'page',
+            (int) $request->get('page', 1)
+        );
+
+        return $announcementList;
+    }
+
+    public function displayCHAnnouncement($request) {
+        $userData = $request->user();
+
+        $announcementList = Announcement::select(
+            'announcements.id',
+            'announcements.barangay_id',
+            'announcements.barangay_desc',
+            'announcements.tag',
+            'announcements.embedded',
+            'announcements.title',
+            'announcements.content',
+            'announcements.pinned',
+            'announcements.is_city_hall',
+            DB::raw(
+                'CONCAT(users.first_name, " ", users.last_name) AS created_by'
+            ),
+            'announcements.created_at'
+        )
+        ->join("users", "users.id", "announcements.created_by")
+        ->where("announcements.is_city_hall", 1)
+        ->with(['images'])
         ->orderBy("announcements.pinned", "desc")
         ->orderBy("announcements.id", "desc");
 
@@ -123,41 +160,35 @@ class AnnouncementClass
             $announcementData = new Announcement;
         }
 
-        // if (!empty($request->pinned)) {
-        //     $this->removePinned();
-        // }
-
         $announcementData->barangay_id = $barangaySelected;
         $announcementData->barangay_desc = $barangayDescSelected;
         $announcementData->tag = $tagSelected;
         $announcementData->title = $request->title;
         $announcementData->content = $request->content;
-
-        if (!empty($request->date_from) && !empty($request->date_to)) {
-            $announcementData->date_from = date("Y-m-d", strtotime($request->date_from));
-            $announcementData->date_to = date("Y-m-d", strtotime($request->date_to));
+        $announcementData->embedded = $request->embedded;
+        $announcementData->pinned = !empty($request->pinned) ? $request->pinned : 0;
+        $announcementData->created_by = $userData->id;
+        if ($userData->user_type_id==1) {
+            $announcementData->is_city_hall = 1;
         }
+        $announcementData->save();
 
         if ($request->hasFile('img_file')) {
-            $primaryPath = 'images/announcement';
-            $primaryFile = $request->file("img_file");
-            $primaryFileName = $primaryFile->getClientOriginalName();
+            foreach ($request->file('img_file') as $key => $file) {
+                $primaryPath = 'images/announcement';
+                $primaryFile = $file;
+                $primaryFileName = $primaryFile->getClientOriginalName();
+                $primaryFileExtension = $primaryFile->getClientOriginalExtension();
+                $newFileName = strtotime($announcementData->created_at) . $announcementData->id . "." . $primaryFileExtension;
 
-            $request->file('img_file')->storeAs("public/".$primaryPath, $primaryFileName);
+                $file->storeAs("public/".$primaryPath, $newFileName);
 
-            $announcementData->img_path = $primaryPath.'/'.$primaryFileName;
-            $announcementData->img_name = $primaryFileName;
+                $announcementImg = new AnnouncementImage;
+                $announcementImg->announcement_id = $announcementData->id;
+                $announcementImg->img_path = $primaryPath.'/'.$newFileName;
+                $announcementImg->img_name = $newFileName;
+                $announcementImg->save();
+            }
         }
-
-        $announcementData->pinned = $request->pinned;
-        $announcementData->created_by = $userData->id;
-        $announcementData->save();
-    }
-
-    protected function removePinned() {
-        $announcementList = Announcement::whereNotNull("pinned")->each(function($row){
-            $row->pinned = 0;
-            $row->save();
-        });
     }
 }
