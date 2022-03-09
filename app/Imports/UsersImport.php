@@ -32,6 +32,7 @@ class UsersImport implements ToCollection, WithHeadingRow, SkipsOnError, WithVal
         foreach ($rows as $row) {
             $user = User::create([
                 'first_name' => $row['first_name'],
+                'middle_name' => $row['middle_name'],
                 'last_name' => $row['last_name'],
                 'email' => $row['email'],
                 'contact_no' => $row['contact_no'],
