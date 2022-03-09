@@ -36,8 +36,8 @@ class InhabitantsController extends Controller
         ->join("barangays", "barangays.id", "users.barangay_id")
         ->join("residence_application", "residence_application.user_id", "users.id")
         ->join("residence_status", "residence_status.id", "residence_application.status_id")
-        ->orderBy("personal_data.id", "DESC")
-        ->orderBy("residence_application.status_id", "DESC");
+        ->orderBy("residence_application.status_id", "DESC")
+        ->orderBy("personal_data.id", "DESC");
 
         if ($request->search) {
             $peronalDataList = $peronalDataList->where(function($q) use($request){
@@ -91,8 +91,8 @@ class InhabitantsController extends Controller
         ->join("residence_status", "residence_status.id", "residence_application.status_id")
         ->leftJoin("barangay_id_generated", "barangay_id_generated.user_id", "users.id")
         ->where("users.user_type_id", $resident)
-        ->orderBy("personal_data.id", "DESC")
-        ->orderBy("residence_application.status_id", "DESC");
+        ->orderBy("residence_application.status_id", "DESC")
+        ->orderBy("personal_data.id", "DESC");
 
         if ($request->search) {
             $peronalDataList = $peronalDataList->where(function($q) use($request){
