@@ -43,19 +43,6 @@ class AddDataToUsersTable extends Migration
         ]);
 
         DB::table('users')->insert([
-            'first_name' => 'Juan',
-            'last_name' => 'Dela Cruz',
-            'email' => 'juan@gmail.com',
-            'contact_no' => '0987654321',
-            'gender' => 'M',
-            'birth_date' => '1999-01-08',
-            'address' => '123 fake street',
-            'barangay_id' => 1,
-            'password' => Hash::make("Pass1234!"),
-            'user_type_id' => 6
-        ]);
-
-        DB::table('users')->insert([
             'first_name' => 'Treasury',
             'last_name' => 'Treasury',
             'email' => 'treasury@gmail.com',

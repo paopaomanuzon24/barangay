@@ -119,6 +119,10 @@ class AnnouncementClass
         ->orderBy("announcements.pinned", "desc")
         ->orderBy("announcements.id", "desc");
 
+        if (!empty($request->pinned)) {
+            $announcementList = $announcementList->where("announcements.pinned", $request->pinned);
+        }
+
         if (!empty($userData->barangay_id)) {
             $announcementList = $announcementList->where(function($query) use($userData){
                 $query->whereNull("announcements.barangay_id");
@@ -139,7 +143,7 @@ class AnnouncementClass
     public function saveAnnouncement($request) {
         $userData = $request->user();
 
-        $barangayArray = array_filter($request->barangay_id);
+        $barangayArray = !empty($request->barangay_id) ? array_filter($request->barangay_id) : [];
         $barangayDescArray = [];
         if (!empty($barangayArray)) {
             if (count($barangayArray) > 0) {
@@ -149,7 +153,7 @@ class AnnouncementClass
                 }
             }
         }
-        $tagArray = array_filter($request->tag);
+        $tagArray = !empty($request->tag) ? array_filter($request->tag) : [];
 
         $barangaySelected = implode($barangayArray, ",");
         $barangayDescSelected = implode($barangayDescArray, ",");
@@ -173,13 +177,25 @@ class AnnouncementClass
         }
         $announcementData->save();
 
+        $imgIDArray = !empty($request->img_id) ? array_filter($request->img_id) : [];
+        if (count($imgIDArray) > 0) {
+            AnnouncementImage::where("announcement_id", $announcementData->id)->whereNotIn("id", $imgIDArray)->each(function($query){
+                $query->delete();
+            });
+        } else {
+            AnnouncementImage::where("announcement_id", $announcementData->id)->each(function($query){
+                $query->delete();
+            });
+        }
+
         if ($request->hasFile('img_file')) {
+            $counter = 0;
             foreach ($request->file('img_file') as $key => $file) {
                 $primaryPath = 'images/announcement';
                 $primaryFile = $file;
                 $primaryFileName = $primaryFile->getClientOriginalName();
                 $primaryFileExtension = $primaryFile->getClientOriginalExtension();
-                $newFileName = strtotime($announcementData->created_at) . $announcementData->id . "." . $primaryFileExtension;
+                $newFileName = $counter++ . strtotime($announcementData->created_at) . $announcementData->id . $primaryFileName . "." . $primaryFileExtension;
 
                 $file->storeAs("public/".$primaryPath, $newFileName);
 
@@ -189,6 +205,6 @@ class AnnouncementClass
                 $announcementImg->img_name = $newFileName;
                 $announcementImg->save();
             }
-        }
+        } 
     }
 }
