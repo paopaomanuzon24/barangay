@@ -178,6 +178,10 @@ class AnnouncementClass
             AnnouncementImage::where("announcement_id", $announcementData->id)->whereNotIn("id", $imgIDArray)->each(function($query){
                 $query->delete();
             });
+        } else {
+            AnnouncementImage::where("announcement_id", $announcementData->id)->each(function($query){
+                $query->delete();
+            });
         }
 
         if ($request->hasFile('img_file')) {
