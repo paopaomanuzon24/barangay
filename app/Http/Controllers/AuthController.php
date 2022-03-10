@@ -229,9 +229,29 @@ class AuthController extends Controller
                 ->generate();
         }
 
+        if (!empty($request->user_id)) {
+            $user = UserModel::find($request->user_id);
+        }
+
+        if (empty($user)) {
+            return customResponse()
+                ->data(null)
+                ->message("User not found.")
+                ->failed()
+                ->generate();
+        }
+
+        if (!(Hash::check($request->password, $user->password))) {
+            return customResponse()
+                ->data(null)
+                ->message('Current password did not match.')
+                ->failed()
+                ->generate();
+        }
+
         return customResponse()
             ->data(null)
-            ->message('Password has been changed.')
+            ->message('validated.')
             ->success()
             ->generate();
     }
