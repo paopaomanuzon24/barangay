@@ -66,6 +66,7 @@ use App\Http\Controllers\BlotterAndComplainController;
 Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::post('password-validation', [AuthController::class, 'passwordValidation']);
+Route::get('announcement/city-hall/display', [AnnouncementController::class, 'cityHall']);
 
 Route::post('users/import', [UsersImportController::class, 'store']);
 
@@ -261,7 +262,6 @@ Route::group(['middleware' => ['auth:api']], function() {
     ##Announcement
     Route::get('announcement/list', [AnnouncementController::class, 'index']);
     Route::get('announcement/display', [AnnouncementController::class, 'display']);
-    Route::get('announcement/city-hall/display', [AnnouncementController::class, 'cityHall']);
     Route::get('announcement/{id}', [AnnouncementController::class, 'show']);
     Route::post('announcement/store', [AnnouncementController::class, 'store']);
     Route::post('announcement/destroy/{id}', [AnnouncementController::class, 'destroy']);
