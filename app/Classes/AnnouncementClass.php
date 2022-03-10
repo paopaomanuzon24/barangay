@@ -178,24 +178,23 @@ class AnnouncementClass
             AnnouncementImage::where("announcement_id", $announcementData->id)->whereNotIn("id", $imgIDArray)->each(function($query){
                 $query->delete();
             });
-        } else {
-            if ($request->hasFile('img_file')) {
-                foreach ($request->file('img_file') as $key => $file) {
-                    $primaryPath = 'images/announcement';
-                    $primaryFile = $file;
-                    $primaryFileName = $primaryFile->getClientOriginalName();
-                    $primaryFileExtension = $primaryFile->getClientOriginalExtension();
-                    $newFileName = strtotime($announcementData->created_at) . $announcementData->id . "." . $primaryFileExtension;
-    
-                    $file->storeAs("public/".$primaryPath, $newFileName);
-    
-                    $announcementImg = new AnnouncementImage;
-                    $announcementImg->announcement_id = $announcementData->id;
-                    $announcementImg->img_path = $primaryPath.'/'.$newFileName;
-                    $announcementImg->img_name = $newFileName;
-                    $announcementImg->save();
-                }
-            }   
         }
+        if ($request->hasFile('img_file')) {
+            foreach ($request->file('img_file') as $key => $file) {
+                $primaryPath = 'images/announcement';
+                $primaryFile = $file;
+                $primaryFileName = $primaryFile->getClientOriginalName();
+                $primaryFileExtension = $primaryFile->getClientOriginalExtension();
+                $newFileName = strtotime($announcementData->created_at) . $announcementData->id . "." . $primaryFileExtension;
+
+                $file->storeAs("public/".$primaryPath, $newFileName);
+
+                $announcementImg = new AnnouncementImage;
+                $announcementImg->announcement_id = $announcementData->id;
+                $announcementImg->img_path = $primaryPath.'/'.$newFileName;
+                $announcementImg->img_name = $newFileName;
+                $announcementImg->save();
+            }
+        } 
     }
 }
