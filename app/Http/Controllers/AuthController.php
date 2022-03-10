@@ -241,14 +241,14 @@ class AuthController extends Controller
         if (!(Hash::check($request->password, $user->password))) {
             return customResponse()
                 ->data(null)
-                ->message('Current password did not match.')
+                ->message('Incorrect password.')
                 ->failed()
                 ->generate();
         }
 
         return customResponse()
             ->data(null)
-            ->message('validated.')
+            ->message('Validated.')
             ->success()
             ->generate();
     }
