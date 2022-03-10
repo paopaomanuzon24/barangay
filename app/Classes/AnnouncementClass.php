@@ -139,7 +139,7 @@ class AnnouncementClass
     public function saveAnnouncement($request) {
         $userData = $request->user();
 
-        $barangayArray = array_filter($request->barangay_id);
+        $barangayArray = !empty($request->barangay_id) ? array_filter($request->barangay_id) : [];
         $barangayDescArray = [];
         if (!empty($barangayArray)) {
             if (count($barangayArray) > 0) {
@@ -149,7 +149,7 @@ class AnnouncementClass
                 }
             }
         }
-        $tagArray = array_filter($request->tag);
+        $tagArray = !empty($request->tag) ? array_filter($request->tag) : [];
 
         $barangaySelected = implode($barangayArray, ",");
         $barangayDescSelected = implode($barangayDescArray, ",");
