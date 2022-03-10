@@ -179,13 +179,15 @@ class AnnouncementClass
                 $query->delete();
             });
         }
+
         if ($request->hasFile('img_file')) {
+            $counter = 0;
             foreach ($request->file('img_file') as $key => $file) {
                 $primaryPath = 'images/announcement';
                 $primaryFile = $file;
                 $primaryFileName = $primaryFile->getClientOriginalName();
                 $primaryFileExtension = $primaryFile->getClientOriginalExtension();
-                $newFileName = strtotime($announcementData->created_at) . $announcementData->id . "." . $primaryFileExtension;
+                $newFileName = $counter++ . strtotime($announcementData->created_at) . $announcementData->id . "." . $primaryFileExtension;
 
                 $file->storeAs("public/".$primaryPath, $newFileName);
 
