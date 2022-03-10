@@ -173,15 +173,12 @@ class AnnouncementClass
         }
         $announcementData->save();
 
-        // $imgIDArray = !empty($request->img_id) ? array_filter($request->img_id) : [];
-        // if (count($imgIDArray) > 0) {
-        //     AnnouncementImage::where("announcement_id", $announcementData->id)->whereNotIn("id", $imgIDArray)->each(function($query){
-        //         $query->delete();
-        //     });
-        // }
-        AnnouncementImage::where("announcement_id", $announcementData->id)->each(function($query){
-            $query->delete();
-        });
+        $imgIDArray = !empty($request->img_id) ? array_filter($request->img_id) : [];
+        if (count($imgIDArray) > 0) {
+            AnnouncementImage::where("announcement_id", $announcementData->id)->whereNotIn("id", $imgIDArray)->each(function($query){
+                $query->delete();
+            });
+        }
         if ($request->hasFile('img_file')) {
             foreach ($request->file('img_file') as $key => $file) {
                 $primaryPath = 'images/announcement';
