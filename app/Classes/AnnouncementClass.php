@@ -115,10 +115,13 @@ class AnnouncementClass
         )
         ->join("users", "users.id", "announcements.created_by")
         ->where("announcements.is_city_hall", 1)
-        ->where("announcements.pinned", 1)
         ->with(['images'])
         ->orderBy("announcements.pinned", "desc")
         ->orderBy("announcements.id", "desc");
+
+        if (!empty($request->pinned)) {
+            $announcementList = $announcementList->where("announcements.pinned", $request->pinned);
+        }
 
         if (!empty($userData->barangay_id)) {
             $announcementList = $announcementList->where(function($query) use($userData){
