@@ -173,7 +173,7 @@ class AnnouncementClass
         }
         $announcementData->save();
 
-        $imgIDArray = array_filter($request->img_id);
+        $imgIDArray = !empty($request->img_id) ? array_filter($request->img_id) : [];
         if (count($imgIDArray) > 0) {
             AnnouncementImage::where("announcement_id", $announcementData->id)->whereNotIn("id", $imgIDArray)->each(function($query){
                 $query->delete();
