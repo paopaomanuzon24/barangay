@@ -229,10 +229,7 @@ class AuthController extends Controller
                 ->generate();
         }
 
-        if (!empty($request->user_id)) {
-            $user = UserModel::find($request->user_id);
-        }
-
+        $user = UserModel::find($request->user_id);
         if (empty($user)) {
             return customResponse()
                 ->data(null)
