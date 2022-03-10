@@ -191,7 +191,7 @@ class AnnouncementClass
                 $primaryFile = $file;
                 $primaryFileName = $primaryFile->getClientOriginalName();
                 $primaryFileExtension = $primaryFile->getClientOriginalExtension();
-                $newFileName = $counter++ . strtotime($announcementData->created_at) . $announcementData->id . "." . $primaryFileExtension;
+                $newFileName = $counter++ . strtotime($announcementData->created_at) . $announcementData->id . $primaryFileName . "." . $primaryFileExtension;
 
                 $file->storeAs("public/".$primaryPath, $newFileName);
 
