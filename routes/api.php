@@ -36,6 +36,7 @@ use App\Http\Controllers\ClearancePaymentMethodController;
 use App\Http\Controllers\ClearanceCategoryController;
 use App\Http\Controllers\ClearanceRequestController;
 use App\Http\Controllers\ClearancePurposeController;
+use App\Http\Controllers\ClearanceTemplateController;
 
 
 use App\Http\Controllers\InhabitantsReportController;
@@ -304,14 +305,25 @@ Route::group(['middleware' => ['auth:api']], function() {
 
     Route::post('business_permit/request', [PermitRequestController::class, 'requestPermitFromBusinessPermitSystem']);
 
+    ##Clearance Purpose
     Route::post('clearance/purpose', [ClearancePurposeController::class, 'store']);
     Route::get('clearance/purpose/{id}/edit', [ClearancePurposeController::class, 'edit']);
     Route::post('clearance/purpose/update', [ClearancePurposeController::class, 'update']);
     Route::post('clearance/purpose/delete', [ClearancePurposeController::class, 'delete']);
     Route::get('clearance/purpose/{id}', [ClearancePurposeController::class, 'show']);
 
-});
+    #Clearance Template
+    Route::post('clearance/template', [ClearanceTemplateController::class, 'store']);
+    Route::get('clearance/template/{id}/edit', [ClearanceTemplateController::class, 'edit']);
+    Route::post('clearance/template/update', [ClearanceTemplateController::class, 'update']);
+    Route::post('clearance/template/delete', [ClearanceTemplateController::class, 'delete']);
+    Route::get('clearance/template/{id}', [ClearanceTemplateController::class, 'show']);
+    Route::get('clearance/templates', [ClearanceTemplateController::class, 'templateImageList']);
 
+
+
+
+});
 
 
 
