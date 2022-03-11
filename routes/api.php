@@ -247,6 +247,9 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::post('clearance/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
 
 
+
+
+
     #Report
     Route::get('report/dashboard/printPDF', [ClearanceRequestController::class, 'printClearancePDF']);
 
@@ -325,8 +328,6 @@ Route::group(['middleware' => ['auth:api']], function() {
 
 
 });
-
-
 
 
 
