@@ -103,6 +103,14 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
+        if (empty($user->is_active)) {
+            Auth::logout();
+            return customResponse()
+                ->data(null)
+                ->message('Your account is deactivated.')
+                ->unauthorized()
+                ->generate();
+        }
 
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;
@@ -229,9 +237,26 @@ class AuthController extends Controller
                 ->generate();
         }
 
+        $user = UserModel::find($request->user_id);
+        if (empty($user)) {
+            return customResponse()
+                ->data(null)
+                ->message("User not found.")
+                ->failed()
+                ->generate();
+        }
+
+        if (!(Hash::check($request->password, $user->password))) {
+            return customResponse()
+                ->data(null)
+                ->message('Incorrect password.')
+                ->failed()
+                ->generate();
+        }
+
         return customResponse()
             ->data(null)
-            ->message('Password has been changed.')
+            ->message('Validated.')
             ->success()
             ->generate();
     }
