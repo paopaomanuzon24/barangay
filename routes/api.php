@@ -77,6 +77,7 @@ Route::group(['middleware' => ['auth:api']], function() {
     Route::get('user/list', [AuthController::class, 'list']);
     Route::get('user/{id}', [AuthController::class, 'show']);
     Route::post('password', [AuthController::class, 'changePassword']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
 
     ##User Management
     Route::get('user-management/{id}', [UserManagementController::class, 'show']);

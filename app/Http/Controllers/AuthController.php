@@ -186,8 +186,34 @@ class AuthController extends Controller
             ->generate();
     }
 
+    public function resetPassword(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
+            'password' => 'required|string|confirmed'
+        ]);
+
+        if ($validator->fails()) {
+            return customResponse()
+                ->data(null)
+                ->message($validator->errors()->all()[0])
+                ->failed()
+                ->generate();
+        }
+
+        $user = UserModel::find($request->user_id);
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        return customResponse()
+            ->data(null)
+            ->message('Password has been reset.')
+            ->success()
+            ->generate();
+    }
+
     public function changePassword(Request $request) {
         $validator = Validator::make($request->all(), [
+            'user_id' => 'required',
             'old_password' => 'required|string',
             'password' => 'required|string|confirmed',
         ]);
@@ -200,11 +226,7 @@ class AuthController extends Controller
                 ->generate();
         }
 
-        $user = $request->user();
-        if (!empty($request->user_id)) {
-            $user = UserModel::find($request->user_id);
-        }
-
+        $user = UserModel::find($request->user_id);
         if (!(Hash::check($request->old_password, $user->password))) {
             return customResponse()
                 ->data(null)
