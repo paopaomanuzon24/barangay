@@ -103,6 +103,14 @@ class AuthController extends Controller
         }
 
         $user = $request->user();
+        if (empty($user->is_active)) {
+            Auth::logout();
+            return customResponse()
+                ->data(null)
+                ->message('Your account is deactivated.')
+                ->unauthorized()
+                ->generate();
+        }
 
         $tokenResult = $user->createToken('Personal Access Token');
         $token = $tokenResult->token;

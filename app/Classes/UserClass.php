@@ -3,7 +3,7 @@
 namespace App\Classes;
 
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 
 class UserClass
@@ -19,7 +19,9 @@ class UserClass
             'user_type_id',
             'user_type.name as user_type_desc',
             'contact_no',
-            'address'
+            'address',
+            'is_active',
+            DB::raw('(CASE WHEN is_active = 1 THEN "Activated" ELSE "Deactivated account" END) AS status')
         )
         ->leftJoin("barangays", "barangays.id", "users.barangay_id")
         ->leftJoin("user_type", "user_type.id", "users.user_type_id")
