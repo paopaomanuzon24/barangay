@@ -2,7 +2,9 @@
 
 namespace App\Classes\Clearance;
 
-
+use Illuminate\Support\Facades\Storage;
+use App\Models\ClearanceTemplate;
+use App\Models\ClearanceTemplateImage;
 
 class ClearanceRequestClass
 {
@@ -59,6 +61,24 @@ class ClearanceRequestClass
 
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
         $objWriter->save('Clearance.docx');
+
+    }
+
+    public function getTemplate($request){
+
+        $return = "";
+        $templateData = ClearanceTemplate::where("clearance_category_id",$request->clearance_category_id)->where("clearance_type_id",$request->clearance_type_id)->where("barangay_id",$request->barangay_id)->first();
+        if(!empty($templateData)){
+           # dd($templateData->template_image_id);
+            $imageData = ClearanceTemplateImage::find($templateData->template_image_id);
+
+
+            $return = $imageData->file_path.'/'.$imageData->file_name;
+            $return = str_replace("public/","/",$return);
+
+
+        }
+        return $return;
 
     }
 

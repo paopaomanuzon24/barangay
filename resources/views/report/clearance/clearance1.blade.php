@@ -52,7 +52,7 @@
 
 <body>
 
-    <div class="backgroundImage" style="background-image: url({{url('/')}}/images/clearance_background1.png);">
+    <div class="backgroundImage" style="background-image: url({{url('/')}}{{ $template }});">
 
     <div class="arial container">
         <br>

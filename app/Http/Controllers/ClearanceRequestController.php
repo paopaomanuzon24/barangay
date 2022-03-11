@@ -559,6 +559,10 @@ class ClearanceRequestController extends Controller
             $purpose = str_replace("{address}","<u>".$address."</u>",$purpose);
         }
 
+        $clearanceRequest = new ClearanceRequestClass;
+        $template = $clearanceRequest->getTemplate($request);
+        #dd($template);
+
 
         $data = array(
             'title' => "pao",
@@ -567,14 +571,15 @@ class ClearanceRequestController extends Controller
             "address" => $address,
             "day" => date('d'),
             "month" => date('F Y'),
-            'purpose' => $purpose
+            'purpose' => $purpose,
+            'template' => $template
         );
 
 
         $pdf = PDF::loadView('report.clearance.clearance1', $data);
 
-        #return $pdf->download('clearance.pdf');
-        return $pdf->download('clearance.pdf')->getOriginalContent();
+        return $pdf->download('clearance.pdf');
+    #    return $pdf->download('clearance.pdf')->getOriginalContent();
 
     }
 
