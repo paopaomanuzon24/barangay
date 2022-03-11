@@ -20,8 +20,12 @@ class UserClass
             'user_type.name as user_type_desc',
             'contact_no',
             'address',
+            'email',
+            'birth_date',
+            'gender',
+            DB::raw('(CASE WHEN gender = "M" THEN "Male" ELSE "Female" END) AS gender_desc'),
             'is_active',
-            DB::raw('(CASE WHEN is_active = 1 THEN "Activated" ELSE "Deactivated account" END) AS status')
+            DB::raw('(CASE WHEN is_active = 1 THEN "Activated" ELSE "Deactivated" END) AS status')
         )
         ->leftJoin("barangays", "barangays.id", "users.barangay_id")
         ->leftJoin("user_type", "user_type.id", "users.user_type_id")
